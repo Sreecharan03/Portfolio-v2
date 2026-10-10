@@ -98,7 +98,7 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | Auth (JWT, RBAC, argon2) | Security | Sighnal | 3 | Medium |
 | Docker | DevOps | AAYS, Sighnal Compose | 3 | Medium |
 | Azure Container Registry / AWS ECR | Cloud | AAYS tasks | 2 | Medium |
-| Azure Databricks / PySpark | Data Eng | TCS production ingestion pipelines (100K to 1M records); self-built notebook | 3 | Medium (your statement; no orchestration evidence) |
+| Azure Databricks / PySpark | Data Eng | TCS production ingestion pipelines (100K to 1M records); self-built notebook | 3 | Medium (your statement; run as automated jobs, tool details withheld) |
 | Delta Lake | Data Eng | Concepts, notebook | 2 to 2.5 | Medium |
 | InfluxDB / MQTT | Data/IoT | SenseMinds 360 | 3 | Medium |
 | PostgreSQL / MySQL | DB | Projects | 3 | Medium |
@@ -118,7 +118,7 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 
 - **What you reported (Oct 2026):** at TCS you build production Azure Databricks + PySpark ingestion pipelines processing 100K to 1M records per run (about 80K rows on average per data file), and you reduced multiple and duplicated calls in ingestion notebooks, cutting run time about 20% (self-reported, no baseline seen). You also run performance assessments on ingestion and transformations.
 - **Earlier statement (Jun 2026):** KT sessions and a workshop only, no production pipeline. The Oct 2026 account supersedes it, but the Aug 2026 resume line "Architected multi-stage distributed ETL pipelines" still overstates it: "Built and optimised Databricks/PySpark ingestion pipelines (100K to 1M records)" is defensible.
-- **Level:** Working to intermediate (3). **Still missing as evidence:** scheduling/orchestration (ADF/Workflows/Airflow), data-quality framework, monitoring, cost tuning, incident handling. 100K to 1M records is solid but not large-scale; do not call it big data or distributed at scale.
+- **Level:** Working to intermediate (3). **Your statement:** the pipelines run as automated jobs, and you built reusable notebooks that make the TCS automation easier to extend. You chose not to name the scheduler or other internal tools, so none are named here (treat these as TCS-confidential). **Not covered by any statement or document:** data-quality framework, monitoring, cost tuning, incident handling. 100K to 1M records is solid but not large-scale; do not call it big data or distributed at scale.
 - **Other evidence:** SenseMinds ingestion (MQTT to InfluxDB at 172,800 points/day), Sighnal queue design.
 
 ## 5. AI/ML ENGINEERING PROFILE
@@ -156,6 +156,24 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | IJIRT publication (co-author) | Mar 2025 | IJIRT | Resume | Co-developed |
 | Technical lead of 12-member team | 2025 | AISmartLive | Resume | Self-reported impact figures |
 
+### Job offers (from a tier-3 college)
+
+**Status: APPROVED. Verified by you (Charan), Oct 2026.** 8 offers in total:
+
+| Band | Offers |
+|---|---|
+| 1 to 5 LPA | Cognizant (GenC), Joora Drones, AAYS (contract-based), AISmartLive Solutions, Rudder Analytics, Tech Mahindra (ASE) |
+| 6+ LPA | TCS, Infosys |
+
+- **Chosen:** TCS, for growth and development and for the best project.
+- **Worth using:** "8 offers including TCS and Infosys from a tier-3 college" answers the pedigree question directly (section 13). Quote the bands as given, such as "6+ LPA".
+
+### Independent work (summary of what is already in section 2)
+- **Sighnal:** client freelance product built end to end, design to production (P1).
+- **Codex Free Lancers:** 100+ project groups, 300+ people, dev and documentation teams, 5 Oct 2025 to 10 May 2026 (P6).
+- **Own repos:** Agentic RAG (Qdrant), Smart Traffic (YOLOv8 + ByteTrack), Resume Analyzer job agent (LangGraph), Realtime financial analytics (LangGraph) (P3, P7, P8, P9).
+- **Hackathons as team lead:** Third Prize "Predictive Protection" and Third position "Health - Care Saver" (section 6).
+
 ## 7. CODING / DSA PROFILE
 
 - **Languages:** Python primary; Java, C listed.
@@ -192,7 +210,7 @@ One co-authored applied paper (summarization), ROUGE/cosine evaluation against T
 
 | Company | Role | Duration | Level of ownership | Evidence of impact |
 |---|---|---|---|---|
-| TCS Digital | Data Engineer | Dec 2025 to now | Medium: Databricks/PySpark ingestion pipelines in production | 100K to 1M records per run; about 20% run-time cut (self-reported); Special Initiative Award (17 Jun 2026) |
+| TCS Digital | Data Engineer | Dec 2025 to now | Medium: automated Databricks/PySpark ingestion jobs and pipelines in production, plus reusable automation notebooks | 100K to 1M records per run; about 20% run-time cut (self-reported); Special Initiative Award (17 Jun 2026) |
 | AISmartLive Solutions (child of AAYS) | Junior Data Scientist, full-time | Mar to Dec 2025 | High (tech lead of 12) | 92% accuracy, 8 h to 1 h, SHAP; Third Prize x2 in a hackathon (team) |
 | AAYS Advisory Pvt Ltd | Intern (contract; internship certificate) | 16 Jun to 15 Aug 2025 | Medium | Langflow images, RAG API, dashboard migration |
 | Sighnal (freelance) | AI/Backend engineer | 2026 to now | High: end to end | Reliability and security work |
@@ -218,7 +236,7 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 
 - **Strongest identity:** "AI engineer building reliable, grounded LLM and agentic systems, with a data-engineering base and IoT ML background."
 - **Best titles:** AI Engineer, GenAI Engineer, Agentic AI Engineer, Software Engineer (AI).
-- **Recruiters will notice:** LangGraph, LLM reliability numbers (574 to 0), fine-tuning + paper, TCS award and ranks, hackathon prizes, 100+ student groups delivered.
+- **Recruiters will notice:** 8 offers from a tier-3 college including TCS and Infosys, LangGraph, LLM reliability numbers (574 to 0), fine-tuning + paper, TCS award and ranks, hackathon prizes, 100+ student groups delivered.
 - **Recruiters may question:** TCS data-engineering depth vs wording, "winner" wording on third-place prizes, the Champion Certificate wording, unnamed client project, vector-DB claims beyond Qdrant, side work alongside TCS.
 
 ## 14. TOP STRENGTHS (evidence-linked)
@@ -241,7 +259,7 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 
 ## 15. WEAKNESSES AND GAPS
 
-- TCS pipeline evidence lacks orchestration, data-quality and monitoring detail; the Aug 2026 resume wording overstates it.
+- TCS pipeline evidence has no data-quality or monitoring detail (tool names withheld as confidential); the Aug 2026 resume wording overstates it.
 - Cloud depth is shallow (Azure/AWS registries, Databricks); no IaC, no orchestration, no monitoring stack.
 - Deployment confidence low (Render/Neon needed step-by-step help; secrets pasted into chat).
 - No evidence of math/statistics depth, ML theory, or deep-learning training from scratch.
@@ -374,9 +392,9 @@ Python
 5. GNN M.Tech note: client work, excluded.
 6. RTGS / predictive maintenance: the same hackathon; SenseMinds 360 is "Predictive Protection"; both entries placed third.
 7. YOLOv8/ByteTrack: the Smart traffic repo. NeuralProphet: used in SenseMinds.
+8. TCS pipelines: automated jobs plus reusable automation notebooks; 100K to 1M records per run, about 80K rows per data file. Scheduler and tool names are withheld as confidential and are not needed.
 
 **Still open:**
-1. What scheduler or orchestrator runs the TCS pipelines, and what do the performance assessments measure? (Volume is settled: 100K to 1M records per run, about 80K rows per data file on average.)
-2. Sighnal: the exact metric name behind 15% to 52% (you said it comes from the advanced evals; I haven't seen them).
+1. Sighnal: the exact metric name behind 15% to 52% (you said it comes from the advanced evals; I haven't seen them).
 
 **Removed per you (Oct 2026):** Weaviate, Astra DB, Azure AI Search, PaddleOCR. Java and C stay as low-confidence DSA languages (they appear on your LeetCode profile).
