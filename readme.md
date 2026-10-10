@@ -156,9 +156,9 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | IJIRT publication (co-author) | Mar 2025 | IJIRT | Resume | Co-developed |
 | Technical lead of 12-member team | 2025 | AISmartLive | Resume | Self-reported impact figures |
 
-### Job offers (from a tier-3 college; your statement, offer letters not seen)
+### Job offers (from a tier-3 college)
 
-8 offers in total:
+**Status: APPROVED. Verified by you (Charan), Oct 2026.** 8 offers in total:
 
 | Band | Offers |
 |---|---|
@@ -166,7 +166,7 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | 6+ LPA | TCS, Infosys |
 
 - **Chosen:** TCS, for growth and development and for the best project.
-- **Worth using:** "8 offers including TCS and Infosys from a tier-3 college" answers the pedigree question directly (section 13). Keep the offer letters handy in case a recruiter asks, and quote only bands you can show, such as "6+ LPA".
+- **Worth using:** "8 offers including TCS and Infosys from a tier-3 college" answers the pedigree question directly (section 13). Quote the bands as given, such as "6+ LPA".
 
 ### Independent work (summary of what is already in section 2)
 - **Sighnal:** client freelance product built end to end, design to production (P1).
