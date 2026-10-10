@@ -156,6 +156,24 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | IJIRT publication (co-author) | Mar 2025 | IJIRT | Resume | Co-developed |
 | Technical lead of 12-member team | 2025 | AISmartLive | Resume | Self-reported impact figures |
 
+### Job offers (from a tier-3 college; your statement, offer letters not seen)
+
+8 offers in total:
+
+| Band | Offers |
+|---|---|
+| 1 to 5 LPA | Cognizant (GenC), Joora Drones, AAYS (contract-based), AISmartLive Solutions, Rudder Analytics, Tech Mahindra (ASE) |
+| 6+ LPA | TCS, Infosys |
+
+- **Chosen:** TCS, for growth and development and for the best project.
+- **Worth using:** "8 offers including TCS and Infosys from a tier-3 college" answers the pedigree question directly (section 13). Keep the offer letters handy in case a recruiter asks, and quote only bands you can show, such as "6+ LPA".
+
+### Independent work (summary of what is already in section 2)
+- **Sighnal:** client freelance product built end to end, design to production (P1).
+- **Codex Free Lancers:** 100+ project groups, 300+ people, dev and documentation teams, 5 Oct 2025 to 10 May 2026 (P6).
+- **Own repos:** Agentic RAG (Qdrant), Smart Traffic (YOLOv8 + ByteTrack), Resume Analyzer job agent (LangGraph), Realtime financial analytics (LangGraph) (P3, P7, P8, P9).
+- **Hackathons as team lead:** Third Prize "Predictive Protection" and Third position "Health - Care Saver" (section 6).
+
 ## 7. CODING / DSA PROFILE
 
 - **Languages:** Python primary; Java, C listed.
@@ -218,7 +236,7 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 
 - **Strongest identity:** "AI engineer building reliable, grounded LLM and agentic systems, with a data-engineering base and IoT ML background."
 - **Best titles:** AI Engineer, GenAI Engineer, Agentic AI Engineer, Software Engineer (AI).
-- **Recruiters will notice:** LangGraph, LLM reliability numbers (574 to 0), fine-tuning + paper, TCS award and ranks, hackathon prizes, 100+ student groups delivered.
+- **Recruiters will notice:** 8 offers from a tier-3 college including TCS and Infosys, LangGraph, LLM reliability numbers (574 to 0), fine-tuning + paper, TCS award and ranks, hackathon prizes, 100+ student groups delivered.
 - **Recruiters may question:** TCS data-engineering depth vs wording, "winner" wording on third-place prizes, the Champion Certificate wording, unnamed client project, vector-DB claims beyond Qdrant, side work alongside TCS.
 
 ## 14. TOP STRENGTHS (evidence-linked)
