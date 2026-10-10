@@ -134,6 +134,8 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | RTGS AI, HackAP hackathons | n/a | n/a | Resume | Result/rank not captured |
 | IJIRT publication (co-author) | Mar 2025 | IJIRT | Resume | Co-developed |
 | Technical lead of 12-member team | 2025 | AISmartLive | Resume | Self-reported impact figures |
+RTGS 2 TIMES HACKTHON WINNER IN HEALTHCARE FOR SMART WATCH TRACKING AND DIABETES LIVEREADING AND NOTIFICATION KIND PROJECT
+RGS PREDECTIVE MAINTAINCE PLATFORM USING AGENTIC AI AND ML FOR INDUSTRIES.
 
 ## 7. CODING / DSA PROFILE
 
@@ -332,9 +334,24 @@ Python
 ## 24. OPEN QUESTIONS (could not resolve from available data)
 
 1. What have you actually built at TCS since Dec 2025?
-2. Exact personal contribution split on Sighnal.
+Data engineering pipelines for raw ingestion, performance assesmnts for raw ingestion and transformations
+2. Exact personal contribution split on Sighnal..
+complete end to end product from scratch , desgining to prod.
+
 3. Whether the AAYS and AISmartLive overlap is part-time or contract work.
+
+aays is contract and aismartlive is fulltime.
+
 4. Whether the B.Tech job-agent report and the roll number 22A91A6715 are yours.
+im the developer of it i builded the complete project its btech client project.
 5. Whether the GNN M.Tech note is your own project or a client's.
+clients.
+
 6. Results behind RTGS AI and HackAP hackathons.
+mentioned in achivments last two lines. 
+
 7. Which project used YOLOv8/ByteTrack/PaddleOCR.
+real time vehicle control system dynamic zones and vehicle count according to it we will give signal.
+
+
+The biggest achivement is i onbaodred 100 +btech project groups and delivered all of it for the students which i make a whole community and helped btech students doing advanced data science projects. is the highest ever because 100+groups+300 plus people, explaing end to end project for more then 50 groups, we have dev team, documentation team, ocmplete set of people i am the main member.
