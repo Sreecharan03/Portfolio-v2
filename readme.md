@@ -8,7 +8,7 @@ Built 7 Oct 2026 from past chats, resume drafts and saved notes. Revised 10 Oct 
 - **Excluded entirely (not yours):** all BITS Pilani graduate/PhD material: V2O5, SnO, CrSb, LaVO3, DFT, Quantum ESPRESSO, ABINIT, Phoebe, Octopus, SLURM/HPC debugging, manuscript/LaTeX bibliography work, phonons. None of it is used for any skill, project or achievement below.
 - **Not attributed to you (client work):** M.Tech topic work for others (TraceGuard, KrishiVerify, air-quality auditor, VoterLens/GITAM, the "top 3 M.Tech projects" doc, and the GNN source-detection note, which you confirmed is a client's). I treat these as a service you run, not as your research.
 - **Not examined:** about 80 named project workspaces (fraud detection, deepfake, medical AI, traffic, OCR, etc.). I only have their names. None are counted as your demonstrated work. A second pass opening each one would be needed.
-- **Evidence base:** about 20 chats from Jun to Oct 2026, three resume versions, one early-2025 competitive-programming chat pair, five certificates, two hackathon emails, three public GitHub repos (read-only check).
+- **Evidence base:** about 20 chats from Jun to Oct 2026, three resume versions, one early-2025 competitive-programming chat pair, five certificates, two hackathon emails, three public GitHub repos (read-only check), five coding-profile screenshots (LeetCode, GfG, Codeforces, Code360, CodeChef).
 
 ## 1. IDENTITY SNAPSHOT
 
@@ -82,7 +82,8 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | SQL | Language/DB | Text-to-SQL, Postgres, SQL Server on resume | 3 | Medium |
 | Java, C | Language | Resume only | 2 | Low |
 | TypeScript/Next.js | Language/FE | Sighnal frontend (you built end to end), auth API | 3 | Medium |
-| Competitive programming | DSA | CodeVita S12 global rank 5127 (certificate); Smart Interviews rank 159/35,859 (certificate); CodeChef 3-star 1651, LeetCode Knight, 500+ solved (self-reported) | 3.5 | Medium to high |
+| DSA / interview coding | DSA | LeetCode Knight, contest rating 1,898 (top 4.74%), 757 solved; GfG 1,797 score, 654 solved; CodeVita S12 rank 5127 and Smart Interviews 159/35,859 (certificates); all profile screenshots seen | 4 | High |
+| Competitive programming (contests) | DSA | CodeChef 1634 (max 1654, 3-star); Codeforces 1366 (Pupil); Code360 1803 | 3 | High |
 | XGBoost / Isolation Forest / SHAP | Classical ML | SenseMinds 360 | 3.5 | Medium |
 | Time-series (NeuralProphet) | ML | Used in SenseMinds (your statement) | 2.5 | Medium (no repo seen) |
 | LLM apps / prompting / structured outputs | GenAI | Sighnal, financial agent, job agent | 4 | High |
@@ -147,7 +148,10 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | AMD and TCS AI Hackathon **Champion Certificate** | 17 Aug 2026 | TCS | Certificate seen | The certificate text reads "in recognition of your participation and enthusiasm." Write "Champion Certificate," not "winner" |
 | TCS CodeVita Season 12, global rank **5127** | 2026 | TCS | Rank certificate seen | Quote the rank; do not convert to a percentage |
 | Smart Interviews "Smart Coder", rank **159 of 35,859** | 2024 | Smart Interviews | Certificate seen | About the top 0.44% of that course cohort. This is the source of the old "top 0.5% globally" line; that wording is wrong. Write "Rank 159/35,859, Smart Interviews (2024)" |
-| CodeChef 3-Star (1651); LeetCode Knight; 500+ solved | n/a | Platforms | Resume | Self-reported; give the profile links |
+| LeetCode Knight: contest rating 1,898, **top 4.74%** (rank 40,920 of 887,132), 29 contests; **757 solved** (305 E / 380 M / 72 H); 18 badges | 2024 to 2026 | LeetCode | Profile screenshot seen | Your strongest verifiable DSA credential |
+| GeeksforGeeks: coding score 1,797, 654 solved, institute rank 6, 343 POTD solved, longest streak 152 days | to Oct 2026 | GfG | Profile screenshot seen | Consistency signal |
+| CodeChef 3-Star: rating 1634 (highest 1654), global rank 11,714 | to Oct 2026 | CodeChef | Profile screenshot seen | Earlier README said 1651; use 1634 / max 1654 |
+| Codeforces Pupil 1366; Code360 1803 ("top 68%" label) | to Oct 2026 | Platforms | Screenshots seen | Weakest profiles; leave off the resume |
 | **Third Prize**, "Predictive Protection" (SenseMinds 360 platform) | Andhra Pradesh hackathon, date not shown | AISmartLive team | Award email seen | Email does not name individuals. You state you were team lead and designed the solution and implemented the PoC |
 | **Third position**, "Health - Care Saver" (smart-watch tracking, diabetes live readings and notifications) | Same hackathon series, date not shown | AISmartLive team | Award email seen | Same role as above. The email's PoC line is a next step only; say "PoC implemented" only if you can show it |
 | Onboarded and delivered 100+ B.Tech project groups (300+ people); explained 50+ projects end to end | 5 Oct 2025 to 10 May 2026 | Codex Free Lancers | Your statement | Your highest achievement by scale |
@@ -157,8 +161,8 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 ## 7. CODING / DSA PROFILE
 
 - **Languages:** Python primary; Java, C listed.
-- **Estimated level: Strong Intermediate** with certified ranks: CodeVita S12 global 5127; Smart Interviews 159/35,859.
-- **Chat evidence:** you bring hard problems to Claude (cactus-in-ladder-grid, rectangle-boundary counting) and ask it to "act like a top competitive programmer." That shows interest, not solving ability; expect live problem-solving in interviews.
+- **Estimated level: Strong for interviews (4/5); strong intermediate for contests (3/5).** Verified: LeetCode Knight 1,898 (top 4.74%, 757 solved), GfG 654 solved, CodeVita S12 global 5127, Smart Interviews 159/35,859. Codeforces 1366 (Pupil) and CodeChef 1634 show contest-speed rating is not elite.
+- **Chat evidence:** you bring hard problems to Claude (cactus-in-ladder-grid, rectangle-boundary counting) and ask it to "act like a top competitive programmer." That alone proves nothing, but your profiles do: 757 LeetCode solves and a 1,898 contest rating show real solving ability. Expect live problem-solving in interviews.
 - **Weaknesses (INFERRED):** advanced graph theory/DP at high rating, proof-of-complexity articulation under pressure.
 
 ## 8. PROJECT DEPTH RANKING
@@ -231,7 +235,7 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 8. Test discipline in at least one large project (300+ tests).
 9. Fine-tuning pipeline with measured results and a publication.
 10. Fast learning across domains.
-11. Certified competitive-programming ranks (5127 CodeVita, 159/35,859 Smart Interviews).
+11. Verified DSA record: LeetCode Knight 1,898 (top 4.74%, 757 solved), CodeVita 5127, Smart Interviews 159/35,859.
 12. Strong written output and documentation.
 13. Product thinking: packaging services, pricing tiers, community building.
 14. Honest-resume instinct (you corrected inflated TCS bullets yourself).
@@ -332,7 +336,7 @@ Python
 ## 21. RESUME-READY MASTER PROFILE
 
 - **Identity:** AI Engineer focused on reliable GenAI and agentic systems; Data Engineer at TCS Digital; independent AI/backend engineer.
-- **Summary:** Builds LLM-driven systems with measurable reliability (LangGraph agents, agentic RAG on Qdrant, grounded chatbots, large-batch classification) and applied ML on IoT data (XGBoost, Isolation Forest, NeuralProphet, SHAP, 92% detection accuracy, 12-person team). Builds Azure Databricks/PySpark ingestion pipelines at TCS (100K to 1M records). Co-authored a published LLM-fine-tuning paper. Third prize x2 at an Andhra Pradesh hackathon (team lead); AMD x TCS AI Hackathon Champion Certificate; TCS Special Initiative Award (Jun 2026); CodeVita S12 global rank 5127; Smart Interviews rank 159/35,859. Delivered 100+ student project groups.
+- **Summary:** Builds LLM-driven systems with measurable reliability (LangGraph agents, agentic RAG on Qdrant, grounded chatbots, large-batch classification) and applied ML on IoT data (XGBoost, Isolation Forest, NeuralProphet, SHAP, 92% detection accuracy, 12-person team). Builds Azure Databricks/PySpark ingestion pipelines at TCS (100K to 1M records). Co-authored a published LLM-fine-tuning paper. Third prize x2 at an Andhra Pradesh hackathon (team lead); AMD x TCS AI Hackathon Champion Certificate; TCS Special Initiative Award (Jun 2026); LeetCode Knight (1,898, top 4.74%, 757 solved); CodeVita S12 global rank 5127; Smart Interviews rank 159/35,859. Delivered 100+ student project groups.
 - **Core skills:** Python, SQL; LangGraph/LangChain, RAG (Qdrant), PEFT/LoRA, prompt engineering; XGBoost, Isolation Forest, NeuralProphet, SHAP, BERTopic; YOLOv8, ByteTrack, OpenCV; FastAPI, Celery, Redis, MongoDB, Postgres, InfluxDB; Docker, ACR/ECR; PySpark/Azure Databricks; JWT/RBAC.
 - **Experience / education:** as in section 11 and section 1.
 
