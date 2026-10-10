@@ -58,11 +58,11 @@ Built 7 Oct 2026 from past chats, resume drafts and saved notes. Revised 10 Oct 
 
 ### P7. Smart Traffic Management (github.com/Sreecharan03/Smart-traffic-management-opencv)
 - **Document seen (repo, Feb 2026):** YOLOv8 vehicle detection (`bestt.pt`), ByteTrack tracking via `supervision`, polygon zones (N/E/S/W), baseline then adaptive signal control with a priority score (count, wait, fairness), Streamlit dashboard, output video download.
-- **Level:** Intermediate. **Caveats:** it processes uploaded video; its own README says "No live camera streaming," so do not call it real-time. PaddleOCR is not in this repo.
+- **Level:** Intermediate. **Caveats:** it processes uploaded video; its own README says "No live camera streaming," so do not call it real-time.
 
 ### P8. Agentic RAG Study Assistant (github.com/Sreecharan03/Agentic-RAG)
 - **Document seen (repo, Feb 2026):** 4-agent pipeline (query understanding, retrieval, answer generation, verification) over textbook PDFs (DBMS, ML, OS). PyMuPDF/pdfplumber extraction, sentence-aware chunking, BGE embeddings, **Qdrant** vector DB with subject-filtered retrieval, Gemma-2-9B generation, confidence check, Streamlit upload-to-index flow. `chromadb` is also in requirements.
-- **Level:** Intermediate to Advanced. **Caveat:** the vector DB evidenced here is Qdrant, not Weaviate, Astra DB or Azure AI Search.
+- **Level:** Intermediate to Advanced. **Note:** the vector DB used here is Qdrant.
 
 ### P9. Smaller or learning items
 | Item | What it shows | Level |
@@ -89,12 +89,10 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | LLM apps / prompting / structured outputs | GenAI | Sighnal, financial agent, job agent | 4 | High |
 | LangGraph / multi-agent | GenAI | Financial platform, job agent (repo), Agentic RAG (repo), Sighnal | 4 | High |
 | RAG + vector DB | GenAI | Agentic RAG with **Qdrant** (repo); AAYS RAG | 3.5 | High for Qdrant |
-| Weaviate, Astra DB, Azure AI Search | GenAI | None seen | unproven | Remove or add a project |
 | PEFT / LoRA fine-tuning | GenAI | Legal summarization | 3 | Medium |
 | LLM evaluation / hallucination control | GenAI | Sighnal evidence-verification design, test suites | 3.5 | Medium to high |
 | NLP clustering (BERTopic/UMAP/HDBSCAN) | NLP | Sighnal | 3 | Medium |
 | Computer vision (YOLOv8, ByteTrack, OpenCV) | CV | Smart traffic repo | 3 | High |
-| PaddleOCR | CV | None seen | unproven | Remove or add a project |
 | FastAPI / Flask / Streamlit | Backend | AAYS, financial platform, job agent, RAG | 3 | High |
 | Celery / Redis / MongoDB | Backend | Sighnal | 3 | Medium |
 | Auth (JWT, RBAC, argon2) | Security | Sighnal | 3 | Medium |
@@ -114,11 +112,11 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 - **A. Demonstrated:** LLM classification pipelines; LangGraph agents (3 repos); agentic RAG with Qdrant; Text-to-SQL with guardrails; YOLOv8 + ByteTrack zone logic; PEFT/LoRA fine-tune; XGBoost/Isolation Forest/NeuralProphet + SHAP on IoT; Databricks/PySpark ingestion at TCS; FastAPI services; Docker; Celery/Redis queues; JWT/RBAC; BERTopic.
 - **B. Strong working knowledge:** Spark internals (skew, salting, lazy eval), Delta Lake concepts, RAG design, hallucination-control patterns.
 - **C. Exposure:** Databricks Unity Catalog/Auto Loader (simulated), Render/Neon deployment, ECR/ACR, Langflow.
-- **D. Claimed, unverified:** PaddleOCR, Weaviate/Astra DB/Azure AI Search, "LLMOps," "Multimodal AI," Java/C depth, "architected multi-stage ETL pipelines at TCS."
+- **D. Claimed, unverified:** "LLMOps," "Multimodal AI," Java/C depth, "architected multi-stage ETL pipelines at TCS."
 
 ## 4. DATA ENGINEERING PROFILE
 
-- **What you reported (Oct 2026):** at TCS you build production Azure Databricks + PySpark ingestion pipelines processing 100K to 1M records per run (about 80K on average; your wording was cut off, please confirm), and you reduced multiple and duplicated calls in ingestion notebooks, cutting run time about 20% (self-reported, no baseline seen). You also run performance assessments on ingestion and transformations.
+- **What you reported (Oct 2026):** at TCS you build production Azure Databricks + PySpark ingestion pipelines processing 100K to 1M records per run (about 80K rows on average per data file), and you reduced multiple and duplicated calls in ingestion notebooks, cutting run time about 20% (self-reported, no baseline seen). You also run performance assessments on ingestion and transformations.
 - **Earlier statement (Jun 2026):** KT sessions and a workshop only, no production pipeline. The Oct 2026 account supersedes it, but the Aug 2026 resume line "Architected multi-stage distributed ETL pipelines" still overstates it: "Built and optimised Databricks/PySpark ingestion pipelines (100K to 1M records)" is defensible.
 - **Level:** Working to intermediate (3). **Still missing as evidence:** scheduling/orchestration (ADF/Workflows/Airflow), data-quality framework, monitoring, cost tuning, incident handling. 100K to 1M records is solid but not large-scale; do not call it big data or distributed at scale.
 - **Other evidence:** SenseMinds ingestion (MQTT to InfluxDB at 172,800 points/day), Sighnal queue design.
@@ -200,7 +198,7 @@ One co-authored applied paper (summarization), ROUGE/cosine evaluation against T
 | Sighnal (freelance) | AI/Backend engineer | 2026 to now | High: end to end | Reliability and security work |
 | Codex Free Lancers (independent contract) | Team Lead | 5 Oct 2025 to 10 May 2026 (project delivery run) | High | 100+ groups, 300+ people |
 
-Resume issues remaining: the summary headline says AI/GenAI Engineer while the TCS role is data engineering; keep one consistent name; remove or prove unverified skills.
+Resume issues remaining: the summary headline says AI/GenAI Engineer while the TCS role is data engineering; keep one consistent name; keep skills to what you can show.
 
 ## 12. ROLE FIT
 
@@ -247,7 +245,6 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 - Cloud depth is shallow (Azure/AWS registries, Databricks); no IaC, no orchestration, no monitoring stack.
 - Deployment confidence low (Render/Neon needed step-by-step help; secrets pasted into chat).
 - No evidence of math/statistics depth, ML theory, or deep-learning training from scratch.
-- PaddleOCR and Weaviate/Astra DB/Azure AI Search sit on the resume without a project behind them.
 - Metrics (92%, 87.5%, 20%, "sub-second") lack visible evaluation protocols.
 - System design for scale (sharding, backpressure, cost) not shown; Java/C not shown.
 - No open-source contributions beyond your own repos.
@@ -262,8 +259,8 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 | Hackathons | "2-time winner" | Two emails: **third prize** and **third position** | Reword: "3rd Prize x2" |
 | TCS AI Hackathon | "Champion" | Certificate says Champion Certificate but text says participation | Use certificate wording, not "winner" |
 | CP rank | "Top 0.5%" | Smart Interviews 159/35,859 (a course cohort) | Reword to the exact rank |
-| CV stack | YOLOv8/ByteTrack/PaddleOCR | Repo has YOLOv8 + ByteTrack; no PaddleOCR | Drop PaddleOCR or add the project |
-| Vector DBs | Weaviate/Astra/Azure AI Search | Repo uses Qdrant | List Qdrant; prove the others |
+| CV stack | YOLOv8/ByteTrack | Smart traffic repo | Verified; PaddleOCR removed per you |
+| Vector DBs | Qdrant | Agentic RAG repo | Verified; Weaviate/Astra DB/Azure AI Search removed per you |
 | Traffic project | Real-time vehicle control | Repo processes uploaded video; no live streaming | Say "video-based adaptive signal control" |
 | Production GenAI | Production-grade | Sighnal design and tests, built end to end | Credible |
 | Research | Published paper | One applied paper | Applied, not research |
@@ -297,7 +294,7 @@ Python
 ├── Backend: FastAPI, Flask, Celery, Redis, JWT/RBAC, Streamlit
 ├── Data: PySpark, Azure Databricks, Delta(2), InfluxDB, MQTT, Postgres, MongoDB, MySQL, SQL Server(2)
 ├── Infra: Docker, Compose, ACR, ECR, Render/Neon (beginner)
-├── CV: YOLOv8, ByteTrack, OpenCV, supervision   (PaddleOCR* = claimed, unverified)
+├── CV: YOLOv8, ByteTrack, OpenCV, supervision
 └── Other: TypeScript/Next.js, Java, C, LaTeX
 ```
 
@@ -365,7 +362,7 @@ Python
 - **6-month target:** AI Engineer or backend-leaning GenAI role at a product company.
 - **1 to 2 years:** Senior-track AI/ML engineer or GenAI platform engineer.
 - **Gap to top candidates:** Evidence of scale, monitored production systems with metrics, public write-ups, strong live DSA and system design.
-- **To get there:** (1) add orchestration, data-quality checks and monitoring to one TCS pipeline and record the measured outcome; (2) write one public post on the 574-to-0 reliability work; (3) apply the wording fixes in sections 6 and 16; (4) add a small honest evaluation benchmark to each GenAI project; (5) practise system-design interviews; (6) build or delete PaddleOCR and the non-Qdrant vector-DB claims; (7) make the job-agent repo private or remove the resume PDF and saved applications.
+- **To get there:** (1) add orchestration, data-quality checks and monitoring to one TCS pipeline and record the measured outcome; (2) write one public post on the 574-to-0 reliability work; (3) apply the wording fixes in sections 6 and 16; (4) add a small honest evaluation benchmark to each GenAI project; (5) practise system-design interviews; (6) keep the resume to what you can show: Qdrant, YOLOv8/ByteTrack; (7) make the job-agent repo private or remove the resume PDF and saved applications.
 
 ## 24. OPEN QUESTIONS
 
@@ -379,7 +376,8 @@ Python
 7. YOLOv8/ByteTrack: the Smart traffic repo. NeuralProphet: used in SenseMinds.
 
 **Still open:**
-1. What does "about 80K" mean in your TCS answer (average records per run)? What scheduler or orchestrator runs the pipelines, and what do the performance assessments measure?
-2. Weaviate, Astra DB, Azure AI Search, PaddleOCR, Java/C: a project or repo for each, or remove them.
-3. What exactly does the 15% to 52% figure measure?
-4. How the 92% accuracy is defined.
+1. What scheduler or orchestrator runs the TCS pipelines, and what do the performance assessments measure? (Volume is settled: 100K to 1M records per run, about 80K rows per data file on average.)
+2. Sighnal: what does the 15% to 52% figure measure?
+3. SenseMinds 360: how is the 92% accuracy defined?
+
+**Removed per you (Oct 2026):** Weaviate, Astra DB, Azure AI Search, PaddleOCR. Java and C stay as low-confidence DSA languages (they appear on your LeetCode profile).
