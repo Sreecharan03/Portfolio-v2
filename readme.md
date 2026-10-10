@@ -152,8 +152,8 @@ Levels: 0 Awareness, 1 Beginner, 2 Working, 3 Intermediate, 4 Advanced, 5 Expert
 | GeeksforGeeks: coding score 1,797, 654 solved, institute rank 6, 343 POTD solved, longest streak 152 days | to Oct 2026 | GfG | Profile screenshot seen | Consistency signal |
 | CodeChef 3-Star: rating 1634 (highest 1654), global rank 11,714 | to Oct 2026 | CodeChef | Profile screenshot seen | Earlier README said 1651; use 1634 / max 1654 |
 | Codeforces Pupil 1366; Code360 1803 ("top 68%" label) | to Oct 2026 | Platforms | Screenshots seen | Weakest profiles; leave off the resume |
-| **Third Prize**, "Predictive Protection" (SenseMinds 360 platform) | Andhra Pradesh hackathon, date not shown | AISmartLive team | Award email seen | Email does not name individuals. You state you were team lead and designed the solution and implemented the PoC |
-| **Third position**, "Health - Care Saver" (smart-watch tracking, diabetes live readings and notifications) | Same hackathon series, date not shown | AISmartLive team | Award email seen | Same role as above. The email's PoC line is a next step only; say "PoC implemented" only if you can show it |
+| **Third Prize**, "Predictive Protection" (SenseMinds 360 platform) | Andhra Pradesh hackathon, date not shown | AISmartLive team | Award email seen | You were team lead, designed the solution and implemented the PoC (your confirmation) |
+| **Third position**, "Health - Care Saver" (smart-watch tracking, diabetes live readings and notifications) | Same hackathon series, date not shown | AISmartLive team | Award email seen | Same role as above (your confirmation). The email's own PoC line is a next step, so describe the PoC as yours, not as the email's |
 | Onboarded and delivered 100+ B.Tech project groups (300+ people); explained 50+ projects end to end | 5 Oct 2025 to 10 May 2026 | Codex Free Lancers | Your statement | Your highest achievement by scale |
 | IJIRT publication (co-author) | Mar 2025 | IJIRT | Resume | Co-developed |
 | Technical lead of 12-member team | 2025 | AISmartLive | Resume | Self-reported impact figures |
@@ -327,7 +327,7 @@ Python
 | CodeVita S12 rank 5127; Smart Interviews 159/35,859 | Certificates | Oct 2026 | Document seen |
 | AAYS internship 16 Jun to 15 Aug 2025 | Certificate | Oct 2026 | Document seen |
 | 3rd Prize (Predictive Protection) and 3rd position (Health - Care Saver) | Two award emails | Oct 2026 | Document seen (no individuals named) |
-| Team lead and designer on both hackathon entries | Your statement | Oct 2026 | Confirmed, proof pending |
+| Team lead and designer on both hackathon entries | Your statement | Oct 2026 | Confirmed |
 | YOLOv8 + ByteTrack traffic system; LangGraph job agent; Qdrant agentic RAG | Three repos | Oct 2026 | Document seen |
 | Databricks/PySpark ingestion at TCS, 100K to 1M records; about 20% run-time cut | Your statement | Oct 2026 | Confirmed (self-reported) |
 | 100+ project groups, 300+ people, 5 Oct 2025 to 10 May 2026 | Your statement | Oct 2026 | Confirmed |
@@ -380,7 +380,6 @@ Python
 
 **Still open:**
 1. What does "about 80K" mean in your TCS answer (average records per run)? What scheduler or orchestrator runs the pipelines, and what do the performance assessments measure?
-2. Proof of your lead and design role on the two hackathon entries (the emails name no individuals); the date of each hackathon result.
-3. Weaviate, Astra DB, Azure AI Search, PaddleOCR, Java/C: a project or repo for each, or remove them.
-4. What exactly does the 15% to 52% figure measure?
-5. How the 92% accuracy is defined.
+2. Weaviate, Astra DB, Azure AI Search, PaddleOCR, Java/C: a project or repo for each, or remove them.
+3. What exactly does the 15% to 52% figure measure?
+4. How the 92% accuracy is defined.
