@@ -26,7 +26,7 @@ Built 7 Oct 2026 from past chats, resume drafts and saved notes. Revised 10 Oct 
 ### P1. Sighnal (freelance client project, YouTube comment analytics / AI content strategist)
 - **Type:** Freelance, production-style full-stack GenAI platform. **Period:** 2026 to present. **Status:** active.
 - **Described architecture:** Innertube-based scraping (10K+ comment threads/video, resumable jobs); Celery + Redis + MongoDB with 4 queues, per-video fan-out, distributed lock, concurrency gates, self-healing watchdog (10 failure modes); LLM intent/sentiment classification (gpt-oss-120b on Groq) with dynamic batching, SimHash dedup, TTL-LRU cache, AIMD rate control, circuit breaker; BERTopic (UMAP + HDBSCAN + MiniLM); Claude Haiku summaries; grounded chatbot where the LLM proposes claims and code verifies citations against evidence; JWT (argon2), RBAC, plan-tier enforcement, audit logging; Docker Compose; Next.js/TypeScript/TanStack Query frontend; 286-test classifier suite, 33-test resilience suite, 300+ tests total.
-- **Reported results (your resume text):** a 12,910-comment run went from 574 permanently failed comments to 0; a README-related measurement of 15% to 52% (the 15%→52% line still needs a label saying what it measures).
+- **Reported results (your resume text):** a 12,910-comment run went from 574 permanently failed comments to 0; a result of 15% to 52% from Sighnal's advanced evaluation suite (your statement). Name the exact metric in one phrase when you write it on the resume.
 - **Level:** Advanced implementation, production-style. **Evidence:** CONFIRMED by you: you built it end to end, from design to production. **Caveat:** the product name is client-owned, so confirm permission before naming it.
 - **Skills shown:** async/distributed task design, LLM reliability engineering, hallucination control, SaaS security basics, testing.
 
@@ -34,7 +34,7 @@ Built 7 Oct 2026 from past chats, resume drafts and saved notes. Revised 10 Oct 
 - **Type:** Professional (full-time), Mar to Dec 2025, Junior Data Scientist. AISmartLive is a child company of AAYS.
 - **Described:** MQTT to InfluxDB, 30 sensors, 15-second resolution, 172,800 datapoints/day; XGBoost + Isolation Forest + NeuralProphet predictive maintenance; SHAP explainability; 92% detection accuracy; investigation time 8 h to 1 h (87.5%); failures flagged 6 to 8 h early; you were technical lead of a 12-member team.
 - **Hackathon link:** the same platform was entered as "Predictive Protection" in the Andhra Pradesh hackathon and received **Third Prize** (email seen).
-- **Level:** Intermediate to Advanced applied ML; deployed at an actual client. **Evidence:** CONFIRMED (your statements and resume), numbers self-reported. Be ready to explain what "92% accuracy" means (precision/recall, class balance, labels). You chose to keep these figures as written.
+- **Level:** Intermediate to Advanced applied ML; deployed at an actual client. **Evidence:** CONFIRMED (your statements and resume), numbers self-reported. The 92% accuracy was checked against true labels and tested live in the office (your statement). Be ready to say which metric it is (precision/recall, class balance, labels). You chose to keep these figures as written.
 
 ### P3. Real-Time / Multi-Agent Financial Analytics Platform
 - **Type:** Personal portfolio project (github.com/Sreecharan03/Realtime-financial-langgraph). **Stack:** LangGraph, Gemini, PostgreSQL, Streamlit.
@@ -245,7 +245,7 @@ Resume issues remaining: the summary headline says AI/GenAI Engineer while the T
 - Cloud depth is shallow (Azure/AWS registries, Databricks); no IaC, no orchestration, no monitoring stack.
 - Deployment confidence low (Render/Neon needed step-by-step help; secrets pasted into chat).
 - No evidence of math/statistics depth, ML theory, or deep-learning training from scratch.
-- Metrics (92%, 87.5%, 20%, "sub-second") lack visible evaluation protocols.
+- Metrics (87.5%, 20%, "sub-second") lack visible evaluation protocols; the 92% has a stated method (true labels plus live office testing) but no document I have seen.
 - System design for scale (sharding, backpressure, cost) not shown; Java/C not shown.
 - No open-source contributions beyond your own repos.
 - Public repo hygiene: the job-agent repo is public and contains your resume PDF with photo and saved applications for a real company.
@@ -377,7 +377,6 @@ Python
 
 **Still open:**
 1. What scheduler or orchestrator runs the TCS pipelines, and what do the performance assessments measure? (Volume is settled: 100K to 1M records per run, about 80K rows per data file on average.)
-2. Sighnal: what does the 15% to 52% figure measure?
-3. SenseMinds 360: how is the 92% accuracy defined?
+2. Sighnal: the exact metric name behind 15% to 52% (you said it comes from the advanced evals; I haven't seen them).
 
 **Removed per you (Oct 2026):** Weaviate, Astra DB, Azure AI Search, PaddleOCR. Java and C stay as low-confidence DSA languages (they appear on your LeetCode profile).
