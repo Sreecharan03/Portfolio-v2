@@ -17,7 +17,7 @@ export function Achievements() {
           intro="Competitive programming, awards and recognition. Every figure carries its source: an issuer's certificate, a public profile, an organiser's email, or a figure reported from the job."
         />
 
-        <ul className="mt-16 grid gap-px overflow-hidden rounded-[18px] border border-line bg-line sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+        <ul className="mt-12 grid gap-px overflow-hidden rounded-[18px] border border-line bg-line sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
           {headlineStats.map((s) => (
             <li key={s.id} className="flex flex-col justify-between gap-8 bg-bg p-6 sm:p-8" data-reveal="up">
               <div>
@@ -49,7 +49,7 @@ export function Achievements() {
           ))}
         </ul>
 
-        <div className="mt-20 grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4" data-reveal="up">
             <h3 className="font-display text-step-2">Recognition</h3>
             <div className="mt-6 rounded-[var(--radius)] border border-line p-5">

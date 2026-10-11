@@ -13,7 +13,7 @@ export function Capabilities() {
           title="Capabilities, *with receipts.*"
           intro="Grouped by what they let me build, each with the work that demonstrates it. No self-ratings and no percentage bars."
         />
-        <div className="mt-16 lg:mt-20" data-reveal="up">
+        <div className="mt-12 lg:mt-14" data-reveal="up">
           <CapabilityExplorer />
         </div>
         <p className="mt-10 text-step--1 text-ink-3" data-reveal="up">

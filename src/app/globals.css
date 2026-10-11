@@ -59,7 +59,7 @@
 :root {
   --page-x: clamp(1rem, 0.4rem + 3vw, 3.5rem);
   --page-max: 92rem;
-  --section-y: clamp(4.75rem, 3rem + 5.2vw, 8.5rem);
+  --section-y: clamp(3.75rem, 2.5rem + 3.4vw, 6rem);
   --header-h: 4.25rem;
   --radius: 14px;
   --radius-sm: 9px;
@@ -274,15 +274,30 @@ html.js:not(.motion-off) [data-reveal] {
 /* Approach rail: a light travelling up through the layers */
 @keyframes rail-rise {
   from {
-    transform: translate3d(0, 55%, 0);
+    transform: translate3d(0, -55%, 0);
   }
   to {
-    transform: translate3d(0, -55%, 0);
+    transform: translate3d(0, 55%, 0);
   }
 }
 .rail-pulse {
   background: linear-gradient(to top, transparent 40%, var(--color-signal-soft) 50%, transparent 60%);
   animation: rail-rise 3.6s var(--ease-in-out-quart) infinite;
+}
+/* horizontal variant for the desktop stack row */
+@keyframes rail-run {
+  from {
+    transform: translate3d(-55%, 0, 0);
+  }
+  to {
+    transform: translate3d(55%, 0, 0);
+  }
+}
+@media (min-width: 64rem) {
+  .rail-pulse {
+    background: linear-gradient(to right, transparent 40%, var(--color-signal-soft) 50%, transparent 60%);
+    animation-name: rail-run;
+  }
 }
 [data-art-paused] .rail-pulse {
   animation-play-state: paused;

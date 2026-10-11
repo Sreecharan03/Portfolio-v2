@@ -138,12 +138,12 @@ export function SelectedWork() {
           intro="From distributed LLM pipelines to video-based traffic control. Each case study covers the problem, the architecture, the decisions, and where every number comes from."
         />
 
-        <div className="mt-16 grid gap-10 lg:mt-24 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-12 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-8">
           <div className="hidden lg:col-span-3 lg:block">
             <WorkIndex items={projects.map(({ slug, index, title, category }) => ({ slug, index, title, category }))} />
           </div>
 
-          <div className="space-y-24 lg:col-span-9 lg:space-y-36">
+          <div className="space-y-20 lg:col-span-9 lg:space-y-28">
             {projects.map((p, i) => (
               <ProjectPanel key={p.slug} project={p} variant={variantFor(i)} />
             ))}

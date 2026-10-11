@@ -35,7 +35,7 @@ export function CapabilityExplorer() {
     <>
       {/* Desktop: tabs + graph */}
       <div className="hidden gap-8 lg:grid lg:grid-cols-12">
-        <div role="tablist" aria-orientation="vertical" aria-label="Capabilities" className="lg:col-span-5">
+        <div role="tablist" aria-orientation="vertical" aria-label="Capabilities" className="self-start lg:sticky lg:top-28 lg:col-span-5">
           {capabilities.map((c, i) => {
             const on = i === selected;
             return (

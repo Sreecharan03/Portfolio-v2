@@ -31,12 +31,12 @@ export function Journey() {
           intro="Employment, internship, independent work and education, newest first, each labelled for what it was."
         />
 
-        <div className="relative mt-16 lg:mt-24">
+        <div className="relative mt-12 lg:mt-14">
           <div aria-hidden className="absolute bottom-2 left-[7px] top-2 w-px bg-line md:left-[calc(25%+7px)]">
             <span data-scrub-line className="absolute inset-0 origin-top bg-gradient-to-b from-signal via-verify to-transparent" />
           </div>
 
-          <ol className="space-y-14 md:space-y-20">
+          <ol className="space-y-10 md:space-y-14">
             {entries.map((e) => (
               <li key={e.id} className="relative grid gap-4 pl-9 md:grid-cols-4 md:gap-8 md:pl-0">
                 <span
