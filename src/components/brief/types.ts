@@ -11,5 +11,7 @@ export interface BriefData {
   proof: { value: string; label: string; source: SourceKind }[];
   email: string;
   resume: string;
+  resumeIsFile: boolean;
+  phone: { display: string; href: string };
   links: { label: string; href: string }[];
 }

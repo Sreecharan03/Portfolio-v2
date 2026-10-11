@@ -18,6 +18,7 @@ export default function HomePage() {
     description: site.positioning,
     url: site.url,
     email: `mailto:${site.email}`,
+    telephone: site.phone.href.replace("tel:", ""),
     worksFor: { "@type": "Organization", name: "Tata Consultancy Services" },
     alumniOf: { "@type": "CollegeOrUniversity", name: "Raghu Engineering College" },
     knowsAbout: ["Generative AI", "Agentic AI", "LangGraph", "Retrieval-augmented generation", "Machine learning", "Data engineering"],

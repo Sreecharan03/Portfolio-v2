@@ -100,6 +100,7 @@ export const BriefDialog = forwardRef<HTMLDialogElement, { data: BriefData; onCl
           <Link
             href={data.resume}
             onClick={onClose}
+            {...(data.resumeIsFile ? { target: "_blank", rel: "noopener", prefetch: false } : {})}
             className="group inline-flex min-h-11 items-center gap-2.5 rounded-full bg-ink px-5 py-2.5 font-medium text-bg transition-colors hover:bg-white"
           >
             <DocIcon size={16} />
@@ -111,6 +112,12 @@ export const BriefDialog = forwardRef<HTMLDialogElement, { data: BriefData; onCl
           >
             <MailIcon size={16} />
             {data.email}
+          </a>
+          <a
+            href={data.phone.href}
+            className="group inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line-strong px-5 py-2.5 font-medium tabular transition-colors hover:border-ink-3 hover:bg-surface-2"
+          >
+            {data.phone.display}
           </a>
           {data.links.map((l) => (
             <a

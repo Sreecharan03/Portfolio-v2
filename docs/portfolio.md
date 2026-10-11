@@ -27,8 +27,9 @@ repo, award email, publication, system spec, reported, illustrative).
   copy. `sources.ts` defines the provenance labels.
 - **Server components by default.** Client components are limited to interaction: header/menu/brief
   dialog, hero canvas, capability explorer, work index, chapter nav, architecture diagram, demos.
-- **Résumé**: `/resume` is generated from the same content and is print-optimised (`Save as PDF`). Set
-  `site.resumePdf` in `src/content/site.ts` to link a PDF in `/public` instead.
+- **Résumé**: the résumé buttons open `public/Sreecharan_Ai_Engineer.pdf` (`site.resumePdf` in
+  `src/content/site.ts`; replace the file to update it). `/resume` remains as a print-ready page generated
+  from the same content, and is used automatically if `resumePdf` is set to `null`.
 
 ### Motion system
 

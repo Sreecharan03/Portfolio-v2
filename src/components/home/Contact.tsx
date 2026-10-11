@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { Accent } from "@/components/ui/Accent";
 import { ArrowUpRight, DocIcon } from "@/components/ui/Icons";
 import { SectionLabel } from "@/components/ui/SectionHeader";
-import { resumeHref, site } from "@/content/site";
+import { resumeLink, site } from "@/content/site";
 import { CopyEmail } from "./CopyEmail";
 
 export function Contact() {
@@ -33,13 +32,20 @@ export function Contact() {
             </a>
             <div className="mt-5 flex flex-wrap gap-3">
               <CopyEmail email={site.email} />
-              <Link
-                href={resumeHref()}
+              <a
+                {...resumeLink()}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-4 py-2 text-[0.88rem] font-medium text-bg transition-colors hover:bg-white"
               >
                 <DocIcon size={15} /> Résumé
-              </Link>
+              </a>
             </div>
+            <p className="label-mono mt-10 text-ink-3">Phone</p>
+            <a
+              href={site.phone.href}
+              className="font-display tabular mt-3 block text-step-2 transition-colors hover:text-signal-soft"
+            >
+              {site.phone.display}
+            </a>
           </div>
           <div className="lg:col-span-5">
             <p className="label-mono text-ink-3">Elsewhere</p>

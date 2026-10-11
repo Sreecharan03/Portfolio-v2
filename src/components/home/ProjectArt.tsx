@@ -19,21 +19,22 @@ function Frame({ id, children }: { id: string; children: ReactNode }) {
       className="h-full w-full"
       aria-hidden
       focusable={false}
-      preserveAspectRatio="xMidYMid slice"
+      preserveAspectRatio="xMidYMid meet"
       data-art
     >
       <defs>
         <pattern id={`${id}-dots`} width="24" height="24" patternUnits="userSpaceOnUse">
           <circle cx="1" cy="1" r="1" fill="var(--color-line-strong)" opacity="0.55" />
         </pattern>
-        <radialGradient id={`${id}-glow`} cx="50%" cy="50%" r="60%">
+        <radialGradient id={`${id}-glow`} gradientUnits="userSpaceOnUse" cx={W / 2} cy={H / 2} r={W * 0.6}>
           <stop offset="0" stopColor="var(--color-signal)" stopOpacity="0.13" />
           <stop offset="1" stopColor="var(--color-signal)" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <rect width={W} height={H} fill="var(--color-surface-1)" />
-      <rect width={W} height={H} fill={`url(#${id}-dots)`} />
-      <rect width={W} height={H} fill={`url(#${id}-glow)`} />
+      {/* backgrounds bleed past the viewBox so letterboxed frames stay filled */}
+      <rect x={-W} y={-H} width={W * 3} height={H * 3} fill="var(--color-surface-1)" />
+      <rect x={-W} y={-H} width={W * 3} height={H * 3} fill={`url(#${id}-dots)`} />
+      <rect x={-W} y={-H} width={W * 3} height={H * 3} fill={`url(#${id}-glow)`} />
       {children}
     </svg>
   );
@@ -289,6 +290,9 @@ function LegalArt() {
         />
       ))}
       <Label x={60} y={456}>JUDGMENT · 40 PP.</Label>
+      {/* flow sits under the stage boxes so the pulse passes behind them */}
+      <path d="M310 250 H360 M432 250 H452 M524 250 H560" stroke="var(--color-line-strong)" strokeWidth="1.5" />
+      <path d="M310 250 H560" stroke="var(--color-verify-soft)" strokeWidth="2" pathLength={200} className="art-flow" />
       {[
         { x: 360, t: "1.1B" },
         { x: 452, t: "2B" },
@@ -301,8 +305,6 @@ function LegalArt() {
           <Label x={s.x + 36} y={300} anchor="middle">{`STAGE ${i + 1}`}</Label>
         </g>
       ))}
-      <path d="M310 250 H360 M432 250 H452 M524 250 H560" stroke="var(--color-line-strong)" strokeWidth="1.5" />
-      <path d="M310 250 H560" stroke="var(--color-verify-soft)" strokeWidth="2" pathLength={200} className="art-flow" />
       <rect x="560" y="150" width="200" height="200" rx="14" fill="var(--color-surface-2)" stroke="var(--color-verify)" strokeOpacity="0.6" />
       {summary.map((v, i) => (
         <rect key={i} x="582" y={182 + i * 28} width={v * 156} height="8" rx="3" fill={i === 0 ? "var(--color-verify)" : "var(--color-ink-3)"} />
