@@ -57,7 +57,7 @@ function Copy({ project, compact = false }: { project: Project; compact?: boolea
       </p>
       <h3
         id={`work-${project.slug}-title`}
-        className={`font-display mt-3 ${compact ? "text-[clamp(1.75rem,1.2rem+1.5vw,2.6rem)] leading-[1.02]" : "text-step-3"}`}
+        className={`font-display mt-3 ${compact ? "text-[clamp(1.6rem,1.15rem+1.2vw,2.25rem)] leading-[1.02]" : "text-step-3"}`}
       >
         <Link href={`/work/${project.slug}`} className="transition-colors hover:text-signal-soft">
           {project.title}

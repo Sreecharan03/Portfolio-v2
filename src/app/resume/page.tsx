@@ -90,6 +90,9 @@ export default function ResumePage() {
               <a href={`mailto:${site.email}`} className="underline-offset-2 hover:underline">
                 {site.email}
               </a>
+              <a href={site.phone.href} className="underline-offset-2 hover:underline">
+                {site.phone.display}
+              </a>
               {linkedin ? <a href={linkedin.href}>linkedin.com/in/{linkedin.handle}</a> : null}
               {github ? <a href={github.href}>github.com/{github.handle}</a> : null}
               {host.startsWith("localhost") ? null : <a href={site.url}>{host}</a>}

@@ -56,7 +56,7 @@ export function Hero() {
               <ButtonLink href="#work" icon={<ArrowDown size={15} />}>
                 Explore work
               </ButtonLink>
-              <ButtonLink href={resumeHref()} variant="secondary" icon={<DocIcon size={15} />}>
+              <ButtonLink href={resumeHref()} external={site.resumePdf !== null} variant="secondary" icon={<DocIcon size={15} />}>
                 Résumé
               </ButtonLink>
               <span aria-hidden className="mx-1 hidden h-6 w-px bg-line-strong sm:block" />

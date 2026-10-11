@@ -2,8 +2,8 @@
  * Identity, links and global copy. Edit here; components read from this file.
  *
  * Contact details are taken from the owner's public GitHub profile README.
- * `resumePdf` stays null until a current PDF is added to /public — the site
- * then links to it; until then the résumé CTA opens the print-ready /resume page.
+ * `resumePdf` points at the PDF in /public; set it to null to fall back to the
+ * print-ready /resume page.
  */
 
 function resolveSiteUrl(): string {
@@ -32,7 +32,8 @@ export const site = {
   interest:
     "Interested in AI engineering roles across GenAI, agentic systems and the backend work that makes them dependable.",
   email: "charanch53030@gmail.com",
-  resumePdf: null as string | null,
+  phone: { display: "+91 74163 57722", href: "tel:+917416357722" },
+  resumePdf: "/Sreecharan_Ai_Engineer.pdf" as string | null,
   socials: [
     { id: "github", label: "GitHub", handle: "Sreecharan03", href: "https://github.com/Sreecharan03" },
     { id: "linkedin", label: "LinkedIn", handle: "sreecharan1208", href: "https://www.linkedin.com/in/sreecharan1208/" },
@@ -66,4 +67,9 @@ export const navItems = [
 
 export function resumeHref(): string {
   return site.resumePdf ?? "/resume";
+}
+
+/** Link attributes for the résumé: a PDF opens in a new tab, the /resume page in place. */
+export function resumeLink(): { href: string; target?: "_blank"; rel?: string } {
+  return site.resumePdf ? { href: site.resumePdf, target: "_blank", rel: "noopener" } : { href: "/resume" };
 }

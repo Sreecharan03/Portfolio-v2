@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site, resumeHref } from "@/content/site";
+import { site, resumeLink } from "@/content/site";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { LogoMark } from "./Logo";
 
@@ -81,9 +81,9 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href={resumeHref()} className="link-underline text-ink-2 hover:text-ink">
+                <a {...resumeLink()} className="link-underline text-ink-2 hover:text-ink">
                   Résumé
-                </Link>
+                </a>
               </li>
               <li>
                 <Link href="/#achievements" className="link-underline text-ink-2 hover:text-ink">

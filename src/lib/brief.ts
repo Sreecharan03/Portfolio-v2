@@ -44,6 +44,8 @@ export function buildBrief(): BriefData {
     proof,
     email: site.email,
     resume: resumeHref(),
+    resumeIsFile: site.resumePdf !== null,
+    phone: { ...site.phone },
     links: site.socials.filter((s) => s.id !== "leetcode").map((s) => ({ label: s.label, href: s.href })),
   };
 }
