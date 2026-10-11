@@ -9,7 +9,7 @@ export function Principles() {
     <section id="principles" aria-labelledby="principles-title" className="section-y border-t border-line">
       <div className="container-page">
         <SectionHeader id="principles-title" index="07" label="Principles" title="How I *build.*" />
-        <ol className="mt-16 border-t border-line lg:mt-20">
+        <ol className="mt-12 border-t border-line lg:mt-14">
           {principles.map((p, i) => {
             const project = p.slug ? getProject(p.slug) : undefined;
             return (

@@ -26,7 +26,7 @@ export function Research() {
       <div className="container-page">
         <SectionHeader id="research-title" index="06" label="Research" title="Fine-tuning small models for *legal language.*" />
 
-        <article className="mt-16 overflow-hidden rounded-[20px] border border-line bg-surface-1/60 lg:mt-20" aria-labelledby="pub-title">
+        <article className="mt-12 overflow-hidden rounded-[20px] border border-line bg-surface-1/60 lg:mt-14" aria-labelledby="pub-title">
           <div className="grid lg:grid-cols-12">
             <div className="p-6 sm:p-10 lg:col-span-7" data-reveal="up">
               <p className="label-mono flex flex-wrap items-center gap-x-3 gap-y-2 text-ink-3">
