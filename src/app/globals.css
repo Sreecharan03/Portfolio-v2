@@ -1,0 +1,486 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Design tokens
+   ────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Surfaces & ink */
+  --color-bg: #080b12;
+  --color-surface-1: #0c1019;
+  --color-surface-2: #111624;
+  --color-surface-3: #171d2d;
+  --color-line: #1d2536;
+  --color-line-strong: #2a344b;
+  --color-ink: #f4f7fc;
+  --color-ink-2: #a9b3c6;
+  --color-ink-3: #7d889e;
+
+  /* Accents: signal = data in motion; verify = reasoning & checks; warn = failure paths */
+  --color-signal: #6495ff;
+  --color-signal-soft: #a3bcff;
+  --color-verify: #9477ff;
+  --color-verify-soft: #c1b2ff;
+  --color-warn: #f2a65e;
+
+  /* Type */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-serif: var(--font-instrument-serif), "Iowan Old Style", Georgia, serif;
+
+  /* Fluid type scale (min → max between ~360px and ~1600px) */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.45;
+  --text-step--1: clamp(0.84rem, 0.82rem + 0.1vw, 0.9rem);
+  --text-step--1--line-height: 1.55;
+  --text-step-0: clamp(1rem, 0.96rem + 0.18vw, 1.125rem);
+  --text-step-0--line-height: 1.65;
+  --text-step-1: clamp(1.18rem, 1.08rem + 0.45vw, 1.45rem);
+  --text-step-1--line-height: 1.45;
+  --text-step-2: clamp(1.45rem, 1.2rem + 1.1vw, 2.2rem);
+  --text-step-2--line-height: 1.2;
+  --text-step-3: clamp(1.9rem, 1.35rem + 2.4vw, 3.6rem);
+  --text-step-3--line-height: 1.04;
+  --text-step-4: clamp(2.4rem, 1.5rem + 4vw, 5.4rem);
+  --text-step-4--line-height: 0.98;
+  --text-step-5: clamp(2.75rem, 0.95rem + 7.6vw, 9.25rem);
+  --text-step-5--line-height: 0.9;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --breakpoint-xs: 30rem;
+}
+
+:root {
+  --page-x: clamp(1rem, 0.4rem + 3vw, 3.5rem);
+  --page-max: 92rem;
+  --section-y: clamp(4.75rem, 3rem + 5.2vw, 8.5rem);
+  --header-h: 4.25rem;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-slow: 700ms;
+  color-scheme: dark;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    min-height: 100svh;
+    background: var(--color-bg);
+    font-family: var(--font-sans);
+    font-size: var(--text-step-0);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-signal) 38%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal-soft);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  svg,
+  canvas {
+    display: block;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Layout primitives
+   ────────────────────────────────────────────────────────────────────────── */
+
+@utility container-page {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-x);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+@utility hairline {
+  border-color: var(--color-line);
+}
+
+@utility font-display {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+}
+
+@utility serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: 1.45;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Intro choreography (CSS-only so the first paint never waits on JS)
+   ────────────────────────────────────────────────────────────────────────── */
+
+@keyframes intro-rise {
+  from {
+    transform: translate3d(0, 108%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes intro-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.intro-mask {
+  display: block;
+  overflow-x: visible;
+  overflow-y: clip;
+  /* room for descenders and italic overhang */
+  padding: 0.04em 0.12em 0.12em 0;
+  margin: -0.04em -0.12em -0.12em 0;
+}
+
+.intro-mask > span {
+  display: block;
+  animation: intro-rise 1.15s var(--ease-out-expo) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+
+.intro-fade {
+  animation: intro-fade 0.9s var(--ease-out-expo) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+
+.intro-draw {
+  transform-origin: left center;
+  animation: intro-draw 1.4s var(--ease-out-expo) both;
+  animation-delay: calc(var(--d, 0) * 1ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-mask > span,
+  .intro-fade,
+  .intro-draw {
+    animation: none;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Scroll reveals (driven by GSAP; content stays visible without JS,
+   with reduced motion, or if the motion runtime fails to start)
+   ────────────────────────────────────────────────────────────────────────── */
+
+html.js:not(.motion-off) [data-reveal] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1 !important;
+  }
+}
+
+/* SplitText wraps each line in "<class>-mask" with overflow: clip; leave room for descenders and italics */
+.split-line-mask {
+  padding: 0.04em 0.1em 0.16em;
+  margin: -0.04em -0.1em -0.16em;
+}
+
+/* Approach rail: a light travelling up through the layers */
+@keyframes rail-rise {
+  from {
+    transform: translate3d(0, 55%, 0);
+  }
+  to {
+    transform: translate3d(0, -55%, 0);
+  }
+}
+.rail-pulse {
+  background: linear-gradient(to top, transparent 40%, var(--color-signal-soft) 50%, transparent 60%);
+  animation: rail-rise 3.6s var(--ease-in-out-quart) infinite;
+}
+[data-art-paused] .rail-pulse {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail-pulse {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Components that are clearer in CSS than in utility classes
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Animated underline for text links */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size var(--dur) var(--ease-out-expo), color var(--dur-fast);
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Inline arrow that nudges on hover of its parent */
+.arrow-nudge {
+  transition: transform var(--dur) var(--ease-out-expo);
+}
+.group:hover .arrow-nudge,
+.group:focus-visible .arrow-nudge {
+  transform: translate3d(4px, 0, 0);
+}
+.group:hover .arrow-nudge-diag,
+.group:focus-visible .arrow-nudge-diag {
+  transform: translate3d(3px, -3px, 0);
+}
+
+/* Subtle engineering grid used behind the hero */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-line) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 70%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 70% at 70% 40%, #000 20%, transparent 75%);
+}
+
+/* Diagram flow pulses: a short dash travelling along a path with pathLength=100 */
+@keyframes flow-dash {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.flow-pulse {
+  stroke-dasharray: 6 94;
+  animation: flow-dash 2.2s linear infinite;
+}
+.flow-pulse-slow {
+  stroke-dasharray: 4 96;
+  animation: flow-dash 3.4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-pulse,
+  .flow-pulse-slow {
+    animation: none;
+    stroke-dasharray: none;
+    opacity: 0.35;
+  }
+}
+
+/* Ambient loop for project artwork; paused off-screen by the motion runtime */
+@keyframes art-flow {
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+.art-flow {
+  stroke-dasharray: 10 190;
+  animation: art-flow 4s linear infinite;
+}
+@keyframes art-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.art-blink {
+  animation: art-blink 2.6s ease-in-out infinite;
+}
+[data-art-paused] .art-flow,
+[data-art-paused] .art-blink {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .art-flow,
+  .art-blink {
+    animation: none;
+  }
+}
+
+/* Native range inputs, restyled */
+input[type="range"].range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--range-fill, var(--color-signal)) 0 var(--range-pct, 50%),
+    var(--color-line-strong) var(--range-pct, 50%) 100%
+  );
+}
+input[type="range"].range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-line-strong);
+}
+input[type="range"].range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--range-fill, var(--color-signal));
+}
+input[type="range"].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 0 0 1px var(--color-line-strong);
+  transition: transform var(--dur-fast);
+}
+input[type="range"].range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 0 0 1px var(--color-line-strong);
+}
+input[type="range"].range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+/* Dialog backdrop */
+dialog::backdrop {
+  background: color-mix(in oklab, var(--color-bg) 72%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+dialog[open].dialog-anim {
+  animation: dialog-in 0.45s var(--ease-out-expo);
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog[open].dialog-anim {
+    animation: none;
+  }
+}
+
+/* Print: the résumé page is print-first; everything else is hidden */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 14mm 12mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

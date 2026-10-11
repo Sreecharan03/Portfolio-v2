@@ -1,0 +1,38 @@
+{
+  "name": "sree-charan-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio of Sree Charan Chintalapudi — AI Engineer (GenAI, agentic systems, backend, applied ML, data pipelines).",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "geist": "1.7.2",
+    "gsap": "3.15.0",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.56.1",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.0",
+    "playwright-core": "1.56.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3"
+  }
+}
