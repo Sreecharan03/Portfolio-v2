@@ -25,7 +25,7 @@ const layers = [
     n: "02",
     title: "Models & evaluation",
     line: "Choosing, fine-tuning and explaining models, and measuring what they do.",
-    tools: ["XGBoost", "Isolation Forest", "SHAP", "LoRA", "ROUGE"],
+    tools: ["Isolation Forest", "Gaussian Mixture", "Backtested forecasts", "LoRA", "ROUGE"],
     proof: [
       { label: "SenseMinds 360", href: "/work/senseminds-360" },
       { label: "Legal summarization", href: "/work/legal-summarization" },
@@ -36,7 +36,7 @@ const layers = [
     n: "01",
     title: "Data & pipelines",
     line: "Moving data reliably from where it lands to where it is useful.",
-    tools: ["Azure Databricks", "PySpark", "MQTT", "InfluxDB", "PostgreSQL"],
+    tools: ["Azure Databricks", "PySpark", "TimescaleDB", "PostgreSQL"],
     proof: [
       { label: "TCS Digital", href: "#journey" },
       { label: "SenseMinds 360", href: "/work/senseminds-360" },

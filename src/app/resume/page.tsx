@@ -56,9 +56,6 @@ export default function ResumePage() {
   const host = site.url.replace(/^https?:\/\//, "");
 
   const extra: Record<string, string[]> = {
-    aismartlive: [
-      "92% detection accuracy, checked against true labels and live testing; failures flagged 6–8 hours early; investigation time cut from about 8 hours to 1.",
-    ],
     sighnal: ["A 12,910-comment run went from 574 permanently failed comments to 0; 300+ automated tests including a 33-test resilience suite."],
   };
 

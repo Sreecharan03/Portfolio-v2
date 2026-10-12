@@ -7,6 +7,7 @@ export type SourceKind =
   | "certificate"
   | "profile"
   | "repo"
+  | "codebase"
   | "email"
   | "publication"
   | "reported"
@@ -45,6 +46,11 @@ export const SOURCES: Record<SourceKind, SourceInfo> = {
     description: "Read directly from the public source code.",
     tone: "public",
   },
+  codebase: {
+    label: "Private codebase",
+    description: "Read from the project's own code, tests and design records. The repository is private because it contains client details.",
+    tone: "reported",
+  },
   spec: {
     label: "System spec",
     description: "Follows directly from the documented configuration.",
@@ -68,6 +74,7 @@ export const SOURCE_ORDER: SourceKind[] = [
   "publication",
   "profile",
   "repo",
+  "codebase",
   "spec",
   "reported",
   "illustrative",

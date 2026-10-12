@@ -22,6 +22,7 @@
   --color-verify: #9477ff;
   --color-verify-soft: #c1b2ff;
   --color-warn: #f2a65e;
+  --color-critical: #f47a86;
 
   /* Type */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;

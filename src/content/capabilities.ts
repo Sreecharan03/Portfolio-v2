@@ -36,6 +36,7 @@ export const capabilities: Capability[] = [
     evidence: [
       { label: "Agentic RAG Study Assistant", slug: "agentic-rag", note: "Subject-filtered Qdrant retrieval and a scored verdict" },
       { label: "Sighnal", slug: "sighnal", note: "Claims checked against stored evidence in code" },
+      { label: "SenseMinds 360", slug: "senseminds-360", note: "Uncited LLM claims dropped by a validator" },
       { label: "AAYS Advisory", note: "FastAPI RAG microservice for knowledge transfer" },
     ],
   },
@@ -44,10 +45,10 @@ export const capabilities: Capability[] = [
     title: "Applied ML & NLP",
     short: "Applied ML",
     summary:
-      "Models chosen for the data and the decision: anomaly detection, gradient boosting, forecasting, topic modelling and parameter-efficient fine-tuning, with explanations.",
-    tools: ["XGBoost", "Isolation Forest", "NeuralProphet", "SHAP", "BERTopic", "UMAP", "HDBSCAN", "PEFT · LoRA", "ROUGE"],
+      "Models chosen for the data and the decision: unsupervised anomaly detection, regime discovery, backtested forecasting, topic modelling and parameter-efficient fine-tuning.",
+    tools: ["Isolation Forest", "Gaussian Mixture", "Holt-Winters", "Walk-forward backtests", "BERTopic", "UMAP", "HDBSCAN", "PEFT · LoRA", "ROUGE"],
     evidence: [
-      { label: "SenseMinds 360", slug: "senseminds-360", note: "Explained anomaly detection on industrial telemetry" },
+      { label: "SenseMinds 360", slug: "senseminds-360", note: "Advisory novelty, regimes and forecasts over sensor history" },
       { label: "Legal Document Summarization", slug: "legal-summarization", note: "Two-stage LoRA fine-tuning, published" },
       { label: "Sighnal", slug: "sighnal", note: "BERTopic over classified comments" },
     ],
@@ -69,11 +70,11 @@ export const capabilities: Capability[] = [
     title: "Data engineering",
     short: "Data",
     summary:
-      "Pipelines that move and shape data reliably: automated ingestion on Databricks, streaming telemetry and relational modelling.",
-    tools: ["Azure Databricks", "PySpark", "Automated jobs", "MQTT", "InfluxDB", "PostgreSQL", "SQL"],
+      "Pipelines that move and shape data reliably: automated ingestion on Databricks, time-series storage and relational modelling.",
+    tools: ["Azure Databricks", "PySpark", "Automated jobs", "TimescaleDB", "PostgreSQL", "SQL"],
     evidence: [
       { label: "TCS Digital", note: "Automated ingestion, 100K–1M records per run, ~20% faster" },
-      { label: "SenseMinds 360", slug: "senseminds-360", note: "30-sensor MQTT → InfluxDB telemetry" },
+      { label: "SenseMinds 360", slug: "senseminds-360", note: "≈2.86M readings in TimescaleDB, idempotent ingestion" },
       { label: "Multi-Agent Financial Analytics", slug: "financial-agents", note: "Seven-table analytical schema" },
     ],
   },

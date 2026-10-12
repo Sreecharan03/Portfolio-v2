@@ -133,3 +133,14 @@ test("junction sandbox picks the controller's next phase", async ({ page }) => {
   await expect(page.getByText(/Next green:/)).toContainText("East");
   await expect(page.getByText(/Next green:/)).toContainText("30 s");
 });
+
+test("health roll-up reproduces the platform's health engine", async ({ page }) => {
+  await page.goto("/work/senseminds-360");
+  const machine = page.getByTestId("machine-health");
+  await expect(machine).toContainText("91.0");
+  await expect(machine).toContainText("Warning");
+  await page.getByLabel("Discharge pressure").selectOption("critical");
+  await expect(page.getByTestId("subsystem-compression")).toContainText("62.8");
+  await expect(machine).toContainText("77.6");
+  await expect(machine).toContainText("Critical");
+});

@@ -18,7 +18,7 @@ export type DiagramId =
 
 export type DemoId =
   | "resilience-drill"
-  | "telemetry-explorer"
+  | "health-rollup"
   | "sql-guard"
   | "rag-lab"
   | "junction-sandbox"
@@ -180,77 +180,87 @@ export const projects: Project[] = [
     slug: "senseminds-360",
     index: "02",
     title: "SenseMinds 360",
-    category: "Applied ML · Industrial IoT",
-    kind: "Employment · AISmartLive Solutions",
-    period: "Mar — Dec 2025",
-    role: "Junior Data Scientist · technical lead of a 12-member team",
+    category: "Industrial AI · Grounded LLM",
+    kind: "Client platform · pharmaceutical manufacturer",
+    period: "2026",
+    role: "Lead engineer · designed the architecture and the code",
     summary:
-      "Predictive maintenance for industrial equipment. Thirty sensors stream through MQTT into InfluxDB; models flag developing faults hours before failure and SHAP explains each decision.",
-    tagline: "Predictive maintenance where an alert arrives early and explains itself.",
-    domains: ["Anomaly detection", "Time series", "Explainability"],
-    stack: ["Python", "MQTT", "InfluxDB", "XGBoost", "Isolation Forest", "NeuralProphet", "SHAP"],
+      "An industrial-intelligence platform for refrigeration, air and nitrogen equipment. Deterministic engines turn sensor history into evidence-backed findings, rules and a knowledge graph give them meaning, unsupervised models add advisory signals, and a grounded LLM explains it all with a citation for every claim.",
+    tagline: "Deterministic engineering first, learning second, language last.",
+    domains: ["Industrial AI", "Grounded LLM", "Knowledge graph"],
+    stack: ["Python", "FastAPI", "pandas", "scikit-learn", "TimescaleDB", "PostgreSQL", "Groq · Llama 3.3 70B", "React", "three.js", "Docker Compose"],
     highlights: [
-      { value: "6–8 h", label: "earlier warning before equipment failures", source: "reported" },
-      { value: "8 h → 1 h", label: "investigation time with explained alerts", source: "reported" },
+      { value: "7", label: "deterministic engines run before any model", source: "codebase" },
+      { value: "≈2.86M", label: "historical sensor readings across six machines", source: "codebase" },
     ],
     links: [],
     accent: "warn",
     visibility: "public",
     caseStudy: {
       context: [
-        "Industrial equipment rarely fails without warning. The warning is buried in sensor data that nobody can watch closely enough. SenseMinds 360 is a predictive-maintenance platform built at AISmartLive Solutions and deployed for an industrial client.",
-        "The same platform, entered as “Predictive Protection”, received third prize at an Andhra Pradesh hackathon, with me as team lead.",
+        "A pharmaceutical plant has years of sensor history from its utility equipment — screw compressors, air compressors and nitrogen plants — and no labelled failures. SenseMinds 360 turns that history, plus a live 30-second feed, into findings an engineer can trust and act on.",
+        "An earlier version of SenseMinds 360, entered as “Predictive Protection”, received third prize at an Andhra Pradesh hackathon, with me as team lead.",
       ],
       challenge: [
-        "Detect developing faults early enough to act on them, from a continuous stream of readings, without flooding engineers with alerts they cannot interpret.",
-        "An alert that only says “anomaly” starts every investigation from zero. A useful alert says which signals moved.",
+        "With zero labelled failures, a supervised model cannot be validated, so its false-alarm rate is unknowable — and an alarm nobody can trust trains operators to ignore the system.",
+        "The platform still had to catch real breaches within seconds, explain every alert down to the reading and the limit behind it, and let an LLM answer questions without ever inventing a fact.",
       ],
       role: [
-        "Technical lead of the 12-member team that built the platform, from telemetry ingestion to explained alerts.",
+        "Lead engineer: designed the architecture (19 recorded decisions) and wrote the code — ingestion, the seven engines, findings, rules, knowledge graph, pattern learning, forecasting, the grounded LLM layer, alerting and the React dashboard with a 3D view of each machine.",
       ],
       architectureCaption:
-        "Simplified architecture. Client-specific details are omitted.",
+        "Simplified from the platform's design records. Solid edges carry facts; dashed edges carry advisory signals. Client and machine details are omitted.",
       diagram: "senseminds",
       demo: {
-        id: "telemetry-explorer",
-        title: "How an explained alert reads",
+        id: "health-rollup",
+        title: "Roll up a machine's health",
         intro:
-          "A synthetic sensor trace with a forecast band and flagged windows. Select a flag to see the kind of attribution an engineer receives. All data here is generated for illustration — client telemetry is not published.",
+          "A port of the platform's health engine. Set each sensor's threshold state and how far its data can be trusted, and watch sensor scores roll up to subsystems and the machine. The machine and its sensors are representative, not client data.",
       },
       decisions: [
         {
-          title: "Combine model families",
-          body: "An unsupervised detector (Isolation Forest), a supervised gradient-boosted model (XGBoost) and a forecaster (NeuralProphet) each look at the telemetry differently, so the system is not limited to one definition of “abnormal”.",
+          title: "Rules before machine learning",
+          body: "Deterministic engines (statistics, thresholds, operating state, envelope, timeline, reliability, health) are authoritative and need no training data, so the platform is useful on day one. Delete the ML layer and every fact stays the same; it only stops noticing things nobody wrote a rule for.",
         },
         {
-          title: "Explain every decision",
-          body: "SHAP attributions accompany model decisions, so an investigation starts from the signals that drove an alert rather than from a raw score.",
+          title: "Findings are immutable facts",
+          body: "Every alert, diagnosis and LLM sentence points at a finding: an append-only record that must carry evidence, enforced by a database trigger. Each analysis commits findings, graph, report and run record in one transaction, and re-running unchanged data is a no-op.",
         },
         {
-          title: "Store for the shape of the data",
-          body: "MQTT into InfluxDB at 15-second resolution — 172,800 points a day across 30 sensors — keeps ingestion simple and suits windowed time-series queries.",
+          title: "ML is advisory and earns its place",
+          body: "Isolation Forest flags windows unlike a machine's history and a Gaussian mixture finds its operating regimes; both report what drove them. A Holt-Winters forecaster replaces the seasonal-naive baseline only if it beats it by 5% in walk-forward backtests.",
+        },
+        {
+          title: "The LLM narrates, a validator decides",
+          body: "Every engineering claim must cite a finding id from the retrieved evidence. A validator mechanically drops any claim that does not, and an answer left with no supported claims becomes “insufficient evidence” instead of a guess.",
+        },
+        {
+          title: "Record only what changed",
+          body: "A naive 30-second loop re-recorded every condition on every tick. A material-change filter (new condition, new severity or wording, confidence moving more than 0.05, evidence moving more than 2%) means steady machines now write nothing.",
         },
       ],
       quality: {
-        title: "Validation",
+        title: "Testing and auditability",
         body: [
-          "Detection was validated against true labels and with live testing in the office. The 92% figure is overall detection accuracy; per-class precision and recall are the next thing I would publish.",
+          "The suite covers every engine, the findings contract, rules, the knowledge graph, forecasting, pattern learning, grounding and alerting. I ran it offline: 184 tests pass and the 78 that need PostgreSQL skip.",
+          "Engine outputs are parity-tested so results are identical whether data loads from CSV or from TimescaleDB, and safety-limit breaches escalate by email with a reminder if nobody acts and a closing note when they clear.",
         ],
       },
       results: [
-        { value: "92%", label: "detection accuracy, checked against true labels and live testing", source: "reported" },
-        { value: "6–8 h", label: "earlier warning before failures", source: "reported" },
-        { value: "8 h → 1 h", label: "investigation time (−87.5%)", source: "reported" },
-        { value: "172,800", label: "data points a day: 30 sensors at 15-second resolution", source: "spec" },
-        { value: "3rd prize", label: "“Predictive Protection”, Andhra Pradesh hackathon (team lead)", source: "email" },
+        { value: "≈2.86M", label: "historical readings across six machines, plus a live 30-second feed", source: "codebase" },
+        { value: "~2,500/h → 0", label: "finding rows written for steady machines after the material-change filter", source: "codebase" },
+        { value: "184", label: "automated tests passing offline (database suites skipped)", source: "codebase" },
+        { value: "19", label: "architecture decision records", source: "codebase" },
+        { value: "3rd prize", label: "earlier version, “Predictive Protection”, Andhra Pradesh hackathon (team lead)", source: "email" },
       ],
-      resultsNote: "Client telemetry and model artefacts are private; figures are reported from the deployment.",
+      resultsNote: "The repository is private because it names the client and its machines; figures are read from its code, tests and design records.",
       lessons: [
-        "Explainability is what turns an alert into an action: it tells an engineer where to start looking.",
+        "When there are no labels, make the trustworthy part deterministic and keep learning advisory. Trust comes from explaining every alarm, not from a confidence score.",
+        "An LLM is safe to put in front of engineers only when something other than the model checks what it says.",
       ],
       next: [
-        "Report precision and recall per fault class alongside overall accuracy.",
-        "Add drift monitoring as equipment and operating conditions change.",
+        "A streaming OPC-UA / MQTT adapter behind the existing ingestion interface.",
+        "Supervised models once engineer verdicts have built up enough labelled events.",
       ],
     },
   },
