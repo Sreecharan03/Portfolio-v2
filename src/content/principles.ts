@@ -16,8 +16,8 @@ export const principles = [
     slug: "financial-agents",
   },
   {
-    title: "Explain the model",
-    body: "An alert should say why. SHAP attributions point an engineer at the signals behind an anomaly instead of handing them a score.",
+    title: "Explain every alarm",
+    body: "An alert should say why. In SenseMinds every alarm decomposes into the reading, the limit and the rule behind it, and the LLM may only repeat what it can cite.",
     slug: "senseminds-360",
   },
   {

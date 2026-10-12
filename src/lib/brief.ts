@@ -19,7 +19,7 @@ export function buildBrief(): BriefData {
 
   const highlights = [
     pick("sighnal", "Distributed LLM analytics with self-healing queues and grounded chat"),
-    pick("senseminds-360", "Explained anomaly detection on industrial telemetry; led a 12-member team"),
+    pick("senseminds-360", "Grounded industrial intelligence: deterministic engines, rules and a cited LLM copilot"),
     pick("financial-agents", "LangGraph Text-to-SQL with deterministic guardrails"),
   ].filter((h): h is NonNullable<typeof h> => h !== null);
 

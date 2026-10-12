@@ -53,7 +53,7 @@ Canvas 2D, which avoids a ~150 KB 3D runtime and context-loss handling.
 | Project | Demo | Basis |
 |---|---|---|
 | Sighnal | Failure drill | Illustrative simulation of AIMD, circuit breaker and retry |
-| SenseMinds 360 | Explained alert | Synthetic data, labelled illustrative |
+| SenseMinds 360 | Health roll-up | Port of the platform's `HealthEngine` (representative machine, not client data) |
 | Financial agents | SQL guard | JavaScript port of `SecurityValidator` (same patterns and allow-list) |
 | Agentic RAG | Router + verifier | Ports of `QueryUnderstandingAgent` and `VerificationAgent` |
 | Traffic control | Junction sandbox | Port of `TrafficSignalController` and `config.py` constants |
@@ -105,6 +105,7 @@ These are lab numbers from one machine, not field data. Check real-user metrics 
 
 ## Known limitations
 
-- The SenseMinds chart and the Sighnal drill are illustrative by design: client data is private.
+- The Sighnal drill is illustrative by design, and the SenseMinds demo uses a representative machine: client data is private.
+- The SenseMinds repository is private (it names the client), so its case study cites it as "Private codebase" and does not link it.
 - No contact form: there is no mail provider configured, so contact is via `mailto:` and a copy button.
 - Coding-profile figures are snapshots (Oct 2026). They are not fetched live, so update them by hand.

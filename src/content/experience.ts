@@ -75,15 +75,10 @@ export const journey: JourneyEntry[] = [
     start: "2025-03",
     title: "Junior Data Scientist",
     org: "AISmartLive Solutions",
-    summary: "Technical lead of a 12-member team on SenseMinds 360, an industrial IoT anomaly-detection platform.",
+    summary: "Technical lead of a 12-member team on SenseMinds 360, a predictive-maintenance platform for industrial equipment.",
     points: [
-      "MQTT to InfluxDB telemetry from 30 sensors at 15-second resolution.",
-      "XGBoost, Isolation Forest and NeuralProphet models with SHAP explanations; deployed for an industrial client.",
+      "Designed the platform's architecture and code: deterministic engines, findings, rules, a knowledge graph, advisory ML and a grounded LLM copilot.",
       "Team lead on two Andhra Pradesh hackathon entries that both placed third.",
-    ],
-    metrics: [
-      { value: "92%", label: "detection accuracy", source: "reported" },
-      { value: "8 h → 1 h", label: "investigation time", source: "reported" },
     ],
     projects: ["senseminds-360"],
     visibility: "public",
