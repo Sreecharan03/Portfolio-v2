@@ -181,9 +181,9 @@ export const projects: Project[] = [
     index: "02",
     title: "SenseMinds 360",
     category: "Industrial AI · Grounded LLM",
-    kind: "Client platform · pharmaceutical manufacturer",
-    period: "2026",
-    role: "Lead engineer · designed the architecture and the code",
+    kind: "Employment · AISmartLive Solutions",
+    period: "Mar — Dec 2025",
+    role: "Junior Data Scientist · technical lead of a 12-member team",
     summary:
       "An industrial-intelligence platform for refrigeration, air and nitrogen equipment. Deterministic engines turn sensor history into evidence-backed findings, rules and a knowledge graph give them meaning, unsupervised models add advisory signals, and a grounded LLM explains it all with a citation for every claim.",
     tagline: "Deterministic engineering first, learning second, language last.",
@@ -198,15 +198,15 @@ export const projects: Project[] = [
     visibility: "public",
     caseStudy: {
       context: [
-        "A pharmaceutical plant has years of sensor history from its utility equipment — screw compressors, air compressors and nitrogen plants — and no labelled failures. SenseMinds 360 turns that history, plus a live 30-second feed, into findings an engineer can trust and act on.",
-        "An earlier version of SenseMinds 360, entered as “Predictive Protection”, received third prize at an Andhra Pradesh hackathon, with me as team lead.",
+        "A pharmaceutical plant has years of sensor history from its utility equipment — screw compressors, air compressors and nitrogen plants — and no labelled failures. SenseMinds 360, built at AISmartLive Solutions for a pharmaceutical manufacturer, turns that history, plus a live 30-second feed, into findings an engineer can trust and act on.",
+        "Entered as “Predictive Protection”, SenseMinds 360 received third prize at an Andhra Pradesh hackathon, with me as team lead.",
       ],
       challenge: [
         "With zero labelled failures, a supervised model cannot be validated, so its false-alarm rate is unknowable — and an alarm nobody can trust trains operators to ignore the system.",
         "The platform still had to catch real breaches within seconds, explain every alert down to the reading and the limit behind it, and let an LLM answer questions without ever inventing a fact.",
       ],
       role: [
-        "Lead engineer: designed the architecture (19 recorded decisions) and wrote the code — ingestion, the seven engines, findings, rules, knowledge graph, pattern learning, forecasting, the grounded LLM layer, alerting and the React dashboard with a 3D view of each machine.",
+        "Technical lead of the 12-member team at AISmartLive Solutions. I designed the architecture (19 recorded decisions) and the code — ingestion, the seven engines, findings, rules, knowledge graph, pattern learning, forecasting, the grounded LLM layer, alerting and the React dashboard with a 3D view of each machine.",
       ],
       architectureCaption:
         "Simplified from the platform's design records. Solid edges carry facts; dashed edges carry advisory signals. Client and machine details are omitted.",
@@ -251,7 +251,7 @@ export const projects: Project[] = [
         { value: "~2,500/h → 0", label: "finding rows written for steady machines after the material-change filter", source: "codebase" },
         { value: "184", label: "automated tests passing offline (database suites skipped)", source: "codebase" },
         { value: "19", label: "architecture decision records", source: "codebase" },
-        { value: "3rd prize", label: "earlier version, “Predictive Protection”, Andhra Pradesh hackathon (team lead)", source: "email" },
+        { value: "3rd prize", label: "“Predictive Protection”, Andhra Pradesh hackathon (team lead)", source: "email" },
       ],
       resultsNote: "The repository is private because it names the client and its machines; figures are read from its code, tests and design records.",
       lessons: [

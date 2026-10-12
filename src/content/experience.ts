@@ -77,7 +77,7 @@ export const journey: JourneyEntry[] = [
     org: "AISmartLive Solutions",
     summary: "Technical lead of a 12-member team on SenseMinds 360, a predictive-maintenance platform for industrial equipment.",
     points: [
-      "Led the team that built the first version of SenseMinds 360.",
+      "Designed the platform's architecture and code: deterministic engines, findings, rules, a knowledge graph, advisory ML and a grounded LLM copilot.",
       "Team lead on two Andhra Pradesh hackathon entries that both placed third.",
     ],
     projects: ["senseminds-360"],
