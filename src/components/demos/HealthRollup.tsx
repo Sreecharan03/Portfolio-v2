@@ -111,6 +111,19 @@ function fmt(n: number) {
   return n.toFixed(1);
 }
 
+/** With zero confidence the engine still returns a number (0.0, OK); the demo shows it as unavailable instead. */
+function unavailable(h: Score) {
+  return h.confidence === 0;
+}
+
+function NoData() {
+  return (
+    <span className="inline-flex items-center rounded-full border border-line-strong px-2.5 py-0.5 font-mono text-[0.7rem] uppercase tracking-[0.08em] text-ink-3">
+      No trusted data
+    </span>
+  );
+}
+
 export function HealthRollup() {
   const id = useId();
   const [sensors, setSensors] = useState<Sensor[]>(INITIAL);
@@ -128,7 +141,8 @@ export function HealthRollup() {
   const update = (key: string, patch: Partial<Sensor>) =>
     setSensors((prev) => prev.map((s) => (s.key === key ? { ...s, ...patch } : s)));
 
-  const masked = result.machine.severity !== severityFromScore(result.machine.score);
+  const machineUnavailable = unavailable(result.machine);
+  const masked = !machineUnavailable && result.machine.severity !== severityFromScore(result.machine.score);
 
   return (
     <div className="grid gap-5 lg:grid-cols-[1fr_1.35fr]">
@@ -136,10 +150,17 @@ export function HealthRollup() {
         <div aria-live="polite" className="rounded-[var(--radius)] border border-line bg-surface-1 p-5" data-testid="machine-health">
           <p className="label-mono text-ink-3">Machine · screw compressor</p>
           <div className="mt-3 flex items-end justify-between gap-4">
-            <p className="font-display text-step-4 leading-none tabular">{fmt(result.machine.score)}</p>
-            <Badge severity={result.machine.severity} />
+            <p className="font-display text-step-4 leading-none tabular">{machineUnavailable ? "—" : fmt(result.machine.score)}</p>
+            {machineUnavailable ? <NoData /> : <Badge severity={result.machine.severity} />}
           </div>
           <p className="mt-3 text-[0.84rem] text-ink-3">Confidence {result.machine.confidence.toFixed(2)}: the mean trust of what it was built from.</p>
+          {machineUnavailable ? (
+            <p className="mt-3 rounded-[10px] border border-line-strong bg-bg p-3 text-[0.84rem] text-ink-2">
+              Nothing it was built from can be trusted, so there is no score to show. The engine&apos;s raw output here is{" "}
+              <span className="font-mono">{fmt(result.machine.score)} · {SEVERITY_LABEL[result.machine.severity]} · confidence 0</span>: a score
+              is only meaningful next to its confidence.
+            </p>
+          ) : null}
           {masked ? (
             <p className="mt-3 rounded-[10px] border border-warn/30 bg-warn/[0.06] p-3 text-[0.84rem] text-ink-2">
               The score alone reads as {SEVERITY_LABEL[severityFromScore(result.machine.score)]}, but severity is never averaged away: the worst
@@ -152,10 +173,11 @@ export function HealthRollup() {
           <div key={sub.key} className="rounded-[var(--radius)] border border-line bg-surface-1 p-4" data-testid={`subsystem-${sub.key}`}>
             <div className="flex items-baseline justify-between gap-3">
               <p className="font-medium">{sub.name}</p>
-              <Badge severity={sub.health.severity} />
+              {unavailable(sub.health) ? <NoData /> : <Badge severity={sub.health.severity} />}
             </div>
             <p className="mt-2 font-mono text-[0.78rem] text-ink-2">
-              score <span className="text-ink tabular">{fmt(sub.health.score)}</span> · confidence {sub.health.confidence.toFixed(2)}
+              score <span className="text-ink tabular">{unavailable(sub.health) ? "—" : fmt(sub.health.score)}</span> · confidence{" "}
+              {sub.health.confidence.toFixed(2)}
             </p>
           </div>
         ))}

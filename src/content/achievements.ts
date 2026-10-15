@@ -88,8 +88,15 @@ export const recognitions: Recognition[] = [
     title: "Special Initiative Award",
     issuer: "TCS Gems · Tata Consultancy Services",
     date: "Jun 2026",
-    detail: "For outstanding contribution to the organisation.",
+    detail: "Awarded at TCS Pune for outperforming the entire training cohort in high- and low-level design (HLD and LLD).",
     source: "certificate",
+  },
+  {
+    title: "8 job offers from a tier-3 college",
+    issuer:
+      "TCS Digital · Infosys (DSE) · Cognizant (GenC) · Tech Mahindra (ASE) · Joora Drones (ML Engineer) · AISmartLive Solutions (Junior Data Scientist) · Rudder Analytics (Data Analyst) · AAYS Advisory (Data Science Consultant, contract)",
+    detail: "Chose TCS Digital for growth and the strongest project.",
+    source: "reported",
   },
   {
     title: "Third prize — “Predictive Protection”",

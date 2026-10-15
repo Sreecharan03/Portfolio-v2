@@ -108,14 +108,6 @@ export function LinkedInIcon({ size = 16, ...rest }: IconProps) {
   );
 }
 
-export function CodeIcon(props: IconProps) {
-  return (
-    <svg {...base(props)}>
-      <path d="M5.5 4.5 2 8l3.5 3.5M10.5 4.5 14 8l-3.5 3.5" />
-    </svg>
-  );
-}
-
 export function MailIcon(props: IconProps) {
   return (
     <svg {...base(props)}>

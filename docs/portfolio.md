@@ -27,6 +27,8 @@ repo, award email, publication, system spec, reported, illustrative).
   copy. `sources.ts` defines the provenance labels.
 - **Server components by default.** Client components are limited to interaction: header/menu/brief
   dialog, hero canvas, capability explorer, work index, chapter nav, architecture diagram, demos.
+  Each interactive demo is its own lazily loaded chunk (`InteractiveDemo.tsx`), so a case study downloads
+  only the demo it shows; demos are still rendered into the static HTML.
 - **Résumé**: the résumé buttons open `public/Sreecharan_Ai_Engineer.pdf` (`site.resumePdf` in
   `src/content/site.ts`; replace the file to update it). `/resume` remains as a print-ready page generated
   from the same content, and is used automatically if `resumePdf` is set to `null`.
@@ -44,8 +46,10 @@ repo, award email, publication, system spec, reported, illustrative).
 | Diagrams | SVG + CSS | Dash pulses on active edges only. |
 
 Elements opt in with `data-reveal="up|lines|stagger|mask|draw"`, `data-count`, `data-scrub-line` and
-`data-art`. Content is visible without JS, with `prefers-reduced-motion`, or if the runtime fails (a
-4-second failsafe adds `motion-off`). WebGL was deliberately not used: the graph is small enough for
+`data-art`. Content is visible without JS, with `prefers-reduced-motion`, or if the runtime fails: the
+runtime marks itself ready only after GSAP has loaded and reveals are wired up, so a slow or failed load
+trips the 4-second failsafe (`motion-off`) and nothing is hidden again afterwards. Heading line splits
+give up after 1.5 s, and switching on reduced motion mid-session stops motion and shows everything. WebGL was deliberately not used: the graph is small enough for
 Canvas 2D, which avoids a ~150 KB 3D runtime and context-loss handling.
 
 ### Interactive demos (case studies)
@@ -54,8 +58,8 @@ Canvas 2D, which avoids a ~150 KB 3D runtime and context-loss handling.
 |---|---|---|
 | Sighnal | Failure drill | Illustrative simulation of AIMD, circuit breaker and retry |
 | SenseMinds 360 | Health roll-up | Port of the platform's `HealthEngine` (representative machine, not client data) |
-| Financial agents | SQL guard | JavaScript port of `SecurityValidator` (same patterns and allow-list) |
-| Agentic RAG | Router + verifier | Ports of `QueryUnderstandingAgent` and `VerificationAgent` |
+| Financial agents | SQL guard | JavaScript port of `SecurityValidator` (same patterns and allow-list); its known gaps are shown, not fixed |
+| Agentic RAG | Router + verifier | Ports of `QueryUnderstandingAgent` and `VerificationAgent`; refusals are flagged separately from the score |
 | Traffic control | Junction sandbox | Port of `TrafficSignalController` and `config.py` constants |
 | Legal summarization | Training card | Configuration committed in the repository |
 
@@ -84,24 +88,29 @@ reuse a preinstalled Chromium instead.
 
 1. Import the repository in Vercel. The framework preset is Next.js; the root directory is the repo root.
 2. Optional: set `NEXT_PUBLIC_SITE_URL` to the production URL (otherwise `VERCEL_PROJECT_PRODUCTION_URL`
-   is used for canonical links, Open Graph and the sitemap).
+   is used for canonical links, Open Graph and the sitemap). The build refuses the sample value from
+   `.env.example`.
 3. Deploy. No other environment variables or services are required.
 
-Any Node 20.9+ host works too: `npm run build && npm run start`.
+Any Node 20.9+ host works too: `npm run build && npm run start`. Off Vercel, set `NEXT_PUBLIC_SITE_URL`;
+without it the build warns and canonical URLs fall back to `http://localhost:3000`.
 
-## Validation (October 2026, local production build)
+## Validation (local production build)
 
 - `tsc --noEmit` and ESLint (`eslint-config-next`): clean.
-- Playwright: 50/50 checks on desktop (1440×900) and mobile (Pixel 7). They cover rendering and console
-  errors, horizontal overflow, axe WCAG 2.2 AA (no serious or critical violations), reduced motion, the
-  brief dialog, internal links, the 404 page, the diagram walkthrough and all three logic ports.
-- Lighthouse 13 (lab):
-  - Desktop preset: 100 in all four categories; LCP 0.7 s, TBT 0 ms, CLS 0.
-  - Mobile preset (simulated slow 4G, 4× CPU): performance 93–95, other categories 100; TBT 40–80 ms,
-    CLS 0, simulated LCP about 3 s. The observed LCP equals FCP (the hero text paints on the first
-    frame); the simulated figure is dominated by the framework's baseline JavaScript.
-
-These are lab numbers from one machine, not field data. Check real-user metrics after deployment.
+- Playwright: 62 checks across desktop (1440×900) and mobile (Pixel 7). They cover every route (console
+  errors, horizontal overflow, axe WCAG 2.2 AA with no serious or critical violations), the 404 page,
+  first-viewport identity, reduced motion, content visibility when GSAP loads slowly, focus containment
+  and focus return in the brief dialog, internal links and fragments from every route, the résumé PDF,
+  the header at 1024–1366 px, the diagram walkthrough, every demo including their edge cases, and the
+  drill's keyboard radio group.
+- Lighthouse 13 (lab, October 2026, before the audit fixes): desktop 100 in all four categories; mobile
+  performance 93–95 with the other categories at 100. Lab numbers from one machine, not field data.
+- Dependencies: `npm audit --omit=dev` reports no known vulnerabilities. The full audit reports
+  GHSA-vfj7-8cjw-p6xm (braces, stack exhaustion on deeply nested patterns) through
+  `eslint-config-next → fast-glob → micromatch`. It is development-only, the site never expands
+  visitor-supplied globs, and npm's suggested fix is a forced major downgrade, so it is tracked rather
+  than forced. Revisit when `eslint-config-next` updates `fast-glob`.
 
 ## Known limitations
 

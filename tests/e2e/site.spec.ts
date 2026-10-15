@@ -13,6 +13,12 @@ function trackErrors(page: Page) {
   return errors;
 }
 
+/** Demos load as their own chunk after the HTML; wait until it is fetched and hydrated before interacting. */
+async function openDemo(page: Page, path: string) {
+  await page.goto(path);
+  await page.waitForLoadState("networkidle");
+}
+
 async function scrollThrough(page: Page) {
   await page.evaluate(async () => {
     const step = window.innerHeight * 0.7;
@@ -58,8 +64,9 @@ test("unknown routes return the custom 404", async ({ page }) => {
 test("home exposes identity, role and primary actions within the first viewport", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sree Charan Chintalapudi");
-  await expect(page.getByText("Intelligence,")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Explore work" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toBeInViewport();
+  await expect(page.getByText("Intelligence,")).toBeInViewport();
+  await expect(page.getByRole("link", { name: "Explore work" })).toBeInViewport();
   for (const id of ["approach", "work", "capabilities", "journey", "achievements", "research", "principles", "contact"]) {
     await expect(page.locator(`section#${id}`)).toHaveCount(1);
   }
@@ -85,24 +92,68 @@ test("the 30-second brief opens, traps focus in a dialog and closes with Escape"
   const dialog = page.getByRole("dialog", { name: "Sree Charan Chintalapudi" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByText("Strongest work")).toBeVisible();
+  // Tab and Shift+Tab never reach the page behind the modal.
+  for (const key of [...Array(14).fill("Tab"), ...Array(6).fill("Shift+Tab")]) {
+    await page.keyboard.press(key);
+    const escaped = await page.evaluate(() => {
+      const el = document.activeElement;
+      return Boolean(el && el !== document.body && !el.closest("dialog[open]"));
+    });
+    expect(escaped, `focus left the dialog after ${key}`).toBe(false);
+  }
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
+  if (!isMobile) await expect(page.getByRole("button", { name: "30-sec brief" })).toBeFocused();
 });
 
-test("internal links resolve", async ({ page, request }) => {
-  await page.goto("/");
-  const hrefs = await page.evaluate(() =>
-    Array.from(new Set(Array.from(document.querySelectorAll<HTMLAnchorElement>("a[href^='/']")).map((a) => a.getAttribute("href") ?? ""))),
-  );
+test("internal links and their fragments resolve from every route", async ({ page, request }) => {
+  const hrefs = new Set<string>();
+  for (const route of ROUTES) {
+    await page.goto(route);
+    const found = await page.evaluate(() =>
+      Array.from(document.querySelectorAll<HTMLAnchorElement>("a[href^='/'], a[href^='#']")).map((a) => a.getAttribute("href") ?? ""),
+    );
+    for (const h of found) hrefs.add(h.startsWith("#") ? `${route}${h}` : h);
+  }
+  const ids = new Map<string, Set<string>>();
   for (const href of hrefs) {
-    const path = href.split("#")[0] || "/";
-    const res = await request.get(path);
+    const [path = "/", fragment] = href.split("#");
+    const target = path || "/";
+    const res = await request.get(target);
     expect(res.status(), href).toBe(200);
+    if (!fragment || !res.headers()["content-type"]?.includes("text/html")) continue;
+    if (!ids.has(target)) {
+      await page.goto(target);
+      ids.set(target, new Set(await page.evaluate(() => Array.from(document.querySelectorAll("[id]")).map((e) => e.id))));
+    }
+    expect(ids.get(target)?.has(decodeURIComponent(fragment)), `#${fragment} on ${target}`).toBe(true);
   }
 });
 
+test("the résumé PDF is served as a PDF", async ({ request }) => {
+  const res = await request.get("/Sreecharan_Ai_Engineer.pdf");
+  expect(res.status()).toBe(200);
+  expect(res.headers()["content-type"]).toContain("application/pdf");
+});
+
+test("content stays visible when the animation library loads slowly", async ({ page }) => {
+  // Hold back the GSAP chunk well past the 4-second failsafe.
+  await page.route("**/_next/static/chunks/*.js", async (route) => {
+    const response = await route.fetch();
+    const body = await response.text();
+    if (body.includes("_gsap")) await new Promise((r) => setTimeout(r, 8000));
+    await route.fulfill({ response, body });
+  });
+  await page.goto("/");
+  await page.waitForTimeout(5000);
+  const hidden = await page.evaluate(
+    () => Array.from(document.querySelectorAll("[data-reveal]")).filter((el) => getComputedStyle(el).opacity === "0").length,
+  );
+  expect(hidden).toBe(0);
+});
+
 test("architecture walkthrough responds to clicks and arrow keys", async ({ page }) => {
-  await page.goto("/work/sighnal");
+  await openDemo(page, "/work/sighnal");
   const tabs = page.getByRole("tablist", { name: "Architecture walkthrough" });
   await tabs.getByRole("tab", { name: /Classify/ }).click();
   await expect(page.getByRole("tabpanel").filter({ hasText: "Step 03 of 06" })).toBeVisible();
@@ -111,31 +162,42 @@ test("architecture walkthrough responds to clicks and arrow keys", async ({ page
 });
 
 test("SQL guard blocks destructive SQL with the repository's rules", async ({ page }) => {
-  await page.goto("/work/financial-agents");
+  await openDemo(page, "/work/financial-agents");
   await page.getByRole("button", { name: "Stacked DROP" }).click();
   await expect(page.getByText("BLOCKED", { exact: true })).toBeVisible();
   await expect(page.getByText(/Stacked destructive statement/)).toBeVisible();
   await page.getByLabel("Generated SQL").fill("SELECT symbol FROM stock_prices");
   await expect(page.getByText("ALLOWED", { exact: true })).toBeVisible();
+  await expect(page.getByTestId("sql-gap")).toHaveCount(0);
+});
+
+test("SQL guard discloses what the pattern check lets through", async ({ page }) => {
+  await openDemo(page, "/work/financial-agents");
+  await page.getByRole("button", { name: "Gap: write inside WITH" }).click();
+  await expect(page.getByText("ALLOWED · WARNINGS", { exact: true })).toBeVisible();
+  await expect(page.getByTestId("sql-gap")).toBeVisible();
+  await page.getByRole("button", { name: "Gap: stacked GRANT" }).click();
+  await expect(page.getByTestId("sql-gap")).toBeVisible();
 });
 
 test("RAG verifier reproduces the documented confidence formula", async ({ page }) => {
-  await page.goto("/work/agentic-rag");
+  await openDemo(page, "/work/agentic-rag");
   // defaults: 0.4 × 0.78 + 0.4 × 0.64 + 0.2 × 1 = 0.768
   await expect(page.getByText("0.768")).toBeVisible();
   await page.getByLabel("The answer is a refusal (“could not find…”)").check();
   await expect(page.getByText("0.568")).toBeVisible();
-  await expect(page.getByText("MEDIUM_CONFIDENCE")).toBeVisible();
+  await expect(page.getByText("MEDIUM_CONFIDENCE", { exact: true })).toBeVisible();
+  await expect(page.getByTestId("refusal-note")).toBeVisible();
 });
 
 test("junction sandbox picks the controller's next phase", async ({ page }) => {
-  await page.goto("/work/smart-traffic");
+  await openDemo(page, "/work/smart-traffic");
   await expect(page.getByText(/Next green:/)).toContainText("East");
   await expect(page.getByText(/Next green:/)).toContainText("30 s");
 });
 
 test("health roll-up reproduces the platform's health engine", async ({ page }) => {
-  await page.goto("/work/senseminds-360");
+  await openDemo(page, "/work/senseminds-360");
   const machine = page.getByTestId("machine-health");
   await expect(machine).toContainText("91.0");
   await expect(machine).toContainText("Warning");
@@ -143,4 +205,48 @@ test("health roll-up reproduces the platform's health engine", async ({ page }) 
   await expect(page.getByTestId("subsystem-compression")).toContainText("62.8");
   await expect(machine).toContainText("77.6");
   await expect(machine).toContainText("Critical");
+});
+
+test("health roll-up shows no score when nothing can be trusted", async ({ page }) => {
+  await openDemo(page, "/work/senseminds-360");
+  for (const slider of await page.getByLabel("Data trust").all()) await slider.fill("0");
+  const machine = page.getByTestId("machine-health");
+  await expect(machine).toContainText("No trusted data");
+  await expect(machine).toContainText("—");
+});
+
+test("failure drill strategy is a keyboard-operable radio group", async ({ page, isMobile }) => {
+  test.skip(isMobile, "keyboard behaviour is covered on desktop");
+  await openDemo(page, "/work/sighnal");
+  const protectedRadio = page.getByRole("radio", { name: "AIMD + breaker + retry" });
+  await protectedRadio.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("radio", { name: "Fixed concurrency, no retry" })).toBeChecked();
+  await expect(page.getByRole("radio", { name: "Fixed concurrency, no retry" })).toBeFocused();
+});
+
+test("header fits on one line at intermediate widths", async ({ page, isMobile }) => {
+  test.skip(isMobile, "desktop widths only");
+  for (const width of [1024, 1180, 1280, 1366]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto("/");
+    const header = page.locator("header").first();
+    const box = await header.boundingBox();
+    expect(box?.height, `header height at ${width}px`).toBeLessThanOrEqual(80);
+    for (const name of ["30-sec brief", "Résumé"]) {
+      const el = header.getByRole(name === "Résumé" ? "link" : "button", { name });
+      const b = await el.boundingBox();
+      expect(b?.height, `${name} at ${width}px`).toBeLessThanOrEqual(48);
+    }
+    const brand = await header.getByRole("link", { name: /home/ }).boundingBox();
+    expect(brand?.height, `brand at ${width}px`).toBeLessThanOrEqual(48);
+    // When the full navigation shows, nothing may crowd into it.
+    const nav = header.getByRole("navigation", { name: "Primary" });
+    if (await nav.isVisible()) {
+      const n = await nav.boundingBox();
+      const brief = await header.getByRole("button", { name: "30-sec brief" }).boundingBox();
+      expect((brand?.x ?? 0) + (brand?.width ?? 0) + 16, `brand/nav gap at ${width}px`).toBeLessThanOrEqual(n?.x ?? 0);
+      expect((n?.x ?? 0) + (n?.width ?? 0) + 16, `nav/actions gap at ${width}px`).toBeLessThanOrEqual(brief?.x ?? 0);
+    }
+  }
 });

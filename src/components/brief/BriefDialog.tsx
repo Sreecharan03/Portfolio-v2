@@ -85,8 +85,8 @@ export const BriefDialog = forwardRef<HTMLDialogElement, { data: BriefData; onCl
           ))}
         </ul>
 
-        <h3 className="label-mono mt-9 text-ink-3">Verified signals</h3>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+        <h3 className="label-mono mt-9 text-ink-3">Proof points</h3>
+        <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {data.proof.map((p) => (
             <li key={p.label} className="rounded-xl border border-line p-4">
               <span className="tabular font-display block text-step-2">{p.value}</span>
@@ -97,15 +97,15 @@ export const BriefDialog = forwardRef<HTMLDialogElement, { data: BriefData; onCl
         </ul>
 
         <div className="mt-9 flex flex-wrap items-center gap-3">
-          <Link
+          <a
             href={data.resume}
             onClick={onClose}
-            {...(data.resumeIsFile ? { target: "_blank", rel: "noopener", prefetch: false } : {})}
+            {...(data.resumeIsFile ? { target: "_blank", rel: "noopener" } : {})}
             className="group inline-flex min-h-11 items-center gap-2.5 rounded-full bg-ink px-5 py-2.5 font-medium text-bg transition-colors hover:bg-white"
           >
             <DocIcon size={16} />
             Résumé
-          </Link>
+          </a>
           <a
             href={`mailto:${data.email}`}
             className="group inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line-strong px-5 py-2.5 font-medium transition-colors hover:border-ink-3 hover:bg-surface-2"

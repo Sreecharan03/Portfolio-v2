@@ -58,7 +58,7 @@ export const SOURCES: Record<SourceKind, SourceInfo> = {
   },
   reported: {
     label: "Reported",
-    description: "Measured on the job. The underlying data is private, so the figure is reported, not linked.",
+    description: "Reported from the job or my own records. The evidence (work data, offer letters) is private, so the figure is stated, not linked.",
     tone: "reported",
   },
   illustrative: {

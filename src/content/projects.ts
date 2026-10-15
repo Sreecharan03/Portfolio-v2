@@ -289,7 +289,7 @@ export const projects: Project[] = [
         "Financial data lives in relational tables; the questions people ask do not. This system turns a question like “How is Apple performing compared to Microsoft?” into SQL over stocks, prices, technical indicators, risk metrics, news and sentiment, then into an answer with insights, risk warnings and a confidence level.",
       ],
       challenge: [
-        "An LLM that writes SQL is an LLM with database access. The system has to generate correct queries across a multi-table schema and guarantee that nothing destructive or injected ever executes.",
+        "An LLM that writes SQL is an LLM with database access. The system has to generate correct queries across a multi-table schema and stop destructive or injected SQL before it reaches the database.",
       ],
       role: [
         "Designed and built the LangGraph workflow, the complexity-adaptive SQL generator, the guarded executor, the response formatter and the Streamlit interface.",
@@ -301,7 +301,7 @@ export const projects: Project[] = [
         id: "sql-guard",
         title: "Try the guard",
         intro:
-          "This panel runs a JavaScript port of the repository's SecurityValidator against any SQL you type. It applies the same blocked patterns, read-only rule and table allow-list as query_executor.py.",
+          "This panel runs a JavaScript port of the repository's SecurityValidator against any SQL you type. It applies the same blocked patterns, read-only rule and table allow-list as query_executor.py. It is a pattern check, not a complete SQL security boundary: the two “Gap” examples show statements it lets through.",
       },
       decisions: [
         {
@@ -310,7 +310,7 @@ export const projects: Project[] = [
         },
         {
           title: "Validate before execution, never after",
-          body: "The SecurityValidator rejects eight families of dangerous patterns — stacked writes, UNION injection, comments, EXEC, timing attacks and file access — permits only read-only statements, and flags tables outside an allow-list.",
+          body: "The SecurityValidator rejects eight families of dangerous patterns — stacked writes, UNION injection, comments, EXEC, timing attacks and file access — permits only statements that start read-only, and flags tables outside an allow-list. Because it matches patterns rather than parsing SQL, a write hidden inside a WITH clause or a statement it does not list, such as GRANT, gets through.",
         },
         {
           title: "Match the strategy to the question",
@@ -325,6 +325,7 @@ export const projects: Project[] = [
         title: "Guardrails in code",
         body: [
           "Safety does not depend on the prompt. Deterministic validation runs on every generated query before it reaches PostgreSQL, and the executor tracks execution time and row counts for each run.",
+          "The validator is a first line of defence, not the last: the gaps above are why the next step is a parser and a read-only database role.",
         ],
       },
       results: [
@@ -340,6 +341,7 @@ export const projects: Project[] = [
       next: [
         "Build an evaluation set of question-to-SQL pairs and measure accuracy per complexity tier.",
         "Move from pattern matching to parsing the SQL syntax tree for stricter validation.",
+        "Run generated queries under a read-only database role, so the database itself refuses writes.",
       ],
     },
   },

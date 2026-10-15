@@ -9,10 +9,22 @@ import { getProject } from "@/content/projects";
 import { publication } from "@/content/research";
 import { site } from "@/content/site";
 
+const description = `Résumé of ${site.name}, ${site.role}: GenAI and agentic systems, backend engineering, applied ML and data pipelines.`;
+
 export const metadata: Metadata = {
   title: "Résumé",
-  description: `Résumé of ${site.name}, ${site.role}: GenAI and agentic systems, backend engineering, applied ML and data pipelines.`,
+  description,
   alternates: { canonical: "/resume" },
+  // Reuses the site-wide card image; a page-level openGraph would otherwise drop it.
+  openGraph: {
+    type: "profile",
+    siteName: site.name,
+    url: "/resume",
+    title: `Résumé — ${site.name}`,
+    description,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name} — ${site.role}` }],
+  },
+  twitter: { card: "summary_large_image", title: `Résumé — ${site.name}`, description, images: ["/opengraph-image"] },
 };
 
 function H({ children }: { children: ReactNode }) {
@@ -166,7 +178,8 @@ export default function ResumePage() {
             items={[
               "LeetCode Knight: contest rating 1,898 (top 4.74%), 757 problems solved (Oct 2026).",
               "TCS CodeVita Season 12: global rank 5,127. Smart Interviews “Smart Coder”: rank 159 of 35,859 (2024).",
-              "TCS Gems Special Initiative Award, June 2026.",
+              "TCS Gems Special Initiative Award, June 2026, for outperforming the entire training cohort in HLD and LLD.",
+              "8 job offers from a tier-3 college: TCS Digital, Infosys (DSE), Cognizant (GenC), Tech Mahindra (ASE), Joora Drones (ML Engineer), AISmartLive Solutions (Junior Data Scientist), Rudder Analytics (Data Analyst) and AAYS Advisory (Data Science Consultant, contract); chose TCS Digital.",
               "Third prize (“Predictive Protection”) and third position (“Health – Care Saver”) at an Andhra Pradesh hackathon, as team lead.",
               "AMD × TCS AI Hackathon Champion Certificate (participation recognition), August 2026.",
             ]}
