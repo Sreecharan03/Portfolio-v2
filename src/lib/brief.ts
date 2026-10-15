@@ -32,7 +32,7 @@ export function buildBrief(): BriefData {
     leet && { value: leet.display, label: "LeetCode rating · Knight, top 4.74%", source: leet.source },
     codevita && { value: codevita.display, label: "TCS CodeVita S12 global rank", source: codevita.source },
     award && { value: "TCS Gems", label: `${award.title}, ${award.date ?? ""}`.trim(), source: award.source },
-    { value: "8 offers", label: "from a tier-3 college, incl. TCS Digital and Infosys (DSE)", source: "reported" as const },
+    { value: "8 offers", label: "from a tier-3 college: TCS Digital, Infosys (DSE), Cognizant, Tech Mahindra and four more", source: "reported" as const },
   ].filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return {
