@@ -179,6 +179,7 @@ export default function ResumePage() {
               "LeetCode Knight: contest rating 1,898 (top 4.74%), 757 problems solved (Oct 2026).",
               "TCS CodeVita Season 12: global rank 5,127. Smart Interviews “Smart Coder”: rank 159 of 35,859 (2024).",
               "TCS Gems Special Initiative Award, June 2026, for outperforming the entire training cohort in HLD and LLD.",
+              "8 job offers from a tier-3 college, including TCS Digital and Infosys (DSE); chose TCS Digital.",
               "Third prize (“Predictive Protection”) and third position (“Health – Care Saver”) at an Andhra Pradesh hackathon, as team lead.",
               "AMD × TCS AI Hackathon Champion Certificate (participation recognition), August 2026.",
             ]}

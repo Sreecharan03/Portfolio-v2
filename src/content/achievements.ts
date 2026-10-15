@@ -92,6 +92,12 @@ export const recognitions: Recognition[] = [
     source: "certificate",
   },
   {
+    title: "8 job offers from a tier-3 college",
+    issuer: "Including TCS Digital and Infosys (DSE)",
+    detail: "Chose TCS Digital for growth and the strongest project.",
+    source: "reported",
+  },
+  {
     title: "Third prize — “Predictive Protection”",
     issuer: "Andhra Pradesh hackathon",
     detail: "Predictive-maintenance platform (SenseMinds 360). Team lead; designed the solution and built the proof of concept.",

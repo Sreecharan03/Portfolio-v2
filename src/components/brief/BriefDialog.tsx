@@ -85,8 +85,8 @@ export const BriefDialog = forwardRef<HTMLDialogElement, { data: BriefData; onCl
           ))}
         </ul>
 
-        <h3 className="label-mono mt-9 text-ink-3">Verified signals</h3>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+        <h3 className="label-mono mt-9 text-ink-3">Proof points</h3>
+        <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {data.proof.map((p) => (
             <li key={p.label} className="rounded-xl border border-line p-4">
               <span className="tabular font-display block text-step-2">{p.value}</span>
