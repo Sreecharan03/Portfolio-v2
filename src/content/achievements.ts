@@ -93,7 +93,8 @@ export const recognitions: Recognition[] = [
   },
   {
     title: "8 job offers from a tier-3 college",
-    issuer: "TCS Digital · Infosys (DSE) · Cognizant (GenC) · Tech Mahindra (ASE) · Rudder Analytics · Joora Drones · AISmartLive Solutions · AAYS Advisory (contract)",
+    issuer:
+      "TCS Digital · Infosys (DSE) · Cognizant (GenC) · Tech Mahindra (ASE) · Joora Drones (ML Engineer) · AISmartLive Solutions (Junior Data Scientist) · Rudder Analytics (Data Analyst) · AAYS Advisory (Data Science Consultant, contract)",
     detail: "Chose TCS Digital for growth and the strongest project.",
     source: "reported",
   },
