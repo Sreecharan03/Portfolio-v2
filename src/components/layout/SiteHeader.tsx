@@ -23,6 +23,10 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
   const briefRef = useRef<HTMLDialogElement>(null);
   const menuRef = useRef<HTMLDialogElement>(null);
   const navRef = useRef<HTMLUListElement>(null);
+  // A PDF opens in a new tab everywhere on the site; the /resume page opens in place.
+  const resumeAttrs = brief.resumeIsFile
+    ? { href: brief.resume, target: "_blank", rel: "noopener" }
+    : { href: brief.resume };
   const focusWithin = useRef(false);
 
   // Scroll state: elevate after a few pixels, tuck away when reading downwards.
@@ -124,13 +128,13 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
         <div className="container-page flex h-[var(--header-h)] items-center justify-between gap-6">
           <Link href="/" className="group flex items-center gap-3" aria-label="Sree Charan Chintalapudi — home">
             <LogoMark />
-            <span className="hidden text-[0.95rem] font-medium tracking-[-0.01em] sm:block">
+            <span className="hidden whitespace-nowrap text-[0.95rem] font-medium tracking-[-0.01em] sm:block">
               Sree Charan
               <span className="ml-2 font-mono text-[0.72rem] tracking-[0.08em] text-ink-3 uppercase">AI Engineer</span>
             </span>
           </Link>
 
-          <nav aria-label="Primary" className="hidden lg:block">
+          <nav aria-label="Primary" className="hidden xl:block">
             <ul ref={navRef} className="relative flex items-center gap-1">
               {navItems.map((item) => (
                 <li key={item.id}>
@@ -162,23 +166,23 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
             <button
               type="button"
               onClick={openBrief}
-              className="group hidden min-h-10 items-center gap-2 rounded-full border border-line-strong px-4 text-[0.88rem] text-ink-2 transition-colors hover:border-ink-3 hover:text-ink sm:inline-flex"
+              className="group hidden min-h-10 items-center gap-2 whitespace-nowrap rounded-full border border-line-strong px-4 text-[0.88rem] text-ink-2 transition-colors hover:border-ink-3 hover:text-ink sm:inline-flex"
               aria-haspopup="dialog"
             >
               <SparkIcon size={14} className="text-verify-soft" />
               30-sec brief
             </button>
-            <Link
-              href={brief.resume}
-              className="hidden min-h-10 items-center gap-2 rounded-full bg-ink px-4 text-[0.88rem] font-medium text-bg transition-colors hover:bg-white sm:inline-flex"
+            <a
+              {...resumeAttrs}
+              className="hidden min-h-10 items-center gap-2 whitespace-nowrap rounded-full bg-ink px-4 text-[0.88rem] font-medium text-bg transition-colors hover:bg-white sm:inline-flex"
             >
               <DocIcon size={14} />
               Résumé
-            </Link>
+            </a>
             <button
               type="button"
               onClick={openMenu}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong px-4 text-[0.88rem] lg:hidden"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong px-4 text-[0.88rem] xl:hidden"
               aria-haspopup="dialog"
             >
               <span aria-hidden className="flex flex-col gap-[4px]">
@@ -235,13 +239,13 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
             >
               <SparkIcon size={14} className="text-verify-soft" /> 30-second brief
             </button>
-            <Link
-              href={brief.resume}
+            <a
+              {...resumeAttrs}
               onClick={closeMenu}
               className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink font-medium text-bg"
             >
               <DocIcon size={15} /> Résumé
-            </Link>
+            </a>
             <div className="mt-2 flex justify-center gap-6 text-ink-2">
               {brief.links.map((l) => (
                 <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 py-2">

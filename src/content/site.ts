@@ -6,11 +6,22 @@
  * print-ready /resume page.
  */
 
+const PLACEHOLDER_HOST = "your-domain.example"; // the sample value in .env.example
+
 function resolveSiteUrl(): string {
-  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
-  if (explicit) return explicit.replace(/\/$/, "");
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) {
+    if (explicit.includes(PLACEHOLDER_HOST)) {
+      throw new Error(`NEXT_PUBLIC_SITE_URL is still the sample value (${explicit}). Set the real production URL or unset it.`);
+    }
+    return explicit.replace(/\/$/, "");
+  }
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
   if (vercel) return `https://${vercel}`;
+  if (process.env.NODE_ENV === "production" && typeof window === "undefined") {
+    // Canonical links, Open Graph and the sitemap will point at localhost on a non-Vercel host.
+    console.warn("[site] No NEXT_PUBLIC_SITE_URL or VERCEL_PROJECT_PRODUCTION_URL: canonical URLs fall back to http://localhost:3000.");
+  }
   return "http://localhost:3000";
 }
 

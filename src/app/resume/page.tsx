@@ -9,10 +9,22 @@ import { getProject } from "@/content/projects";
 import { publication } from "@/content/research";
 import { site } from "@/content/site";
 
+const description = `Résumé of ${site.name}, ${site.role}: GenAI and agentic systems, backend engineering, applied ML and data pipelines.`;
+
 export const metadata: Metadata = {
   title: "Résumé",
-  description: `Résumé of ${site.name}, ${site.role}: GenAI and agentic systems, backend engineering, applied ML and data pipelines.`,
+  description,
   alternates: { canonical: "/resume" },
+  // Reuses the site-wide card image; a page-level openGraph would otherwise drop it.
+  openGraph: {
+    type: "profile",
+    siteName: site.name,
+    url: "/resume",
+    title: `Résumé — ${site.name}`,
+    description,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name} — ${site.role}` }],
+  },
+  twitter: { card: "summary_large_image", title: `Résumé — ${site.name}`, description, images: ["/opengraph-image"] },
 };
 
 function H({ children }: { children: ReactNode }) {

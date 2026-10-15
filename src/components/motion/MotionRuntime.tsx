@@ -12,6 +12,7 @@ declare global {
 type Gsap = typeof import("gsap").gsap;
 
 const EASE = "expo.out";
+const SPLIT_TIMEOUT_MS = 1500;
 
 function onIdle(cb: () => void, timeout = 1200): () => void {
   if (typeof window.requestIdleCallback === "function") {
@@ -54,28 +55,43 @@ export function MotionRuntime() {
   }, [pathname]);
 
   useEffect(() => {
-    window.__motionReady = true;
     const root = document.documentElement;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      root.classList.add("motion-off");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Content is hidden for reveals only while motion is pending. Showing it is always safe.
+    const showAll = () => root.classList.add("motion-off");
+    if (reduce.matches || root.classList.contains("motion-off")) {
+      showAll();
       return;
     }
 
     let cancelled = false;
-    let dispose: (() => void) | undefined;
+    let dispose: ((reset?: boolean) => void) | undefined;
+    // A preference switched on mid-session stops motion immediately.
+    const onPreference = () => {
+      if (!reduce.matches) return;
+      cancelled = true;
+      dispose?.(true);
+      showAll();
+    };
+    reduce.addEventListener("change", onPreference);
+
     const cancelIdle = onIdle(async () => {
       try {
         const { gsap } = await import("gsap");
-        if (cancelled) return;
+        // The boot failsafe may have revealed everything while GSAP was loading; never hide it again.
+        if (cancelled || root.classList.contains("motion-off")) return;
         dispose = setup(gsap, () => cancelled);
+        // Ready only once reveals are actually wired up; until then the boot failsafe stays armed.
+        window.__motionReady = true;
       } catch {
-        root.classList.add("motion-off");
+        showAll();
       }
     });
 
     return () => {
       cancelled = true;
       cancelIdle();
+      reduce.removeEventListener("change", onPreference);
       dispose?.();
     };
   }, [pathname]);
@@ -83,16 +99,23 @@ export function MotionRuntime() {
   return null;
 }
 
-function setup(gsap: Gsap, isCancelled: () => boolean): () => void {
+function setup(gsap: Gsap, isCancelled: () => boolean): (reset?: boolean) => void {
   const disposers: (() => void)[] = [];
   const tweens: { kill: () => void }[] = [];
   let splitText: Promise<typeof import("gsap/SplitText")> | null = null;
 
   const revealLines = async (el: HTMLElement) => {
     splitText ??= import("gsap/SplitText");
+    // A heading never waits on a slow plugin: after SPLIT_TIMEOUT_MS it simply appears.
+    const timedOut = new Promise<null>((resolve) => window.setTimeout(() => resolve(null), SPLIT_TIMEOUT_MS));
     try {
-      const { SplitText } = await splitText;
+      const mod = await Promise.race([splitText, timedOut]);
       if (isCancelled()) return;
+      if (!mod) {
+        gsap.set(el, { opacity: 1 });
+        return;
+      }
+      const { SplitText } = mod;
       gsap.registerPlugin(SplitText);
       gsap.set(el, { opacity: 1 });
       const split = SplitText.create(el, {
@@ -207,8 +230,15 @@ function setup(gsap: Gsap, isCancelled: () => boolean): () => void {
     });
   }
 
-  return () => {
+  // reset: leave every element in its final, visible state (used when motion is switched off mid-session).
+  return (reset = false) => {
     tweens.forEach((t) => t.kill());
     disposers.forEach((d) => d());
+    if (!reset) return;
+    const revealed = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    gsap.set([...revealed, ...revealed.flatMap((el) => Array.from(el.children))], { clearProps: "opacity,transform,clipPath" });
+    document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
+      if (el.dataset.display) el.textContent = el.dataset.display;
+    });
   };
 }

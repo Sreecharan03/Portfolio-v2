@@ -156,7 +156,8 @@ export function VerificationGraph({ className = "" }: { className?: string }) {
     const ctx = canvas?.getContext("2d", { alpha: true });
     if (!canvas || !host || !ctx) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let reduce = reduceQuery.matches;
     const finePointer = window.matchMedia("(pointer: fine)").matches;
     const { nodes, layers, edges, rand } = buildGraph();
     const glows = { signal: makeGlow(COLORS.signal), verify: makeGlow(COLORS.verify), warn: makeGlow(COLORS.warn) };
@@ -484,9 +485,26 @@ export function VerificationGraph({ className = "" }: { className?: string }) {
       }
     }
 
+    // Follow the motion preference live: freeze on a still frame, or resume.
+    const onPreference = () => {
+      reduce = reduceQuery.matches;
+      if (reduce) {
+        stop();
+        draw(performance.now(), 0);
+        return;
+      }
+      if (!started) {
+        started = true;
+        t0 = performance.now();
+      }
+      sync();
+    };
+    reduceQuery.addEventListener("change", onPreference);
+
     return () => {
       cancelIdle();
       stop();
+      reduceQuery.removeEventListener("change", onPreference);
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", sync);

@@ -97,15 +97,15 @@ export const BriefDialog = forwardRef<HTMLDialogElement, { data: BriefData; onCl
         </ul>
 
         <div className="mt-9 flex flex-wrap items-center gap-3">
-          <Link
+          <a
             href={data.resume}
             onClick={onClose}
-            {...(data.resumeIsFile ? { target: "_blank", rel: "noopener", prefetch: false } : {})}
+            {...(data.resumeIsFile ? { target: "_blank", rel: "noopener" } : {})}
             className="group inline-flex min-h-11 items-center gap-2.5 rounded-full bg-ink px-5 py-2.5 font-medium text-bg transition-colors hover:bg-white"
           >
             <DocIcon size={16} />
             Résumé
-          </Link>
+          </a>
           <a
             href={`mailto:${data.email}`}
             className="group inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line-strong px-5 py-2.5 font-medium transition-colors hover:border-ink-3 hover:bg-surface-2"

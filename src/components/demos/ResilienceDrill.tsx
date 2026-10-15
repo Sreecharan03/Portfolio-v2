@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { SourceTag } from "@/components/ui/SourceTag";
 
 /**
@@ -88,6 +88,7 @@ function simulate(mode: Mode) {
 }
 
 export function ResilienceDrill() {
+  const radioName = useId();
   const [mode, setMode] = useState<Mode>("protected");
   const [progress, setProgress] = useState(TICKS);
   const raf = useRef(0);
@@ -128,23 +129,17 @@ export function ResilienceDrill() {
   return (
     <div className="rounded-[var(--radius)] border border-line bg-surface-1 p-4 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div role="radiogroup" aria-label="Strategy" className="flex flex-wrap gap-2">
+        <fieldset className="flex flex-wrap gap-2">
+          <legend className="sr-only">Strategy</legend>
           {(
             [
               ["protected", "AIMD + breaker + retry"],
               ["naive", "Fixed concurrency, no retry"],
             ] as const
           ).map(([m, label]) => (
-            <button
+            <label
               key={m}
-              type="button"
-              role="radio"
-              aria-checked={mode === m}
-              onClick={() => {
-                setMode(m);
-                setProgress(TICKS);
-              }}
-              className={`min-h-10 rounded-full border px-4 text-[0.84rem] transition-colors ${
+              className={`flex min-h-10 cursor-pointer items-center rounded-full border px-4 text-[0.84rem] transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-signal-soft ${
                 mode === m
                   ? m === "protected"
                     ? "border-signal/60 bg-signal/10 text-ink"
@@ -152,10 +147,21 @@ export function ResilienceDrill() {
                   : "border-line text-ink-2 hover:border-line-strong hover:text-ink"
               }`}
             >
+              <input
+                type="radio"
+                name={`${radioName}-strategy`}
+                value={m}
+                className="sr-only"
+                checked={mode === m}
+                onChange={() => {
+                  setMode(m);
+                  setProgress(TICKS);
+                }}
+              />
               {label}
-            </button>
+            </label>
           ))}
-        </div>
+        </fieldset>
         <div className="flex items-center gap-3">
           <SourceTag source="illustrative" />
           <button

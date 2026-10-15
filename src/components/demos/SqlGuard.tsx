@@ -6,6 +6,7 @@ import { useId, useMemo, useState } from "react";
  * JavaScript port of SecurityValidator.validate_query from
  * Realtime-financial-langgraph/src/langgraph/query_executor.py.
  * Same patterns, same order, same read-only rule and table allow-list.
+ * Kept faithful on purpose, including its gaps; WRITE_HINT only labels them.
  */
 const DANGEROUS = [
   { family: "Stacked destructive statement", source: String.raw`;\s*(DROP|DELETE|UPDATE|INSERT|ALTER|CREATE|TRUNCATE)` },
@@ -38,6 +39,9 @@ type Result =
   | { valid: false; stage: "operation"; operation: string }
   | { valid: true; operation: string; tables: string[]; warnings: string[] };
 
+// Not part of the original validator: flags allowed SQL that can still write or change permissions.
+const WRITE_HINT = /\b(INSERT|UPDATE|DELETE|MERGE|DROP|ALTER|CREATE|TRUNCATE|GRANT|REVOKE)\b/i;
+
 function validateQuery(sql: string): Result {
   const upper = sql.toUpperCase().trim();
   for (const d of DANGEROUS) {
@@ -57,6 +61,8 @@ const PRESETS = [
   { label: "UNION injection", sql: "SELECT symbol FROM stocks WHERE symbol = '' UNION SELECT password FROM users" },
   { label: "DELETE", sql: "DELETE FROM stock_prices WHERE 1 = 1" },
   { label: "Unknown table", sql: "SELECT * FROM salaries" },
+  { label: "Gap: write inside WITH", sql: "WITH removed AS (DELETE FROM stocks RETURNING *)\nSELECT * FROM removed" },
+  { label: "Gap: stacked GRANT", sql: "SELECT 1; GRANT ALL ON stocks TO public" },
 ];
 
 export function SqlGuard() {
@@ -154,6 +160,12 @@ export function SqlGuard() {
               : "Not reached.",
           )}
         </ul>
+        {result.valid && WRITE_HINT.test(sql) ? (
+          <p className="mt-3 rounded-[10px] border border-warn/30 bg-warn/[0.06] p-3 text-[0.84rem] text-ink-2" data-testid="sql-gap">
+            <span className="font-medium text-warn">Known limit.</span> The original validator allows this, yet it contains a statement
+            that can write or change permissions. Pattern matching does not parse SQL; a parser and a read-only database role would stop it.
+          </p>
+        ) : null}
         <p className="mt-3 text-[0.82rem] text-ink-3">
           {blocked
             ? "In the workflow, a blocked query sets an error and routes to the error handler. It never reaches PostgreSQL."

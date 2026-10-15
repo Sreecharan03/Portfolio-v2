@@ -230,7 +230,16 @@ export function RagLab() {
             <span className="absolute left-1/2 -translate-x-1/2">0.5</span>
             <span className="absolute left-[70%] -translate-x-1/2">0.7</span>
           </div>
+          {refusal && v.verdict !== "NOT_FOUND" ? (
+            <p className="mt-3 rounded-[10px] border border-warn/30 bg-warn/[0.06] p-3 text-[0.82rem] text-ink-2" data-testid="refusal-note">
+              <span className="font-medium text-warn">The answer is a refusal.</span> The original verifier checks for refusals only when the
+              score is below 0.5, so strong retrieval can still label a refusal {v.verdict}. Read the refusal first.
+            </p>
+          ) : null}
         </div>
+        <p className="mt-3 text-[0.8rem] text-ink-3">
+          A heuristic evidence score, not a calibrated probability that the answer is correct.
+        </p>
       </section>
     </div>
   );
