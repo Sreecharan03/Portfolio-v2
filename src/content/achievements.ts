@@ -88,7 +88,7 @@ export const recognitions: Recognition[] = [
     title: "Special Initiative Award",
     issuer: "TCS Gems · Tata Consultancy Services",
     date: "Jun 2026",
-    detail: "For outstanding contribution to the organisation.",
+    detail: "Awarded at TCS Pune for outperforming the entire training cohort in high- and low-level design (HLD and LLD).",
     source: "certificate",
   },
   {

@@ -24,11 +24,12 @@ export const journey: JourneyEntry[] = [
     start: "2025-12",
     title: "Data Engineer",
     org: "TCS Digital",
-    summary: "Production data engineering on Azure Databricks and PySpark.",
+    summary: "Multi-stage ETL on Azure Databricks and PySpark, building the feature layer for downstream ML.",
     points: [
-      "Build and maintain automated ingestion jobs and pipelines handling 100K–1M records per run, about 80K rows per data file on average.",
-      "Built reusable notebooks that make the automation easier to extend.",
-      "Removed duplicated and repeated calls in ingestion notebooks, cutting run time by about 20%.",
+      "Architected multi-stage ETL workflows on Azure Databricks and PySpark that ingest enterprise data into Delta Lake with schema enforcement and ACID guarantees, forming the feature layer that feeds ML training and inference.",
+      "Automated multi-source validation and standardisation in reusable Databricks notebooks; runs handle 100K–1M records, about 80K rows per data file on average.",
+      "Tuned Spark execution (partitioning, broadcast joins, caching) and removed duplicated calls in ingestion notebooks, cutting run time by about 20%.",
+      "Received the Special Initiative Award at TCS Pune for outperforming the entire training cohort in HLD and LLD.",
     ],
     metrics: [
       { value: "~20%", label: "shorter ingestion run time", source: "reported" },

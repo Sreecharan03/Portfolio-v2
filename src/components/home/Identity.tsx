@@ -36,7 +36,7 @@ const layers = [
     n: "01",
     title: "Data & pipelines",
     line: "Moving data reliably from where it lands to where it is useful.",
-    tools: ["Azure Databricks", "PySpark", "TimescaleDB", "PostgreSQL"],
+    tools: ["Azure Databricks", "PySpark", "Delta Lake", "TimescaleDB", "PostgreSQL"],
     proof: [
       { label: "TCS Digital", href: "#journey" },
       { label: "SenseMinds 360", href: "/work/senseminds-360" },
