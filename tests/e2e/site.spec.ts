@@ -250,3 +250,62 @@ test("header fits on one line at intermediate widths", async ({ page, isMobile }
     }
   }
 });
+
+test.describe("portfolio assistant", () => {
+  // The launcher renders only when GROQ_API_KEY is set for the build; the browser-side
+  // tests mock /api/chat so they never call Groq.
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    const enabled = await page.getByRole("button", { name: "Ask the AI assistant about Charan" }).count();
+    test.skip(enabled === 0, "assistant not configured for this build");
+  });
+
+  test("answers a suggested question, links related pages and closes with Escape", async ({ page }) => {
+    await page.route("**/api/chat", (route) =>
+      route.fulfill({
+        status: 200,
+        headers: {
+          "content-type": "text/plain; charset=utf-8",
+          "x-chat-related": encodeURIComponent(JSON.stringify([{ title: "Sighnal", href: "/work/sighnal" }])),
+        },
+        body: "Charan built Sighnal end to end; see /work/sighnal.",
+      }),
+    );
+    const launcher = page.getByRole("button", { name: "Ask the AI assistant about Charan" });
+    await launcher.click();
+    const panel = page.getByRole("dialog", { name: "Ask about Charan" });
+    await expect(panel).toBeVisible();
+    await expect(panel.getByLabel("Your question")).toBeFocused();
+    await panel.getByRole("button", { name: "What did Charan build at Sighnal?" }).click();
+    await expect(panel.getByTestId("chat-answer")).toContainText("Charan built Sighnal end to end");
+    await expect(panel.getByTestId("chat-answer").getByRole("link", { name: "/work/sighnal" })).toBeVisible();
+    await expect(panel.getByRole("link", { name: "Sighnal", exact: true })).toBeVisible();
+
+    const results = await new AxeBuilder({ page }).include("#portfolio-assistant").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
+    expect(results.violations.filter((v) => v.impact === "serious" || v.impact === "critical").map((v) => v.id)).toEqual([]);
+
+    await page.keyboard.press("Escape");
+    await expect(panel).toBeHidden();
+    await expect(launcher).toBeFocused();
+  });
+
+  test("explains a rate limit and keeps the question", async ({ page }) => {
+    await page.route("**/api/chat", (route) => route.fulfill({ status: 429, json: { error: "rate_limited" } }));
+    await page.getByRole("button", { name: "Ask the AI assistant about Charan" }).click();
+    const panel = page.getByRole("dialog", { name: "Ask about Charan" });
+    await panel.getByLabel("Your question").fill("What is his LeetCode rating?");
+    await page.keyboard.press("Enter");
+    await expect(panel.getByRole("alert")).toContainText("try again in a minute");
+    await expect(panel.getByLabel("Your question")).toHaveValue("What is his LeetCode rating?");
+  });
+
+  test("the chat endpoint rejects malformed and cross-site requests", async ({ request }) => {
+    const bad = await request.post("/api/chat", { data: { messages: [{ role: "system", content: "x" }] } });
+    expect(bad.status()).toBe(400);
+    const cross = await request.post("/api/chat", {
+      headers: { origin: "https://example.com" },
+      data: { messages: [{ role: "user", content: "hi" }] },
+    });
+    expect(cross.status()).toBe(403);
+  });
+});
