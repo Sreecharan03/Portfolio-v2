@@ -71,15 +71,22 @@ An optional "Ask AI" button opens a small chat that answers questions about Char
 - **Knowledge:** only the site's public content layer (`src/lib/assistant/knowledge.ts` builds chunks
   from `src/content/*`). The private `readme.md` knowledge base is deliberately not used: anything in a
   chatbot's context can be repeated to any visitor. To teach it something, add it to the content files.
-- **Retrieval:** a small TF-IDF ranker (`src/lib/assistant/retrieve.ts`) sends the profile, the project
-  list and the four most relevant chunks, about 1.5–2K tokens per request.
-- **Answers:** `POST /api/chat` streams from Groq, trying `openai/gpt-oss-120b`, then `qwen/qwen3-32b`,
-  then `llama-3.3-70b-versatile`; a model that is rate-limited, retired or failing hands over to the next
-  (each has its own Groq quota). The prompt asks for a warm, plain-language answer in 2–4 sentences, in
-  the visitor's own language (Hindi, Telugu, Hinglish and so on), from the facts only, keeping source
-  labels (Reported, Illustrative) and declining off-topic requests. Token limits are generous so answers
-  never stop mid-sentence; reasoning and any `<think>` block are never shown. The panel links the related
-  pages it drew on. Questions in other scripts get a general overview of the work as their facts.
+- **Retrieval:** a small TF-IDF ranker (`src/lib/assistant/retrieve.ts`) sends the profile (with a
+  current/past timeline), the project list and the four most relevant chunks, about 3K tokens per request
+  including the instructions.
+- **Understanding:** a fast model (`llama-3.1-8b-instant`, 2.5 s budget) rewrites the latest message into
+  an English search query, resolving follow-ups, and detects its language and script
+  (`src/lib/assistant/analyze.ts`). If it fails, the raw question is used.
+- **Answers:** `POST /api/chat` streams from Groq, trying `moonshotai/kimi-k2-instruct-0905`, then
+  `openai/gpt-oss-120b`, `llama-3.3-70b-versatile` and `qwen/qwen3-32b`; a busy, retired or failing model
+  hands over to the next (each has its own quota). The prompt (`src/lib/assistant/prompt.ts`) teaches tone
+  with a few example answers (English, Telugu in English letters, Hindi, an out-of-scope question), sets
+  the reply language from the analysis, follows requested lengths up to about 150 words, keeps current
+  roles in the present tense and past roles in the past tense (the facts carry an explicit timeline), uses
+  he/him (`site.pronouns`), keeps source labels and declines off-topic requests. Reasoning and any
+  `<think>` block are never shown. The panel links related pages for what the latest question matched.
+- **Logs:** each answer logs the model, attempts, detected language and latency to the Vercel function
+  logs. Message content is never logged.
 - **Key and privacy:** `GROQ_API_KEY` is read only on the server and never reaches the browser.
   Messages are forwarded to Groq to generate the reply and are not logged or stored by the site.
   Without a key the button is not rendered and the endpoint returns 503.
@@ -87,7 +94,7 @@ An optional "Ask AI" button opens a small chat that answers questions about Char
   per server instance); 500-character questions; the last 8 turns. Groq's own rate limits are the
   backstop, so a free-tier key cannot run up a bill.
 - **Enable it:** in Vercel → Settings → Environment Variables add `GROQ_API_KEY` (Production and
-  Preview), optionally `GROQ_MODEL` (a comma-separated list overrides the order above), then redeploy.
+  Preview), optionally `GROQ_MODEL` (a comma-separated list overrides the order above; `GROQ_ANALYZER_MODEL` overrides the analyzer), then redeploy.
   Locally, put the key in `.env.local`, which git ignores. Never use a `NEXT_PUBLIC_` prefix for the key.
 
 ## Development
