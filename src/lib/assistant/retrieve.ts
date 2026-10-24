@@ -7,7 +7,7 @@ import { coreChunks, searchChunks, type Chunk } from "./knowledge";
  */
 
 const STOP = new Set(
-  "a an and are as at be but by can could did do does for from had has have he her his how i in is it its me my of on or our she should so tell than that the their them then there these they this to us was we were what when where which who why will with would you your about any some more most much many give show explain describe".split(
+  "a an and are as at be but by can could did do does for from had has have he her his how i in is it its me my of on or our she should so tell than that the their them then there these they this to us was we were what when where which who why will with would you your about any some more most much many give show explain describe work works working worked now currently current know does doing done charan sree chintalapudi ch use used using tech".split(
     " ",
   ),
 );
@@ -22,10 +22,15 @@ const ALIASES: Record<string, string> = {
   leetcode: "leetcode contest rating",
   job: "employment role",
   jobs: "employment role",
-  work: "employment project",
+  now: "present",
+  current: "present",
+  currently: "present",
   experience: "employment internship",
   skills: "tools capabilities",
   stack: "tools stack",
+  tech: "tools",
+  technologies: "tools",
+  technology: "tools",
   offers: "offers job",
   award: "award recognition",
   awards: "award recognition",
@@ -43,8 +48,10 @@ function tokens(text: string): string[] {
   return text
     .toLowerCase()
     .split(/[^a-z0-9.+#é-]+/)
-    .map((t) => t.replace(/^[.-]+|[.-]+$/g, "").replace(/(?<=\w{3})s$/, ""))
-    .filter((t) => t.length > 1 && !STOP.has(t));
+    .map((t) => t.replace(/^[.-]+|[.-]+$/g, ""))
+    .filter((t) => t.length > 1 && !STOP.has(t)) // before stemming, so "does" never becomes "doe"
+    .map((t) => t.replace(/(?<=\w{3})s$/, ""))
+    .filter((t) => !STOP.has(t));
 }
 
 interface Indexed {
@@ -64,7 +71,10 @@ for (const { tf } of indexed) for (const t of tf.keys()) idf.set(t, (idf.get(t) 
 for (const [t, df] of idf) idf.set(t, Math.log(1 + indexed.length / df));
 
 function expand(query: string): string {
-  const extra = tokens(query)
+  // Aliases are looked up before stop words are dropped, so "now" can still mean "present".
+  const extra = query
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
     .map((t) => ALIASES[t])
     .filter(Boolean);
   return `${query} ${extra.join(" ")}`;
@@ -94,14 +104,25 @@ export function retrieve(latest: string, previous = "", budgetChars = 5200): Chu
 
   const picked: Chunk[] = [];
   let used = 0;
-  for (const { chunk } of scored) {
-    if (picked.length >= 4) break;
-    if (used + chunk.text.length > budgetChars && picked.length > 0) continue;
+  const add = (chunk: Chunk) => {
+    if (picked.length >= 4 || picked.includes(chunk)) return;
+    if (used + chunk.text.length > budgetChars && picked.length > 0) return;
     picked.push(chunk);
     used += chunk.text.length;
+  };
+  for (const { chunk } of scored) add(chunk);
+  // Questions in other scripts (Telugu, Hindi…) or very general ones match little English text:
+  // give the model a broad overview instead of nothing.
+  if (picked.length < 2) {
+    for (const id of GENERAL) {
+      const chunk = searchChunks.find((c) => c.id === id);
+      if (chunk) add(chunk);
+    }
   }
   return picked;
 }
+
+const GENERAL = ["journey-tcs", "sighnal-overview", "senseminds-360-overview", "achievements-recognition"];
 
 export function buildContext(retrieved: Chunk[]): string {
   return [...coreChunks, ...retrieved].map((c, i) => `[${i + 1}] ${c.title} (${c.href})\n${c.text}`).join("\n\n");

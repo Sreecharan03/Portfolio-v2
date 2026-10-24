@@ -22,7 +22,9 @@ const ERRORS: Record<string, string> = {
 const GENERIC_ERROR = "Something went wrong. Please try again, or use the contact section.";
 
 /** Turns site paths, links and email addresses in an answer into links. */
-function linkify(text: string): ReactNode[] {
+function linkify(raw: string): ReactNode[] {
+  // Models occasionally add markdown despite instructions; show it as plain text.
+  const text = raw.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/^\* /gm, "- ");
   const parts = text.split(/(https?:\/\/[^\s)]+|\/work\/[a-z0-9-]+|\/resume\b|[\w.+-]+@[\w-]+\.[a-z.]+)/gi);
   return parts.map((part, i) => {
     if (i % 2 === 0) return <Fragment key={i}>{part}</Fragment>;
@@ -178,7 +180,8 @@ export function ChatPanel({ open, onClose }: { open: boolean; onClose: () => voi
         {messages.length === 0 ? (
           <div>
             <p className="text-[0.9rem] text-ink-2">
-              Hi! Ask me about Charan&apos;s projects, experience, skills or how to get in touch.
+              Hi! Ask me anything about Charan&apos;s projects, experience, skills or how to get in touch. English, Hindi,
+              Telugu or your own language all work.
             </p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {SUGGESTIONS.map((s) => (

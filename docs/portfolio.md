@@ -73,10 +73,13 @@ An optional "Ask AI" button opens a small chat that answers questions about Char
   chatbot's context can be repeated to any visitor. To teach it something, add it to the content files.
 - **Retrieval:** a small TF-IDF ranker (`src/lib/assistant/retrieve.ts`) sends the profile, the project
   list and the four most relevant chunks, about 1.5–2K tokens per request.
-- **Answers:** `POST /api/chat` calls Groq (`llama-3.3-70b-versatile` by default) with streaming,
-  temperature 0.2 and at most 220 output tokens. The system prompt limits answers to about three
-  sentences, from the context only, keeps source labels (Reported, Illustrative) and refuses off-topic
-  requests. The panel links the related pages it drew on.
+- **Answers:** `POST /api/chat` streams from Groq, trying `openai/gpt-oss-120b`, then `qwen/qwen3-32b`,
+  then `llama-3.3-70b-versatile`; a model that is rate-limited, retired or failing hands over to the next
+  (each has its own Groq quota). The prompt asks for a warm, plain-language answer in 2–4 sentences, in
+  the visitor's own language (Hindi, Telugu, Hinglish and so on), from the facts only, keeping source
+  labels (Reported, Illustrative) and declining off-topic requests. Token limits are generous so answers
+  never stop mid-sentence; reasoning and any `<think>` block are never shown. The panel links the related
+  pages it drew on. Questions in other scripts get a general overview of the work as their facts.
 - **Key and privacy:** `GROQ_API_KEY` is read only on the server and never reaches the browser.
   Messages are forwarded to Groq to generate the reply and are not logged or stored by the site.
   Without a key the button is not rendered and the endpoint returns 503.
@@ -84,7 +87,8 @@ An optional "Ask AI" button opens a small chat that answers questions about Char
   per server instance); 500-character questions; the last 8 turns. Groq's own rate limits are the
   backstop, so a free-tier key cannot run up a bill.
 - **Enable it:** in Vercel → Settings → Environment Variables add `GROQ_API_KEY` (Production and
-  Preview), optionally `GROQ_MODEL`, then redeploy. Never use a `NEXT_PUBLIC_` prefix for the key.
+  Preview), optionally `GROQ_MODEL` (a comma-separated list overrides the order above), then redeploy.
+  Locally, put the key in `.env.local`, which git ignores. Never use a `NEXT_PUBLIC_` prefix for the key.
 
 ## Development
 
