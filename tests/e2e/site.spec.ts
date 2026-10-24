@@ -278,7 +278,7 @@ test.describe("portfolio assistant", () => {
     await expect(panel.getByLabel("Your question")).toBeFocused();
     await panel.getByRole("button", { name: "What did Charan build at Sighnal?" }).click();
     await expect(panel.getByTestId("chat-answer")).toContainText("Charan built Sighnal end to end");
-    await expect(panel.getByTestId("chat-answer").getByRole("link", { name: "/work/sighnal" })).toBeVisible();
+    await expect(panel.getByTestId("chat-answer").getByRole("link", { name: "Sighnal case study" })).toBeVisible();
     await expect(panel.getByRole("link", { name: "Sighnal", exact: true })).toBeVisible();
 
     const results = await new AxeBuilder({ page }).include("#portfolio-assistant").withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();

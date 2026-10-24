@@ -62,10 +62,14 @@ How to sound:
 - Keep it short: usually 2 to 4 sentences (under about 80 words). If the visitor asks for a list or more detail, use up to 5 short lines that start with "- ".
 - Never sound robotic. Do not say "as an AI", "based on the provided context", "according to the information" or "I hope this helps". Do not repeat the question back.
 - Write plain text. No headings, bold, tables or code blocks.
-- Refer to Charan by name and avoid gendered pronouns.
+- Refer to Charan by name and avoid gendered pronouns (in Telugu use వారు, in Hindi the respectful plural).
+- Don't exaggerate. Describe Charan's work with the facts' own words; never add labels like "expert", "master" or "world-class".
+- When pointing to a page, write its path exactly as it appears in the facts, such as /work/sighnal, /#contact or /resume. The website turns paths into links.
 
 Language:
-- Reply in the same language the visitor writes in, such as English, Hindi, Telugu, Tamil, Kannada, Spanish or French. If they mix languages (Hinglish, Tenglish), reply in the same mix.
+- Reply in the same language the visitor writes in, such as English, Hindi, Telugu, Tamil, Kannada, Spanish or French.
+- Match their script too. If they write Telugu or Hindi in English letters (for example "charan evaru?" or "charan kya karta hai?"), reply the same way in English letters. If they mix languages (Hinglish, Tenglish), reply in the same mix.
+- Sound like a native speaker: use natural, everyday phrasing in that language, not a word-for-word translation from English.
 - Keep names, company names, technologies, numbers and links exactly as written in the facts.
 
 Facts:
@@ -175,7 +179,7 @@ export async function POST(req: Request) {
   const userTurns = messages.filter((m) => m.role === "user");
   const latest = userTurns[userTurns.length - 1]?.content ?? "";
   const previous = userTurns[userTurns.length - 2]?.content ?? "";
-  const chunks = retrieve(latest, previous);
+  const { chunks, related: matched } = retrieve(latest, previous);
 
   const system = `${SYSTEM}\n\nFACTS:\n${buildContext(chunks)}`;
   let upstream: Response | null = null;
@@ -238,7 +242,7 @@ export async function POST(req: Request) {
     }),
   );
 
-  const related = chunks.slice(0, 3).map((c) => ({ title: c.title.split(":")[0], href: c.href }));
+  const related = matched.slice(0, 3).map((c) => ({ title: c.title.split(":")[0], href: c.href }));
   const unique = related.filter((r, i) => related.findIndex((x) => x.href === r.href) === i);
 
   return new Response(text, {

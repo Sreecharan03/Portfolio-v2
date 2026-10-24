@@ -3,6 +3,7 @@ import Script from "next/script";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { ChatLauncher } from "@/components/chat/ChatLauncher";
+import { pageLabels } from "@/lib/assistant/pages";
 import { MotionRuntime } from "@/components/motion/MotionRuntime";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -79,7 +80,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </main>
         <SiteFooter />
         {/* The assistant appears only when a Groq key is configured for the deployment. */}
-        {process.env.GROQ_API_KEY ? <ChatLauncher /> : null}
+        {process.env.GROQ_API_KEY ? <ChatLauncher pages={pageLabels()} /> : null}
         <MotionRuntime />
       </body>
     </html>
