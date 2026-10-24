@@ -21,11 +21,11 @@ const ERRORS: Record<string, string> = {
 };
 const GENERIC_ERROR = "Something went wrong. Please try again, or use the contact section.";
 
-/** Turns site paths, links and email addresses in an answer into links. */
-function linkify(raw: string): ReactNode[] {
+/** Turns site paths, links and email addresses in an answer into links; site paths get readable names. */
+function linkify(raw: string, pages: Record<string, string>, onNavigate: () => void): ReactNode[] {
   // Models occasionally add markdown despite instructions; show it as plain text.
   const text = raw.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/^\* /gm, "- ");
-  const parts = text.split(/(https?:\/\/[^\s)]+|\/work\/[a-z0-9-]+|\/resume\b|[\w.+-]+@[\w-]+\.[a-z.]+)/gi);
+  const parts = text.split(/(https?:\/\/[^\s)]+|(?<![\w/.])\/(?:#[a-z-]+|work\/[a-z0-9-]+|resume\b)|[\w.+-]+@[\w-]+\.[a-z.]+)/gi);
   return parts.map((part, i) => {
     if (i % 2 === 0) return <Fragment key={i}>{part}</Fragment>;
     const clean = part.replace(/[.,;]+$/, "");
@@ -36,8 +36,8 @@ function linkify(raw: string): ReactNode[] {
         {clean}
       </a>
     ) : clean.startsWith("/") ? (
-      <Link href={clean} className={cls}>
-        {clean}
+      <Link href={clean} onClick={onNavigate} className={cls}>
+        {pages[clean] ?? clean}
       </Link>
     ) : (
       <a href={clean} target="_blank" rel="noopener noreferrer" className={cls}>
@@ -53,7 +53,7 @@ function linkify(raw: string): ReactNode[] {
   });
 }
 
-export function ChatPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function ChatPanel({ open, onClose, pages }: { open: boolean; onClose: () => void; pages: Record<string, string> }) {
   const titleId = useId();
   const inputId = useId();
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -211,7 +211,7 @@ export function ChatPanel({ open, onClose }: { open: boolean; onClose: () => voi
           ) : (
             <div key={i} className="max-w-[92%]">
               <p className="whitespace-pre-line text-[0.9rem] leading-relaxed text-ink-2" data-testid="chat-answer">
-                {m.content ? linkify(m.content) : <span className="inline-block animate-pulse text-ink-3">Thinking…</span>}
+                {m.content ? linkify(m.content, pages, onClose) : <span className="inline-block animate-pulse text-ink-3">Thinking…</span>}
               </p>
               {i === lastAssistant && !streaming && related.length > 0 ? (
                 <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.76rem] text-ink-3">

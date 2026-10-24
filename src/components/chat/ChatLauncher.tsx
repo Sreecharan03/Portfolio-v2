@@ -7,7 +7,7 @@ import { SparkIcon } from "@/components/ui/Icons";
 // The panel (and its logic) loads only when someone opens it.
 const ChatPanel = dynamic(() => import("./ChatPanel").then((m) => m.ChatPanel), { ssr: false });
 
-export function ChatLauncher() {
+export function ChatLauncher({ pages }: { pages: Record<string, string> }) {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -24,7 +24,7 @@ export function ChatLauncher() {
 
   return (
     <div className="no-print">
-      {loaded ? <ChatPanel open={open} onClose={close} /> : null}
+      {loaded ? <ChatPanel open={open} onClose={close} pages={pages} /> : null}
       <button
         ref={buttonRef}
         type="button"

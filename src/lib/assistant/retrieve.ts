@@ -84,7 +84,8 @@ function expand(query: string): string {
  * Picks the chunks most relevant to the latest question (with the previous question
  * at half weight, so follow-ups like "what stack did it use?" keep their subject).
  */
-export function retrieve(latest: string, previous = "", budgetChars = 5200): Chunk[] {
+export function retrieve(latest: string, previous = "", budgetChars = 5200): { chunks: Chunk[]; related: Chunk[] } {
+  const latestTerms = new Set(tokens(expand(latest)));
   const weights = new Map<string, number>();
   for (const t of tokens(expand(previous))) weights.set(t, Math.max(weights.get(t) ?? 0, 0.5));
   for (const t of tokens(expand(latest))) weights.set(t, 1);
@@ -97,7 +98,8 @@ export function retrieve(latest: string, previous = "", budgetChars = 5200): Chu
         if (!f) continue;
         score += w * (idf.get(t) ?? 0) * (1 + Math.log(f)) * (titleTerms.has(t) ? 2 : 1);
       }
-      return { chunk, score };
+      const ownMatch = [...latestTerms].some((t) => tf.has(t));
+      return { chunk, score, ownMatch };
     })
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score);
@@ -119,7 +121,10 @@ export function retrieve(latest: string, previous = "", budgetChars = 5200): Chu
       if (chunk) add(chunk);
     }
   }
-  return picked;
+  // "Related" links only for pages the latest question itself points at, not ones carried
+  // over from the previous question or added as a general overview.
+  const own = new Set(scored.filter((s) => s.ownMatch).map((s) => s.chunk));
+  return { chunks: picked, related: picked.filter((c) => own.has(c)) };
 }
 
 const GENERAL = ["journey-tcs", "sighnal-overview", "senseminds-360-overview", "achievements-recognition"];
