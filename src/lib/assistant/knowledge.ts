@@ -26,16 +26,23 @@ const lines = (items: (string | false | undefined)[]) => items.filter(Boolean).j
 
 function profile(): Chunk {
   const socials = site.socials.map((s) => `${s.label}: ${s.href}`).join("; ");
+  const roles = publicJourney().filter((e) => e.type !== "Education");
+  const current = roles.filter((e) => /present/i.test(e.period));
+  const past = roles.filter((e) => !/present/i.test(e.period));
   return {
     id: "profile",
-    title: "Profile and contact",
+    title: "Profile, timeline and contact",
     href: "/#contact",
     text: lines([
-      `${site.name} (Charan), ${site.role}. ${site.positioning}`,
-      `Now: ${site.current.title} at ${site.current.org} since ${site.current.since}; also ${site.independent.toLowerCase()}. Based in ${site.location}.`,
-      `Looking for: ${site.interest}`,
+      `${site.name}, who goes by Charan (${site.pronouns}). ${site.role}, based in ${site.location}.`,
+      `In one line: ${site.positioning}`,
+      "Current roles (describe in the present tense):",
+      ...current.map((e) => `- ${e.title}, ${e.org}, since ${e.period.split("—")[0]?.trim()} (${e.type.toLowerCase()}): ${e.summary}`),
+      "Past roles (describe in the past tense):",
+      ...past.map((e) => `- ${e.title}, ${e.org}, ${e.period} (${e.type.toLowerCase()}): ${e.summary}`),
       `Education: ${site.education.degree}, ${site.education.school}, ${site.education.period}, ${site.education.detail}.`,
-      `Contact: email ${site.email}; phone ${site.phone.display}; ${socials}. Résumé: ${site.resumePdf ?? "/resume"}.`,
+      `Looking for: ${site.interest}`,
+      `Contact: email ${site.email}; phone ${site.phone.display}; ${socials}. Résumé: ${site.resumePdf ?? "/resume"} (also /resume).`,
     ]),
   };
 }

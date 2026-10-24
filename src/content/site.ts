@@ -37,6 +37,7 @@ export const site = {
   lede: "I build LLM and agentic systems that hold up outside the demo: classification pipelines that recover from failure, answers whose citations are checked in code, and the data pipelines underneath them.",
   specialisms: ["GenAI", "Agentic systems", "LLM reliability", "Applied ML", "Data pipelines"],
   location: "India",
+  pronouns: "he/him", // confirmed by Charan; used by the assistant
   current: { title: "Data Engineer", org: "TCS Digital", since: "Dec 2025" },
   independent: "Independent AI & backend engineer",
   focus: "Agentic AI · LLM reliability · Applied ML",
