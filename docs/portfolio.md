@@ -21,7 +21,8 @@ repo, award email, publication, system spec, reported, illustrative).
 
 - **Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS 4.** Every route is statically
   prerendered: `/`, `/work/[slug]` (6 case studies), `/resume`, plus generated OG images, icons,
-  `sitemap.xml` and `robots.txt`. No backend, database or tracking.
+  `sitemap.xml` and `robots.txt`. The only server code is the optional chat endpoint (`/api/chat`); there
+  is no database or tracking.
 - **Content layer** (`src/content/`): typed modules for site identity, projects and case studies,
   diagrams, experience, achievements, capabilities, research and principles. Components never hard-code
   copy. `sources.ts` defines the provenance labels.
@@ -63,6 +64,32 @@ Canvas 2D, which avoids a ~150 KB 3D runtime and context-loss handling.
 | Traffic control | Junction sandbox | Port of `TrafficSignalController` and `config.py` constants |
 | Legal summarization | Training card | Configuration committed in the repository |
 
+## Portfolio assistant (chat)
+
+An optional "Ask AI" button opens a small chat that answers questions about Charan's work.
+
+- **Knowledge:** only the site's public content layer (`src/lib/assistant/knowledge.ts` builds chunks
+  from `src/content/*`). The private `readme.md` knowledge base is deliberately not used: anything in a
+  chatbot's context can be repeated to any visitor. To teach it something, add it to the content files.
+- **Retrieval:** a small TF-IDF ranker (`src/lib/assistant/retrieve.ts`) sends the profile, the project
+  list and the four most relevant chunks, about 1.5–2K tokens per request.
+- **Answers:** `POST /api/chat` streams from Groq, trying `openai/gpt-oss-120b`, then `qwen/qwen3-32b`,
+  then `llama-3.3-70b-versatile`; a model that is rate-limited, retired or failing hands over to the next
+  (each has its own Groq quota). The prompt asks for a warm, plain-language answer in 2–4 sentences, in
+  the visitor's own language (Hindi, Telugu, Hinglish and so on), from the facts only, keeping source
+  labels (Reported, Illustrative) and declining off-topic requests. Token limits are generous so answers
+  never stop mid-sentence; reasoning and any `<think>` block are never shown. The panel links the related
+  pages it drew on. Questions in other scripts get a general overview of the work as their facts.
+- **Key and privacy:** `GROQ_API_KEY` is read only on the server and never reaches the browser.
+  Messages are forwarded to Groq to generate the reply and are not logged or stored by the site.
+  Without a key the button is not rendered and the endpoint returns 503.
+- **Abuse limits:** same-origin requests only; 8 questions a minute and 60 a day per IP (best effort,
+  per server instance); 500-character questions; the last 8 turns. Groq's own rate limits are the
+  backstop, so a free-tier key cannot run up a bill.
+- **Enable it:** in Vercel → Settings → Environment Variables add `GROQ_API_KEY` (Production and
+  Preview), optionally `GROQ_MODEL` (a comma-separated list overrides the order above), then redeploy.
+  Locally, put the key in `.env.local`, which git ignores. Never use a `NEXT_PUBLIC_` prefix for the key.
+
 ## Development
 
 ```bash
@@ -98,7 +125,10 @@ without it the build warns and canonical URLs fall back to `http://localhost:300
 ## Validation (local production build)
 
 - `tsc --noEmit` and ESLint (`eslint-config-next`): clean.
-- Playwright: 62 checks across desktop (1440×900) and mobile (Pixel 7). They cover every route (console
+- Playwright: 68 checks across desktop (1440×900) and mobile (Pixel 7) with the assistant enabled (62 run
+  and 6 skip when no `GROQ_API_KEY` is set). Assistant tests mock `/api/chat` in the browser and never call
+  Groq; the endpoint itself was also exercised against a local Groq-compatible mock (streaming, retrieval,
+  400/403/429 handling). They cover every route (console
   errors, horizontal overflow, axe WCAG 2.2 AA with no serious or critical violations), the 404 page,
   first-viewport identity, reduced motion, content visibility when GSAP loads slowly, focus containment
   and focus return in the brief dialog, internal links and fragments from every route, the résumé PDF,
@@ -106,7 +136,8 @@ without it the build warns and canonical URLs fall back to `http://localhost:300
   drill's keyboard radio group.
 - Lighthouse 13 (lab, October 2026, before the audit fixes): desktop 100 in all four categories; mobile
   performance 93–95 with the other categories at 100. Lab numbers from one machine, not field data.
-- Dependencies: `npm audit --omit=dev` reports no known vulnerabilities. The full audit reports
+- Dependencies: Next.js 16.4.3 (patches GHSA-2464-fhr4-w9xw, GHSA-p3m5-59mp-jv5r and GHSA-673q-mjm6-r5xr
+  in 16.4.0). `npm audit --omit=dev` reports no known vulnerabilities. The full audit reports
   GHSA-vfj7-8cjw-p6xm (braces, stack exhaustion on deeply nested patterns) through
   `eslint-config-next → fast-glob → micromatch`. It is development-only, the site never expands
   visitor-supplied globs, and npm's suggested fix is a forced major downgrade, so it is tracked rather
