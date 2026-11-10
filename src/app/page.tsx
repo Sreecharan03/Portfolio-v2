@@ -7,6 +7,7 @@ import { Journey } from "@/components/home/Journey";
 import { Principles } from "@/components/home/Principles";
 import { Research } from "@/components/home/Research";
 import { SelectedWork } from "@/components/home/SelectedWork";
+import { PageTransition } from "@/components/motion/PageTransition";
 import { site } from "@/content/site";
 
 export default function HomePage() {
@@ -26,7 +27,7 @@ export default function HomePage() {
   };
 
   return (
-    <>
+    <PageTransition>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }} />
       <Hero />
       <Identity />
@@ -37,6 +38,6 @@ export default function HomePage() {
       <Research />
       <Principles />
       <Contact />
-    </>
+    </PageTransition>
   );
 }

@@ -35,6 +35,7 @@ export function ChatLauncher({ pages }: { pages: Record<string, string> }) {
         onPointerEnter={() => setLoaded(true)}
         aria-expanded={open}
         aria-controls="portfolio-assistant"
+        style={{ viewTransitionName: "chat-launcher" }}
         aria-label={open ? "Close the assistant" : "Ask the AI assistant about Charan"}
         className={`fixed bottom-4 right-4 z-40 inline-flex min-h-12 items-center gap-2 rounded-full border border-line-strong bg-surface-2/95 px-4 text-[0.9rem] font-medium text-ink shadow-[0_18px_50px_-18px_rgba(100,149,255,0.55)] backdrop-blur transition-[transform,background-color,border-color] duration-300 ease-out-expo hover:border-signal/60 hover:bg-surface-2 active:scale-[0.97] sm:bottom-6 sm:right-6 ${
           open ? "max-sm:hidden" : ""

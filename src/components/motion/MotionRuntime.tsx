@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -12,6 +12,8 @@ declare global {
 type Gsap = typeof import("gsap").gsap;
 
 const EASE = "expo.out";
+// GSAP once loaded: later client-side navigations set up immediately instead of waiting for idle.
+let loadedGsap: Gsap | null = null;
 const SPLIT_TIMEOUT_MS = 1500;
 
 function onIdle(cb: () => void, timeout = 1200): () => void {
@@ -25,7 +27,10 @@ function onIdle(cb: () => void, timeout = 1200): () => void {
 
 /**
  * One runtime for scroll choreography. Elements opt in declaratively:
- *   data-reveal="up" | "lines" | "stagger" | "mask" | "draw"
+ *   data-reveal="up" | "lines" | "stagger" | "mask" | "draw" | "wipe" | "slide" | "pop"
+ *     wipe: an SVG/diagram draws in (left to right, or top to bottom when taller than wide)
+ *     slide: slides in sideways (data-from="right" on wide screens; from the left otherwise)
+ *     pop: a small marker scales up
  *   data-count="1898" data-display="1,898"   counts up once, then shows the exact display string
  *   data-scrub-line                         scaleY follows its parent's scroll progress
  *   data-art                                CSS loops paused while off-screen
@@ -54,6 +59,28 @@ export function MotionRuntime() {
     return () => io.disconnect();
   }, [pathname]);
 
+  // After a client-side navigation the page transition is the motion: whatever is already on
+  // screen (and any element shared across pages) appears at once instead of re-revealing.
+  const firstRender = useRef(true);
+  useLayoutEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    // Arriving at a section link from another page (e.g. /#work): land there at once rather than
+    // smooth-scrolling down the whole page, so the transition reveals the right place.
+    const target = window.location.hash ? document.getElementById(decodeURIComponent(window.location.hash.slice(1))) : null;
+    target?.scrollIntoView({ behavior: "instant", block: "start" });
+    const vh = window.innerHeight;
+    document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (el.hasAttribute("data-shared") || (r.bottom > 0 && r.top < vh)) {
+        el.style.opacity = "1";
+        el.setAttribute("data-shown", "");
+      }
+    });
+  }, [pathname]);
+
   useEffect(() => {
     const root = document.documentElement;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -75,9 +102,10 @@ export function MotionRuntime() {
     };
     reduce.addEventListener("change", onPreference);
 
-    const cancelIdle = onIdle(async () => {
+    const start = async () => {
       try {
         const { gsap } = await import("gsap");
+        loadedGsap = gsap;
         // The boot failsafe may have revealed everything while GSAP was loading; never hide it again.
         if (cancelled || root.classList.contains("motion-off")) return;
         dispose = setup(gsap, () => cancelled);
@@ -86,7 +114,10 @@ export function MotionRuntime() {
       } catch {
         showAll();
       }
-    });
+    };
+    let cancelIdle = () => {};
+    if (loadedGsap) void start();
+    else cancelIdle = onIdle(() => void start());
 
     return () => {
       cancelled = true;
@@ -157,6 +188,30 @@ function setup(gsap: Gsap, isCancelled: () => boolean): (reset?: boolean) => voi
         gsap.set(el, { opacity: 1 });
         tweens.push(gsap.fromTo(el, { scaleX: 0 }, { scaleX: 1, transformOrigin: "left center", duration: 1.6, ease: EASE, delay }));
         break;
+      case "wipe": {
+        gsap.set(el, { opacity: 1 });
+        const tall = el.clientHeight > el.clientWidth;
+        tweens.push(
+          gsap.fromTo(
+            el,
+            { clipPath: tall ? "inset(0% 0% 100% 0%)" : "inset(0% 100% 0% 0%)" },
+            { clipPath: "inset(0% 0% 0% 0%)", duration: 1.4, ease: "power3.out", delay, clearProps: "clipPath" },
+          ),
+        );
+        break;
+      }
+      case "slide": {
+        const fromRight = el.dataset.from === "right" && window.matchMedia("(min-width: 768px)").matches;
+        tweens.push(
+          gsap.fromTo(el, { opacity: 0, x: fromRight ? 28 : -28 }, { opacity: 1, x: 0, duration: 1.1, ease: EASE, delay, clearProps: "transform" }),
+        );
+        break;
+      }
+      case "pop":
+        tweens.push(
+          gsap.fromTo(el, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(2.2)", delay, clearProps: "transform" }),
+        );
+        break;
       default:
         tweens.push(gsap.fromTo(el, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1.1, ease: EASE, delay }));
     }
@@ -197,7 +252,9 @@ function setup(gsap: Gsap, isCancelled: () => boolean): (reset?: boolean) => voi
     },
     { rootMargin: "0px 0px -8% 0px" },
   );
-  document.querySelectorAll<HTMLElement>("[data-reveal], [data-count]").forEach((el) => io.observe(el));
+  document.querySelectorAll<HTMLElement>("[data-reveal], [data-count]").forEach((el) => {
+    if (!el.hasAttribute("data-shown")) io.observe(el);
+  });
   disposers.push(() => io.disconnect());
 
   // Scroll-linked progress lines: listen to scroll only while the track is on screen.

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Magnetic } from "@/components/motion/Magnetic";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowDown, DocIcon, GitHubIcon, LinkedInIcon, MailIcon } from "@/components/ui/Icons";
 import { resumeHref, site } from "@/content/site";
@@ -11,7 +12,7 @@ export function Hero() {
   const linkedin = site.socials.find((s) => s.id === "linkedin");
 
   return (
-    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden">
+    <section aria-labelledby="hero-title" className="hero-scroll relative isolate overflow-hidden">
       <div aria-hidden className="bg-grid absolute inset-0 -z-10 opacity-50" />
       <div
         aria-hidden
@@ -20,7 +21,7 @@ export function Hero() {
 
       <div className="container-page relative flex min-h-[100svh] flex-col pb-8 pt-[calc(var(--header-h)+2.5rem)] lg:pt-[calc(var(--header-h)+1rem)]">
         <div className="relative flex flex-1 flex-col justify-center">
-          <div className="relative z-10 max-w-[44rem] lg:max-w-[52%]">
+          <div className="hero-recede relative z-10 max-w-[44rem] lg:max-w-[52%]">
             <p className="intro-fade label-mono flex flex-wrap items-center gap-x-3 gap-y-1 text-ink-3" style={d(0)}>
               <span className="inline-flex items-center gap-2 text-ink-2">
                 <span aria-hidden className="size-1.5 rounded-full bg-verify shadow-[0_0_0_4px_rgba(148,119,255,0.18)]" />
@@ -53,12 +54,16 @@ export function Hero() {
             </p>
 
             <div className="intro-fade mt-9 flex flex-wrap items-center gap-3" style={d(520)}>
-              <ButtonLink href="#work" icon={<ArrowDown size={15} />}>
-                Explore work
-              </ButtonLink>
-              <ButtonLink href={resumeHref()} external={site.resumePdf !== null} variant="secondary" icon={<DocIcon size={15} />}>
-                Résumé
-              </ButtonLink>
+              <Magnetic>
+                <ButtonLink href="#work" icon={<ArrowDown size={15} />}>
+                  Explore work
+                </ButtonLink>
+              </Magnetic>
+              <Magnetic>
+                <ButtonLink href={resumeHref()} external={site.resumePdf !== null} variant="secondary" icon={<DocIcon size={15} />}>
+                  Résumé
+                </ButtonLink>
+              </Magnetic>
               <span aria-hidden className="mx-1 hidden h-6 w-px bg-line-strong sm:block" />
               <div className="flex items-center gap-1">
                 {github ? (
@@ -95,7 +100,7 @@ export function Hero() {
           </div>
 
           <figure className="intro-fade relative -mx-[var(--page-x)] mt-8 lg:absolute lg:inset-y-[-2rem] lg:left-[40%] lg:right-[calc(-1*var(--page-x))] lg:mx-0 lg:mt-0" style={d(200)}>
-            <div className="relative h-[min(72vw,340px)] [mask-image:linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] lg:absolute lg:inset-0 lg:h-auto lg:[mask-image:linear-gradient(to_right,transparent,#000_20%,#000_94%,transparent)]">
+            <div className="hero-graph-recede relative h-[min(72vw,340px)] [mask-image:linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] lg:absolute lg:inset-0 lg:h-auto lg:[mask-image:linear-gradient(to_right,transparent,#000_20%,#000_94%,transparent)]">
               <VerificationGraph className="h-full w-full" />
             </div>
             <figcaption className="mx-[var(--page-x)] mt-1 max-w-[40ch] font-mono text-[0.68rem] leading-relaxed tracking-[0.04em] text-ink-3 lg:absolute lg:bottom-[13%] lg:right-[var(--page-x)] lg:mx-0 lg:mt-0 lg:max-w-[34ch] lg:text-right">

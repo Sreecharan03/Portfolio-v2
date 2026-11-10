@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { Fragment, useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import { ArrowRight, CloseIcon, SparkIcon } from "@/components/ui/Icons";
 
@@ -176,7 +176,7 @@ export function ChatPanel({ open, onClose, pages }: { open: boolean; onClose: ()
         </button>
       </header>
 
-      <div ref={logRef} role="log" aria-busy={streaming} aria-label="Conversation" className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
+      <div ref={logRef} role="log" aria-busy={streaming} aria-label="Conversation" data-lenis-prevent className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
         {messages.length === 0 ? (
           <div>
             <p className="text-[0.9rem] text-ink-2">

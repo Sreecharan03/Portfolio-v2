@@ -292,6 +292,7 @@ export function FlowDiagram({ spec, caption }: { spec: DiagramSpec; caption: str
           aria-hidden
           focusable={false}
           style={{ maxHeight: "70vh" }}
+          data-reveal="wipe"
         >
           <Markers uid={uid} />
           <Edges
@@ -311,6 +312,7 @@ export function FlowDiagram({ spec, caption }: { spec: DiagramSpec; caption: str
           className="mx-auto block w-full max-w-[460px] md:hidden"
           aria-hidden
           focusable={false}
+          data-reveal="wipe"
         >
           <Markers uid={`${uid}n`} />
           <Edges

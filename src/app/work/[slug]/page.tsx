@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { notFound } from "next/navigation";
 import type { CSSProperties, ReactNode } from "react";
 import { CaseDemo } from "@/components/case/CaseDemo";
 import { ChapterNav } from "@/components/case/ChapterNav";
 import { FlowDiagram } from "@/components/case/FlowDiagram";
 import { ProjectArt } from "@/components/home/ProjectArt";
+import { PageTransition, SharedElement } from "@/components/motion/PageTransition";
 import { ArrowRight, ArrowUpRight } from "@/components/ui/Icons";
 import { SourceTag } from "@/components/ui/SourceTag";
 import { diagrams } from "@/content/diagrams";
@@ -56,7 +57,7 @@ function Chapter({
   children: ReactNode;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-28">
+    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-8">
       <p className="label-mono flex items-center gap-3 text-ink-3" data-reveal="up">
         <span className={accentText[accent]}>{String(n).padStart(2, "0")}</span>
         <span aria-hidden className="h-px w-6 bg-line-strong" />
@@ -108,8 +109,10 @@ export default async function CaseStudyPage({ params }: Props) {
 
   const d = (ms: number) => ({ "--d": ms }) as CSSProperties;
 
-  return (
+  const page = (
     <article aria-labelledby="case-title">
+      {/* Reading progress for the case study; CSS scroll-driven, so it costs no JavaScript. */}
+      <div aria-hidden className="read-progress no-print" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="relative isolate overflow-hidden">
@@ -193,9 +196,14 @@ export default async function CaseStudyPage({ params }: Props) {
         </div>
 
         <div className="container-page">
-          <div className="intro-fade relative aspect-[16/9] overflow-hidden rounded-[20px] border border-line sm:aspect-[21/9]" style={d(560)}>
-            <ProjectArt slug={project.slug} />
-          </div>
+          {/* Shares its name with the project's art on the home page, so the two morph into each other. */}
+          <SharedElement name={`art-${project.slug}`}>
+            <div className="relative aspect-[16/9] overflow-clip rounded-[20px] border border-line sm:aspect-[21/9]">
+              <div className="art-parallax absolute inset-0">
+                <ProjectArt slug={project.slug} />
+              </div>
+            </div>
+          </SharedElement>
         </div>
       </header>
 
@@ -332,4 +340,6 @@ export default async function CaseStudyPage({ params }: Props) {
       ) : null}
     </article>
   );
+
+  return <PageTransition>{page}</PageTransition>;
 }

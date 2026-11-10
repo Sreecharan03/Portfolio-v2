@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { site, resumeLink } from "@/content/site";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { LogoMark } from "./Logo";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ArrowRight, ArrowUpRight } from "@/components/ui/Icons";
 import { SourceTag } from "@/components/ui/SourceTag";

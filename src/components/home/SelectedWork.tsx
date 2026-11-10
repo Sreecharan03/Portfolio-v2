@@ -1,9 +1,11 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
+import { SharedElement } from "@/components/motion/PageTransition";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowRight, ArrowUpRight } from "@/components/ui/Icons";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SourceTag } from "@/components/ui/SourceTag";
 import { alsoBuilt, publicProjects, type Project } from "@/content/projects";
+import { ArtCursor } from "./ArtCursor";
 import { ProjectArt } from "./ProjectArt";
 import { WorkIndex } from "./WorkIndex";
 
@@ -16,20 +18,24 @@ function variantFor(i: number): Variant {
 
 function Art({ project, className = "" }: { project: Project; className?: string }) {
   return (
-    <Link
-      href={`/work/${project.slug}`}
-      tabIndex={-1}
-      aria-hidden
-      className={`group/art relative block overflow-hidden rounded-[18px] border border-line bg-surface-1 ${className}`}
-      data-reveal="mask"
-    >
-      <div className="absolute inset-0 transition-transform duration-[1400ms] ease-out-expo group-hover/art:scale-[1.025]">
-        <ProjectArt slug={project.slug} />
-      </div>
-      <span className="absolute left-3 top-3 rounded-full border border-line bg-bg/75 px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-2 backdrop-blur-sm sm:left-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-[0.72rem]">
-        {project.index} · {project.category}
-      </span>
-    </Link>
+    <SharedElement name={`art-${project.slug}`}>
+      <Link
+        href={`/work/${project.slug}`}
+        tabIndex={-1}
+        aria-hidden
+        className={`group/art relative block overflow-clip rounded-[18px] border border-line bg-surface-1 transition-[border-color,box-shadow] duration-500 ease-out-expo hover:border-line-strong hover:shadow-[0_30px_80px_-40px_rgba(100,149,255,0.5)] ${className}`}
+        data-reveal="mask"
+        data-shared
+      >
+        <div className="art-parallax absolute inset-0 transition-transform duration-[1400ms] ease-out-expo group-hover/art:scale-[1.025]">
+          <ProjectArt slug={project.slug} />
+        </div>
+        <span className="absolute left-3 top-3 rounded-full border border-line bg-bg/75 px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.08em] text-ink-2 backdrop-blur-sm sm:left-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-[0.72rem]">
+          {project.index} · {project.category}
+        </span>
+        <ArtCursor />
+      </Link>
+    </SharedElement>
   );
 }
 
@@ -89,7 +95,7 @@ function ProjectPanel({ project, variant }: { project: Project; variant: Variant
 
   if (variant === "feature") {
     return (
-      <article id={`work-${project.slug}`} aria-labelledby={`work-${project.slug}-title`} className="scroll-mt-28">
+      <article id={`work-${project.slug}`} aria-labelledby={`work-${project.slug}-title`} className="scroll-mt-8">
         <Art project={project} className="aspect-[16/10] sm:aspect-[16/9]" />
         <div className="mt-8 grid gap-8 md:grid-cols-9 md:gap-10">
           <div className="md:col-span-5" data-reveal="up">
@@ -109,7 +115,7 @@ function ProjectPanel({ project, variant }: { project: Project; variant: Variant
     <article
       id={`work-${project.slug}`}
       aria-labelledby={`work-${project.slug}-title`}
-      className="grid scroll-mt-28 items-center gap-8 md:grid-cols-9 md:gap-10"
+      className="grid scroll-mt-8 items-center gap-8 md:grid-cols-9 md:gap-10"
     >
       <div className={`md:col-span-5 ${artLeft ? "" : "md:order-2"}`}>
         <Art project={project} className="aspect-[16/11]" />
