@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ArrowRight } from "@/components/ui/Icons";
 import { getProject } from "@/content/projects";

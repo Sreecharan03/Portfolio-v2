@@ -80,7 +80,7 @@
     color: var(--color-ink);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    scroll-padding-top: calc(var(--header-h) + 1rem);
+    scroll-padding-top: calc(var(--header-h) + 1rem); /* clears the fixed header for every anchor */
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -135,9 +135,6 @@
     text-wrap: pretty;
   }
 
-  [id] {
-    scroll-margin-top: calc(var(--header-h) + 1rem);
-  }
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -482,6 +479,188 @@ dialog[open].dialog-anim {
 @media (prefers-reduced-motion: reduce) {
   dialog[open].dialog-anim {
     animation: none;
+  }
+}
+
+/* Follow-the-pointer chip on project art (components/home/ArtCursor.tsx). The `translate`
+   property carries the pointer position; `transform` centres the chip and scales it in. */
+.art-cursor {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+  transition:
+    opacity 0.25s ease,
+    transform 0.4s var(--ease-out-expo);
+}
+.art-cursor[data-visible] {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Scroll-linked depth (CSS scroll-driven animations: no JavaScript, off the main thread).
+   Browsers without support, and reduced-motion users, keep the static layout.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.read-progress {
+  display: none;
+}
+
+@supports (animation-timeline: view()) {
+  .read-progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 60;
+    height: 2px;
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--color-signal), var(--color-verify));
+    animation: read-progress linear both;
+    animation-timeline: scroll(root);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* The hero eases back as it scrolls away. */
+    .hero-scroll {
+      view-timeline-name: --hero;
+    }
+    .hero-recede {
+      animation: hero-recede linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 75%;
+    }
+    .hero-graph-recede {
+      animation: hero-graph-recede linear both;
+      animation-timeline: --hero;
+      animation-range: exit 0% exit 100%;
+    }
+
+    /* Project art drifts a little slower than its frame. */
+    .art-parallax {
+      animation: art-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 15% cover 85%;
+    }
+  }
+}
+
+@keyframes read-progress {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+@keyframes hero-recede {
+  to {
+    opacity: 0.2;
+    translate: 0 -56px;
+  }
+}
+@keyframes hero-graph-recede {
+  to {
+    opacity: 0.3;
+    scale: 1.08;
+  }
+}
+@keyframes art-drift {
+  from {
+    translate: 0 -8%;
+  }
+  to {
+    translate: 0 8%;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Page transitions (React <ViewTransition>, see components/motion/PageTransition.tsx)
+   The old page leaves fast, the new one arrives gently; the header never moves.
+   Browsers without the View Transitions API simply navigate.
+   ────────────────────────────────────────────────────────────────────────── */
+
+::view-transition {
+  pointer-events: none; /* clicks during a transition reach the live page */
+}
+
+/* A project's art morphs between its card on the home page and the case-study header. */
+::view-transition-group(.morph) {
+  animation-duration: 640ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: vt-soften;
+}
+@keyframes vt-soften {
+  35% {
+    filter: blur(2px);
+  }
+}
+
+/* Deeper (a case study) slides content left; back home slides it right. */
+::view-transition-old(.nav-forward),
+::view-transition-old(.nav-back) {
+  animation:
+    160ms ease-in both vt-fade reverse,
+    440ms cubic-bezier(0.65, 0, 0.35, 1) both vt-slide reverse;
+}
+::view-transition-new(.nav-forward),
+::view-transition-new(.nav-back) {
+  animation:
+    260ms ease-out 140ms both vt-fade,
+    440ms cubic-bezier(0.65, 0, 0.35, 1) both vt-slide;
+}
+::view-transition-old(.nav-forward) {
+  --slide-offset: -64px;
+}
+::view-transition-new(.nav-forward) {
+  --slide-offset: 64px;
+}
+::view-transition-old(.nav-back) {
+  --slide-offset: 64px;
+}
+::view-transition-new(.nav-back) {
+  --slide-offset: -64px;
+}
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes vt-slide {
+  from {
+    translate: var(--slide-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+/* Fixed chrome stays put while the content moves underneath. */
+::view-transition-group(site-header),
+::view-transition-group(chat-launcher) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(chat-launcher) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(chat-launcher) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }
 

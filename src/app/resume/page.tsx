@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import type { ReactNode } from "react";
+import { PageTransition } from "@/components/motion/PageTransition";
 import { PrintButton } from "@/components/resume/PrintButton";
 import { ArrowLeft } from "@/components/ui/Icons";
 import { capabilities } from "@/content/capabilities";
@@ -71,7 +72,7 @@ export default function ResumePage() {
     sighnal: ["A 12,910-comment run went from 574 permanently failed comments to 0; 300+ automated tests including a 33-test resilience suite."],
   };
 
-  return (
+  const page = (
     <div className="pb-24 pt-[calc(var(--header-h)+2rem)] print:p-0">
       <div className="container-page no-print mb-8 flex flex-wrap items-center justify-between gap-4">
         <Link href="/" className="group inline-flex items-center gap-2 text-ink-2 hover:text-ink">
@@ -204,4 +205,6 @@ export default function ResumePage() {
       </div>
     </div>
   );
+
+  return <PageTransition>{page}</PageTransition>;
 }

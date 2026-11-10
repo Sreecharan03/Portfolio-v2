@@ -1,4 +1,5 @@
 import { Accent } from "@/components/ui/Accent";
+import { Magnetic } from "@/components/motion/Magnetic";
 import { ArrowUpRight, DocIcon } from "@/components/ui/Icons";
 import { SectionLabel } from "@/components/ui/SectionHeader";
 import { resumeLink, site } from "@/content/site";
@@ -31,13 +32,17 @@ export function Contact() {
               {site.email}
             </a>
             <div className="mt-5 flex flex-wrap gap-3">
-              <CopyEmail email={site.email} />
-              <a
-                {...resumeLink()}
-                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-4 py-2 text-[0.88rem] font-medium text-bg transition-colors hover:bg-white"
-              >
-                <DocIcon size={15} /> Résumé
-              </a>
+              <Magnetic>
+                <CopyEmail email={site.email} />
+              </Magnetic>
+              <Magnetic>
+                <a
+                  {...resumeLink()}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-4 py-2 text-[0.88rem] font-medium text-bg transition-colors hover:bg-white"
+                >
+                  <DocIcon size={15} /> Résumé
+                </a>
+              </Magnetic>
             </div>
             <p className="label-mono mt-10 text-ink-3">Phone</p>
             <a

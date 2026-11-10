@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ComponentProps } from "react";
 import { navItems } from "@/content/site";
 import { BriefDialog } from "@/components/brief/BriefDialog";
 import type { BriefData } from "@/components/brief/types";
@@ -11,6 +11,14 @@ import { LogoMark } from "./Logo";
 
 function lockScroll(lock: boolean) {
   document.documentElement.style.overflow = lock ? "hidden" : "";
+}
+
+/**
+ * A link to a home-page section. On the home page it is a plain in-page anchor; elsewhere it is
+ * an app navigation, so the page transition plays and the page lands on the section.
+ */
+function SectionLink({ id, onHome, ...props }: { id: string; onHome: boolean } & Omit<ComponentProps<"a">, "href">) {
+  return onHome ? <a href={`#${id}`} {...props} /> : <Link href={`/#${id}`} {...props} />;
 }
 
 export function SiteHeader({ brief }: { brief: BriefData }) {
@@ -109,7 +117,6 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
     menuRef.current?.close();
   }, [pathname]);
 
-  const href = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
   return (
     <>
@@ -117,6 +124,7 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
         className={`no-print fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-out-expo ${
           hidden ? "-translate-y-full" : "translate-y-0"
         } ${scrolled ? "border-b border-line/80 bg-bg/80 backdrop-blur-xl" : "border-b border-transparent"}`}
+        style={{ viewTransitionName: "site-header" }}
         onFocusCapture={() => {
           focusWithin.current = true;
           setHidden(false);
@@ -138,8 +146,9 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
             <ul ref={navRef} className="relative flex items-center gap-1">
               {navItems.map((item) => (
                 <li key={item.id}>
-                  <a
-                    href={href(item.id)}
+                  <SectionLink
+                    id={item.id}
+                    onHome={isHome}
                     data-nav={item.id}
                     aria-current={current === item.id ? "true" : undefined}
                     className={`relative block rounded-full px-3.5 py-2 text-[0.9rem] transition-colors duration-200 ${
@@ -147,7 +156,7 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
                     }`}
                   >
                     {item.label}
-                  </a>
+                  </SectionLink>
                 </li>
               ))}
               <span
@@ -219,14 +228,15 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
             <ul className="border-t border-line">
               {navItems.map((item, i) => (
                 <li key={item.id} className="border-b border-line">
-                  <a
-                    href={href(item.id)}
+                  <SectionLink
+                    id={item.id}
+                    onHome={isHome}
                     onClick={closeMenu}
                     className="flex items-baseline justify-between py-4 font-display text-step-3"
                   >
                     {item.label}
                     <span className="font-mono text-[0.75rem] tracking-[0.08em] text-ink-3">0{i + 1}</span>
-                  </a>
+                  </SectionLink>
                 </li>
               ))}
             </ul>

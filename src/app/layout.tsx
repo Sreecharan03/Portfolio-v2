@@ -5,6 +5,7 @@ import "./globals.css";
 import { ChatLauncher } from "@/components/chat/ChatLauncher";
 import { pageLabels } from "@/lib/assistant/pages";
 import { MotionRuntime } from "@/components/motion/MotionRuntime";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { site } from "@/content/site";
@@ -61,6 +62,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
+      // Lets Next.js jump to the top instantly on navigation despite CSS smooth scrolling,
+      // so page transitions capture the new page at its real position.
+      data-scroll-behavior="smooth"
       className={`${GeistSans.variable} ${GeistMono.variable} ${InstrumentSerif.variable}`}
       suppressHydrationWarning
     >
@@ -82,6 +86,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* The assistant appears only when a Groq key is configured for the deployment. */}
         {process.env.GROQ_API_KEY ? <ChatLauncher pages={pageLabels()} /> : null}
         <MotionRuntime />
+        <SmoothScroll />
       </body>
     </html>
   );

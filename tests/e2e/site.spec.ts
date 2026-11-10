@@ -309,3 +309,67 @@ test.describe("portfolio assistant", () => {
     expect(cross.status()).toBe(403);
   });
 });
+
+test.describe("motion", () => {
+  test("a project opens with a page transition and the header link returns to its section", async ({ page }) => {
+    const errors = trackErrors(page);
+    await openDemo(page, "/");
+    await page.locator("#work-sighnal a[data-shared]").click({ force: true });
+    await expect(page).toHaveURL(/\/work\/sighnal$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sighnal");
+    await expect(page.getByRole("heading", { level: 1 })).toBeInViewport();
+    await page.waitForTimeout(800);
+    if (await page.getByRole("navigation", { name: "Primary" }).isVisible()) {
+      await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Journey" }).click();
+    } else {
+      await page.getByRole("button", { name: "Menu" }).click();
+      await page.getByRole("navigation", { name: "Mobile" }).getByRole("link", { name: "Journey" }).click();
+    }
+    await expect(page).toHaveURL(/\/#journey$/);
+    await expect.poll(() => page.evaluate(() => Math.round(document.getElementById("journey")!.getBoundingClientRect().top))).toBeLessThan(140);
+    expect(errors).toEqual([]);
+  });
+
+  test("smooth scrolling runs only for mouse users", async ({ page, isMobile }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    const smooth = await page.evaluate(() => document.documentElement.classList.contains("lenis"));
+    expect(smooth).toBe(!isMobile);
+  });
+
+  test("case studies show reading progress that follows the scroll", async ({ page }) => {
+    await page.goto("/work/sighnal");
+    const width = () => page.evaluate(() => document.querySelector(".read-progress")!.getBoundingClientRect().width);
+    expect(await width()).toBeLessThan(5);
+    await page.evaluate(() => window.scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) / 2, behavior: "instant" }));
+    await expect.poll(width).toBeGreaterThan(page.viewportSize()!.width * 0.4);
+  });
+
+  test("reduced motion keeps the hero still while scrolling", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await page.evaluate(() => window.scrollTo({ top: 450, behavior: "instant" }));
+    await page.waitForTimeout(200);
+    const style = await page.evaluate(() => {
+      const c = getComputedStyle(document.querySelector(".hero-recede")!);
+      return { opacity: c.opacity, translate: c.translate };
+    });
+    expect(style).toEqual({ opacity: "1", translate: "none" });
+  });
+
+  test("project art shows a follow-the-cursor chip and buttons pull toward the pointer", async ({ page, isMobile }) => {
+    test.skip(isMobile, "pointer effects are for mouse users");
+    await openDemo(page, "/");
+    const btn = page.getByRole("link", { name: "Explore work" });
+    const b = (await btn.boundingBox())!;
+    await page.mouse.move(b.x + b.width - 4, b.y + 4);
+    await expect.poll(() => btn.evaluate((e) => e.parentElement!.style.translate)).not.toBe("");
+    const art = page.locator("#work-senseminds-360 a[data-shared]");
+    await art.scrollIntoViewIfNeeded();
+    const a = (await art.boundingBox())!;
+    await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2, { steps: 5 });
+    await expect(art.locator(".art-cursor")).toHaveAttribute("data-visible", "");
+    await page.mouse.move(2, 2);
+    await expect(art.locator(".art-cursor")).not.toHaveAttribute("data-visible", "");
+  });
+});

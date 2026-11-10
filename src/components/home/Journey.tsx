@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SourceTag } from "@/components/ui/SourceTag";
 import { publicJourney, type EntryType } from "@/content/experience";
@@ -42,8 +42,9 @@ export function Journey() {
                 <span
                   aria-hidden
                   className={`absolute left-[2px] top-[0.55rem] size-[11px] rounded-full border-2 border-bg ring-1 ring-line-strong md:left-[calc(25%+2px)] ${dotStyle[e.type]}`}
+                  data-reveal="pop"
                 />
-                <div className="md:pr-10 md:text-right" data-reveal="up">
+                <div className="md:pr-10 md:text-right" data-reveal="slide" data-from="right">
                   <p className="font-mono text-[0.8rem] tracking-[0.02em] text-ink-2 tabular">{e.period}</p>
                   <p className="mt-2">
                     <span className={`inline-block rounded-full border px-2.5 py-1 font-mono text-[0.68rem] uppercase tracking-[0.08em] ${typeStyle[e.type]}`}>
@@ -51,7 +52,7 @@ export function Journey() {
                     </span>
                   </p>
                 </div>
-                <div className="md:col-span-3 md:pl-12" data-reveal="up">
+                <div className="md:col-span-3 md:pl-12" data-reveal="slide">
                   <h3 className="text-step-2 font-medium tracking-[-0.02em]">
                     {e.title}
                     <span className="text-ink-3"> · </span>

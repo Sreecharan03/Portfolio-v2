@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { capabilities, type Capability } from "@/content/capabilities";
 

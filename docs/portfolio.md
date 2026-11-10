@@ -44,13 +44,21 @@ repo, award email, publication, system spec, reported, illustrative).
 | Timeline progress | rAF on scroll | Listens only while the timeline is on screen. |
 | Hover / state | CSS transitions | |
 | Hero graph | Canvas 2D | Pseudo-3D projection, ~40 nodes; sleeps off-screen and in hidden tabs; drops to ~30 fps on slow devices. |
-| Diagrams | SVG + CSS | Dash pulses on active edges only. |
+| Diagrams | SVG + CSS | Wipe in on first view; dash pulses on active edges only. |
+| Page transitions | React `<ViewTransition>` (0 KB) | A project's art morphs between its home card and the case-study header (`SharedElement`); pages slide left going deeper and right going home (`PageTransition`, link types from `AppLink`); header and chat button stay anchored. No-op where unsupported. |
+| Smooth scroll | Lenis (~5 KB) | Mouse and trackpad only; touch keeps native momentum; follows reduced motion live; dialogs, the chat log and text areas scroll natively. |
+| Scroll-linked depth | CSS scroll-driven animations (0 KB) | Hero recedes, project art drifts in its frame, reading-progress line on case studies. Static where unsupported or with reduced motion. |
+| Pointer | Small client components | Magnetic primary buttons (`Magnetic`) and a follow-the-cursor "View case study" chip on project art (`ArtCursor`); mouse only. |
 
-Elements opt in with `data-reveal="up|lines|stagger|mask|draw"`, `data-count`, `data-scrub-line` and
+Elements opt in with `data-reveal="up|lines|stagger|mask|draw|wipe|slide|pop"`, `data-count`, `data-scrub-line` and
 `data-art`. Content is visible without JS, with `prefers-reduced-motion`, or if the runtime fails: the
 runtime marks itself ready only after GSAP has loaded and reveals are wired up, so a slow or failed load
 trips the 4-second failsafe (`motion-off`) and nothing is hidden again afterwards. Heading line splits
-give up after 1.5 s, and switching on reduced motion mid-session stops motion and shows everything. WebGL was deliberately not used: the graph is small enough for
+give up after 1.5 s, and switching on reduced motion mid-session stops motion and shows everything.
+After a client-side navigation, whatever is already on screen appears at once (the page transition is the
+motion), and section links such as `/#work` land on the section immediately. `<html data-scroll-behavior="smooth">`
+lets Next.js jump to the top instantly on navigation despite CSS smooth scrolling, so transitions capture
+the new page in place. Anchors clear the fixed header through `scroll-padding-top` only. WebGL was deliberately not used: the graph is small enough for
 Canvas 2D, which avoids a ~150 KB 3D runtime and context-loss handling.
 
 ### Interactive demos (case studies)
@@ -132,17 +140,20 @@ without it the build warns and canonical URLs fall back to `http://localhost:300
 ## Validation (local production build)
 
 - `tsc --noEmit` and ESLint (`eslint-config-next`): clean.
-- Playwright: 68 checks across desktop (1440×900) and mobile (Pixel 7) with the assistant enabled (62 run
-  and 6 skip when no `GROQ_API_KEY` is set). Assistant tests mock `/api/chat` in the browser and never call
+- Playwright: 80 checks across desktop (1440×900) and mobile (Pixel 7) with the assistant enabled (77 pass,
+  3 desktop-only checks skip on mobile; the 6 assistant checks also skip when no `GROQ_API_KEY` is set). Assistant tests mock `/api/chat` in the browser and never call
   Groq; the endpoint itself was also exercised against a local Groq-compatible mock (streaming, retrieval,
   400/403/429 handling). They cover every route (console
   errors, horizontal overflow, axe WCAG 2.2 AA with no serious or critical violations), the 404 page,
   first-viewport identity, reduced motion, content visibility when GSAP loads slowly, focus containment
   and focus return in the brief dialog, internal links and fragments from every route, the résumé PDF,
-  the header at 1024–1366 px, the diagram walkthrough, every demo including their edge cases, and the
-  drill's keyboard radio group.
-- Lighthouse 13 (lab, October 2026, before the audit fixes): desktop 100 in all four categories; mobile
-  performance 93–95 with the other categories at 100. Lab numbers from one machine, not field data.
+  the header at 1024–1366 px, the diagram walkthrough, every demo including their edge cases, the
+  drill's keyboard radio group, and the motion layer (page transition into a case study and back to a
+  section, smooth scroll only for mouse users, reading progress, reduced motion keeping the hero still,
+  magnetic buttons and the cursor chip).
+- Lighthouse 13.6 (lab, November 2026, after the motion upgrade): desktop 100 in all four categories for
+  the home page and a case study; mobile performance 98 (home) and 100 (case study), other categories 100,
+  CLS 0. Lab numbers from one machine, not field data.
 - Dependencies: Next.js 16.4.3 (patches GHSA-2464-fhr4-w9xw, GHSA-p3m5-59mp-jv5r and GHSA-673q-mjm6-r5xr
   in 16.4.0). `npm audit --omit=dev` reports no known vulnerabilities. The full audit reports
   GHSA-vfj7-8cjw-p6xm (braces, stack exhaustion on deeply nested patterns) through

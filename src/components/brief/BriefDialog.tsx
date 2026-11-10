@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { AppLink as Link } from "@/components/ui/AppLink";
 import { forwardRef } from "react";
 import { SourceTag } from "@/components/ui/SourceTag";
 import { ArrowRight, ArrowUpRight, CloseIcon, DocIcon, MailIcon } from "@/components/ui/Icons";
