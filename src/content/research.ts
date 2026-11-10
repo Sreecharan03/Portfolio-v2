@@ -10,7 +10,7 @@ export const publication = {
   date: "March 2025",
   datePublished: "2025-03",
   issn: "2349-6002",
-  pages: "2400–2405",
+  pages: "2400 to 2405",
   paperId: "IJIRT 174041",
   authors: [
     { name: "P. Adithya Siva Shankar", self: false },

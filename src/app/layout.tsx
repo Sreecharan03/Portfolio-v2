@@ -12,11 +12,11 @@ import { site } from "@/content/site";
 import { buildBrief } from "@/lib/brief";
 import { GeistMono, GeistSans, InstrumentSerif } from "@/lib/fonts";
 
-const title = `${site.name} — ${site.role}`;
+const title = `${site.name}, ${site.role}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: title, template: `%s — ${site.name}` },
+  title: { default: title, template: `%s | ${site.name}` },
   description: site.description,
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],

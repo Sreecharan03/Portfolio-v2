@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  const title = `${project.title} — case study`;
+  const title = `${project.title} case study`;
   return {
     title,
     description: project.summary,
@@ -100,7 +100,7 @@ export default async function CaseStudyPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
-    headline: `${project.title} — case study`,
+    headline: `${project.title} case study`,
     description: project.summary,
     author: { "@type": "Person", name: site.name, url: site.url },
     url: `${site.url}/work/${project.slug}`,

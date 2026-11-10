@@ -62,7 +62,7 @@ export function Journey() {
                   <ul className="mt-4 max-w-[68ch] space-y-2 text-step--1 text-ink-2">
                     {e.points.map((pt) => (
                       <li key={pt} className="relative pl-5">
-                        <span aria-hidden className="absolute left-0 top-[0.7em] h-px w-2.5 bg-ink-3" />
+                        <span aria-hidden className="absolute left-0.5 top-[0.6em] size-1 rounded-full bg-ink-3" />
                         {pt}
                       </li>
                     ))}

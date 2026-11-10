@@ -24,7 +24,13 @@ const GENERIC_ERROR = "Something went wrong. Please try again, or use the contac
 /** Turns site paths, links and email addresses in an answer into links; site paths get readable names. */
 function linkify(raw: string, pages: Record<string, string>, onNavigate: () => void): ReactNode[] {
   // Models occasionally add markdown despite instructions; show it as plain text.
-  const text = raw.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/^\* /gm, "- ");
+  const text = raw
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^\* /gm, "- ")
+    // The site uses no em or en dashes; turn any the model writes into plain punctuation.
+    .replace(/(\d)\s*\u2013\s*(\d)/g, "$1 to $2")
+    .replace(/\s*[\u2014\u2013]\s*/g, ", ");
   const parts = text.split(/(https?:\/\/[^\s)]+|(?<![\w/.])\/(?:#[a-z-]+|work\/[a-z0-9-]+|resume\b)|[\w.+-]+@[\w-]+\.[a-z.]+)/gi);
   return parts.map((part, i) => {
     if (i % 2 === 0) return <Fragment key={i}>{part}</Fragment>;

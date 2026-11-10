@@ -71,12 +71,7 @@ export function Achievements() {
             {recognitions.map((r) => (
               <li key={r.title} className="grid gap-2 py-5 sm:grid-cols-[7rem_1fr_auto] sm:gap-6" data-reveal="up">
                 <span className="font-mono text-[0.8rem] text-ink-3 tabular">
-                  {r.date ?? (
-                    <>
-                      <span aria-hidden>—</span>
-                      <span className="sr-only">Date not listed</span>
-                    </>
-                  )}
+                  {r.date ?? <span className="sr-only">Date not listed</span>}
                 </span>
                 <div>
                   <p className="font-medium">

@@ -37,7 +37,7 @@ function profile(): Chunk {
       `${site.name}, who goes by Charan (${site.pronouns}). ${site.role}, based in ${site.location}.`,
       `In one line: ${site.positioning}`,
       "Current roles (describe in the present tense):",
-      ...current.map((e) => `- ${e.title}, ${e.org}, since ${e.period.split("—")[0]?.trim()} (${e.type.toLowerCase()}): ${e.summary}`),
+      ...current.map((e) => `- ${e.title}, ${e.org}, since ${e.period.split(" to ")[0]?.trim()} (${e.type.toLowerCase()}): ${e.summary}`),
       "Past roles (describe in the past tense):",
       ...past.map((e) => `- ${e.title}, ${e.org}, ${e.period} (${e.type.toLowerCase()}): ${e.summary}`),
       `Education: ${site.education.degree}, ${site.education.school}, ${site.education.period}, ${site.education.detail}.`,
@@ -69,7 +69,7 @@ function projectChunks(): Chunk[] {
         title: p.title,
         href,
         text: lines([
-          `${p.title} — ${p.category}. ${p.kind}, ${p.period}. Role: ${p.role}.`,
+          `${p.title} (${p.category}). ${p.kind}, ${p.period}. Role: ${p.role}.`,
           p.summary,
           `Stack: ${p.stack.join(", ")}.`,
           `Highlights: ${p.highlights.map(metric).join("; ")}.`,
@@ -124,7 +124,7 @@ function achievementChunks(): Chunk[] {
       title: "Awards and recognition",
       href: "/#achievements",
       text: recognitions
-        .map((r) => `${r.title} — ${r.issuer}${r.date ? `, ${r.date}` : ""}. ${r.detail} [${SOURCES[r.source].label}]`)
+        .map((r) => `${r.title}, ${r.issuer}${r.date ? `, ${r.date}` : ""}. ${r.detail} [${SOURCES[r.source].label}]`)
         .join("\n"),
     },
   ];

@@ -61,7 +61,7 @@ export const headlineStats: HeadlineStat[] = [
     display: "3rd",
     suffix: " ×2",
     label: "Andhra Pradesh hackathon placings",
-    context: "“Predictive Protection” and “Health – Care Saver”, as team lead",
+    context: "“Predictive Protection” and “Health-Care Saver”, as team lead",
     source: "email",
   },
   {
@@ -99,13 +99,13 @@ export const recognitions: Recognition[] = [
     source: "reported",
   },
   {
-    title: "Third prize — “Predictive Protection”",
+    title: "Third prize for “Predictive Protection”",
     issuer: "Andhra Pradesh hackathon",
     detail: "Predictive-maintenance platform (SenseMinds 360). Team lead; designed the solution and built the proof of concept.",
     source: "email",
   },
   {
-    title: "Third position — “Health – Care Saver”",
+    title: "Third position for “Health-Care Saver”",
     issuer: "Andhra Pradesh hackathon",
     detail: "Smart-watch tracking with live diabetes readings and notifications. Team lead; designed the solution and built the proof of concept.",
     source: "email",

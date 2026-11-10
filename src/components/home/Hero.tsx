@@ -104,7 +104,7 @@ export function Hero() {
               <VerificationGraph className="h-full w-full" />
             </div>
             <figcaption className="mx-[var(--page-x)] mt-1 max-w-[40ch] font-mono text-[0.68rem] leading-relaxed tracking-[0.04em] text-ink-3 lg:absolute lg:bottom-[13%] lg:right-[var(--page-x)] lg:mx-0 lg:mt-0 lg:max-w-[34ch] lg:text-right">
-              <span className="text-ink-2">Fig. 00 — Signal path.</span> Inputs fan in through reasoning and retrieval; only
+              <span className="text-ink-2">Fig. 00: Signal path.</span> Inputs fan in through reasoning and retrieval; only
               signals that pass <span className="text-verify-soft">verification</span> reach the output.
             </figcaption>
           </figure>

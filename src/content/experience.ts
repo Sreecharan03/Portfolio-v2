@@ -20,14 +20,14 @@ export const journey: JourneyEntry[] = [
   {
     id: "tcs",
     type: "Employment",
-    period: "Dec 2025 — present",
+    period: "Dec 2025 to present",
     start: "2025-12",
     title: "Data Engineer",
     org: "TCS Digital",
     summary: "Multi-stage ETL on Azure Databricks and PySpark, building the feature layer for downstream ML.",
     points: [
       "Architected multi-stage ETL workflows on Azure Databricks and PySpark that ingest enterprise data into Delta Lake with schema enforcement and ACID guarantees, forming the feature layer that feeds ML training and inference.",
-      "Automated multi-source validation and standardisation in reusable Databricks notebooks; runs handle 100K–1M records, about 80K rows per data file on average.",
+      "Automated multi-source validation and standardisation in reusable Databricks notebooks; runs handle 100K to 1M records, about 80K rows per data file on average.",
       "Tuned Spark execution (partitioning, broadcast joins, caching) and removed duplicated calls in ingestion notebooks, cutting run time by about 20%.",
       "Received the Special Initiative Award at TCS Pune for outperforming the entire training cohort in HLD and LLD.",
     ],
@@ -40,7 +40,7 @@ export const journey: JourneyEntry[] = [
   {
     id: "sighnal",
     type: "Independent",
-    period: "2026 — present",
+    period: "2026 to present",
     start: "2026",
     title: "AI & Backend Engineer (freelance)",
     org: "Sighnal",
@@ -57,7 +57,7 @@ export const journey: JourneyEntry[] = [
   {
     id: "codex",
     type: "Independent",
-    period: "Oct 2025 — May 2026",
+    period: "Oct 2025 to May 2026",
     start: "2025-10",
     title: "Team Lead (independent contract)",
     org: "Codex Free Lancers",
@@ -72,7 +72,7 @@ export const journey: JourneyEntry[] = [
   {
     id: "aismartlive",
     type: "Employment",
-    period: "Mar — Dec 2025",
+    period: "Mar to Dec 2025",
     start: "2025-03",
     title: "Junior Data Scientist",
     org: "AISmartLive Solutions",
@@ -87,7 +87,7 @@ export const journey: JourneyEntry[] = [
   {
     id: "aays",
     type: "Internship",
-    period: "Jun — Aug 2025",
+    period: "Jun to Aug 2025",
     start: "2025-06",
     title: "Data Science Intern",
     org: "AAYS Advisory",
@@ -102,7 +102,7 @@ export const journey: JourneyEntry[] = [
   {
     id: "btech",
     type: "Education",
-    period: "2021 — 2025",
+    period: "2021 to 2025",
     start: "2021-10",
     title: "B.Tech, Data Science",
     org: "Raghu Engineering College, Visakhapatnam",

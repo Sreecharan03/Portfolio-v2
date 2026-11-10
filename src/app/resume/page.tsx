@@ -21,11 +21,11 @@ export const metadata: Metadata = {
     type: "profile",
     siteName: site.name,
     url: "/resume",
-    title: `Résumé — ${site.name}`,
+    title: `Résumé of ${site.name}`,
     description,
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name} — ${site.role}` }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${site.name}, ${site.role}` }],
   },
-  twitter: { card: "summary_large_image", title: `Résumé — ${site.name}`, description, images: ["/opengraph-image"] },
+  twitter: { card: "summary_large_image", title: `Résumé of ${site.name}`, description, images: ["/opengraph-image"] },
 };
 
 function H({ children }: { children: ReactNode }) {
@@ -181,7 +181,7 @@ export default function ResumePage() {
               "TCS CodeVita Season 12: global rank 5,127. Smart Interviews “Smart Coder”: rank 159 of 35,859 (2024).",
               "TCS Gems Special Initiative Award, June 2026, for outperforming the entire training cohort in HLD and LLD.",
               "8 job offers from a tier-3 college: TCS Digital, Infosys (DSE), Cognizant (GenC), Tech Mahindra (ASE), Joora Drones (ML Engineer), AISmartLive Solutions (Junior Data Scientist), Rudder Analytics (Data Analyst) and AAYS Advisory (Data Science Consultant, contract); chose TCS Digital.",
-              "Third prize (“Predictive Protection”) and third position (“Health – Care Saver”) at an Andhra Pradesh hackathon, as team lead.",
+              "Third prize (“Predictive Protection”) and third position (“Health-Care Saver”) at an Andhra Pradesh hackathon, as team lead.",
               "AMD × TCS AI Hackathon Champion Certificate (participation recognition), August 2026.",
             ]}
           />

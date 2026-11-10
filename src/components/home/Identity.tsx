@@ -67,9 +67,8 @@ export function Identity() {
               steps that decide whether an answer may leave, and the pipelines that feed all of it.
             </p>
             <p>
-              I came to this from applied ML — anomaly detection on industrial telemetry, as technical lead of a 12-member
-              team — and today I work on production data pipelines at TCS Digital while building GenAI systems
-              independently.
+              I came to this from applied ML: anomaly detection on industrial telemetry, as technical lead of a 12-member
+              team. Today I work on production data pipelines at TCS Digital while building GenAI systems independently.
             </p>
           </div>
         </div>

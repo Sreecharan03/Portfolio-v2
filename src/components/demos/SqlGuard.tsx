@@ -79,7 +79,7 @@ export function SqlGuard() {
           ok === null ? "border border-line text-ink-3" : ok ? "bg-verify/20 text-verify-soft" : "bg-warn/20 text-warn"
         }`}
       >
-        {ok === null ? "–" : ok ? "✓" : "✕"}
+        {ok === null ? "·" : ok ? "✓" : "✕"}
       </span>
       <span>
         <span className="block text-[0.92rem] text-ink">{title}</span>

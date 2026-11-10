@@ -78,7 +78,7 @@ export const projects: Project[] = [
     title: "Sighnal",
     category: "Distributed GenAI platform",
     kind: "Freelance client product",
-    period: "2026 — present",
+    period: "2026 to present",
     role: "AI & backend engineer · designed and built end to end",
     summary:
       "A YouTube comment-intelligence platform. It ingests 10K+ comment threads per video, classifies them with an LLM at scale, groups them into topics and answers questions with citations that are checked in code.",
@@ -111,7 +111,7 @@ export const projects: Project[] = [
     visibility: "public",
     caseStudy: {
       context: [
-        "Creators receive thousands of comments per video: requests, complaints, questions and praise, far more than anyone reads. Sighnal turns that stream into structure — what viewers ask for, how they feel, which topics keep returning — and answers questions about the audience.",
+        "Creators receive thousands of comments per video: requests, complaints, questions and praise, far more than anyone reads. Sighnal turns that stream into structure: what viewers ask for, how they feel and which topics keep returning. It also answers questions about the audience.",
         "It is a client product I built as an independent engineer, from the ingestion layer to the web app.",
       ],
       challenge: [
@@ -133,7 +133,7 @@ export const projects: Project[] = [
       decisions: [
         {
           title: "Treat the model provider as an unreliable dependency",
-          body: "LLM calls go through AIMD rate control — cut concurrency sharply when throttled, recover gradually — and a circuit breaker that stops sending traffic to a failing dependency instead of burning retries against it.",
+          body: "LLM calls go through AIMD rate control, which cuts concurrency sharply when throttled and recovers it gradually, and through a circuit breaker that stops sending traffic to a failing dependency instead of burning retries against it.",
         },
         {
           title: "Never pay twice for the same comment",
@@ -155,7 +155,7 @@ export const projects: Project[] = [
       quality: {
         title: "Reliability as a test target",
         body: [
-          "Failure handling is tested like any other feature. A 286-test suite covers the classifier and a separate 33-test suite exercises the resilience layer — more than 300 automated tests in total.",
+          "Failure handling is tested like any other feature. A 286-test suite covers the classifier and a separate 33-test suite exercises the resilience layer, for more than 300 automated tests in total.",
         ],
       },
       results: [
@@ -182,7 +182,7 @@ export const projects: Project[] = [
     title: "SenseMinds 360",
     category: "Industrial AI · Grounded LLM",
     kind: "Employment · AISmartLive Solutions",
-    period: "Mar — Dec 2025",
+    period: "Mar to Dec 2025",
     role: "Junior Data Scientist · technical lead of a 12-member team",
     summary:
       "An industrial-intelligence platform for refrigeration, air and nitrogen equipment. Deterministic engines turn sensor history into evidence-backed findings, rules and a knowledge graph give them meaning, unsupervised models add advisory signals, and a grounded LLM explains it all with a citation for every claim.",
@@ -198,15 +198,15 @@ export const projects: Project[] = [
     visibility: "public",
     caseStudy: {
       context: [
-        "A pharmaceutical plant has years of sensor history from its utility equipment — screw compressors, air compressors and nitrogen plants — and no labelled failures. SenseMinds 360, built at AISmartLive Solutions for a pharmaceutical manufacturer, turns that history, plus a live 30-second feed, into findings an engineer can trust and act on.",
+        "A pharmaceutical plant has years of sensor history from its utility equipment (screw compressors, air compressors and nitrogen plants) and no labelled failures. SenseMinds 360, built at AISmartLive Solutions for a pharmaceutical manufacturer, turns that history, plus a live 30-second feed, into findings an engineer can trust and act on.",
         "Entered as “Predictive Protection”, SenseMinds 360 received third prize at an Andhra Pradesh hackathon, with me as team lead.",
       ],
       challenge: [
-        "With zero labelled failures, a supervised model cannot be validated, so its false-alarm rate is unknowable — and an alarm nobody can trust trains operators to ignore the system.",
+        "With zero labelled failures, a supervised model cannot be validated, so its false-alarm rate is unknowable. An alarm nobody can trust trains operators to ignore the system.",
         "The platform still had to catch real breaches within seconds, explain every alert down to the reading and the limit behind it, and let an LLM answer questions without ever inventing a fact.",
       ],
       role: [
-        "Technical lead of the 12-member team at AISmartLive Solutions. I designed the architecture (19 recorded decisions) and the code — ingestion, the seven engines, findings, rules, knowledge graph, pattern learning, forecasting, the grounded LLM layer, alerting and the React dashboard with a 3D view of each machine.",
+        "Technical lead of the 12-member team at AISmartLive Solutions. I designed the architecture (19 recorded decisions) and the code: ingestion, the seven engines, findings, rules, knowledge graph, pattern learning, forecasting, the grounded LLM layer, alerting and the React dashboard with a 3D view of each machine.",
       ],
       architectureCaption:
         "Simplified from the platform's design records. Solid edges carry facts; dashed edges carry advisory signals. Client and machine details are omitted.",
@@ -310,7 +310,7 @@ export const projects: Project[] = [
         },
         {
           title: "Validate before execution, never after",
-          body: "The SecurityValidator rejects eight families of dangerous patterns — stacked writes, UNION injection, comments, EXEC, timing attacks and file access — permits only statements that start read-only, and flags tables outside an allow-list. Because it matches patterns rather than parsing SQL, a write hidden inside a WITH clause or a statement it does not list, such as GRANT, gets through.",
+          body: "The SecurityValidator rejects eight families of dangerous patterns (stacked writes, UNION injection, comments, EXEC, timing attacks and file access), permits only statements that start read-only, and flags tables outside an allow-list. Because it matches patterns rather than parsing SQL, a write hidden inside a WITH clause or a statement it does not list, such as GRANT, gets through.",
         },
         {
           title: "Match the strategy to the question",
@@ -318,7 +318,7 @@ export const projects: Project[] = [
         },
         {
           title: "Cache by cost",
-          body: "Successful results are cached with a TTL that grows with complexity — five minutes for simple lookups, thirty for advanced analytics, capped at an hour — and every execution runs under a 30-second timeout.",
+          body: "Successful results are cached with a TTL that grows with complexity (five minutes for simple lookups, thirty for advanced analytics, capped at an hour), and every execution runs under a 30-second timeout.",
         },
       ],
       quality: {
@@ -332,7 +332,7 @@ export const projects: Project[] = [
         { value: "7", label: "tables in the financial schema, from prices to sentiment", source: "repo" },
         { value: "4", label: "complexity tiers, each with its own generation strategy", source: "repo" },
         { value: "8", label: "blocked SQL pattern families, plus a read-only rule", source: "repo" },
-        { value: "30 s", label: "execution timeout; 5–30 min cache TTL by complexity", source: "repo" },
+        { value: "30 s", label: "execution timeout; 5 to 30 min cache TTL by complexity", source: "repo" },
       ],
       resultsNote: "All figures above are read from the public source code.",
       lessons: [
@@ -432,7 +432,7 @@ export const projects: Project[] = [
     period: "Published Mar 2025",
     role: "Co-developer · co-author (2nd of 5)",
     summary:
-      "Two-stage instruction fine-tuning of small language models — TinyLLaMA 1.1B, then Gemma 2-2B — for legal summaries. Co-developed and published in IJIRT in March 2025.",
+      "Two-stage instruction fine-tuning of small language models (TinyLLaMA 1.1B, then Gemma 2-2B) for legal summaries. Co-developed and published in IJIRT in March 2025.",
     tagline: "Small models, legal language, and a hybrid that knows when to quote and when to paraphrase.",
     domains: ["PEFT / LoRA", "Summarization", "Evaluation"],
     stack: ["Hugging Face Transformers", "PEFT · LoRA", "bitsandbytes (4-bit)", "TinyLLaMA 1.1B", "Gemma 2-2B", "Databricks", "llama.cpp"],
@@ -526,7 +526,7 @@ export const projects: Project[] = [
     stack: ["Python", "YOLOv8 (Ultralytics)", "ByteTrack · supervision", "OpenCV", "NumPy", "Streamlit"],
     highlights: [
       { value: "0.6 · 0.3 · 0.1", label: "priority weights: vehicles, waiting time, fairness", source: "repo" },
-      { value: "15–60 s", label: "bounded adaptive green time", source: "repo" },
+      { value: "15 to 60 s", label: "bounded adaptive green time", source: "repo" },
     ],
     links: [{ label: "Source code", href: "https://github.com/Sreecharan03/Smart-traffic-management-opencv", kind: "repo" }],
     accent: "signal",
@@ -562,7 +562,7 @@ export const projects: Project[] = [
         },
         {
           title: "Bound everything",
-          body: "Green time starts at 15 s plus 2 s per queued vehicle, is smoothed 70/30 against the fixed 25 s plan and clamped to 15–60 s. A phase can end early once its queue is empty and the minimum has passed.",
+          body: "Green time starts at 15 s plus 2 s per queued vehicle, is smoothed 70/30 against the fixed 25 s plan and clamped between 15 and 60 s. A phase can end early once its queue is empty and the minimum has passed.",
         },
       ],
       quality: {
@@ -575,7 +575,7 @@ export const projects: Project[] = [
         { value: "3", label: "vehicle classes detected: bike, bus, car", source: "repo" },
         { value: "4", label: "polygon zones with entry-only counting", source: "repo" },
         { value: "30 s", label: "fixed baseline before adaptive control", source: "repo" },
-        { value: "15–60 s", label: "green-time bounds, smoothed against a 25 s plan", source: "repo" },
+        { value: "15 to 60 s", label: "green-time bounds, smoothed against a 25 s plan", source: "repo" },
       ],
       resultsNote: "All figures above are read from the public source code.",
       lessons: [

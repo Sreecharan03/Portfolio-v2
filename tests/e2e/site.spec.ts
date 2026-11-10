@@ -212,7 +212,7 @@ test("health roll-up shows no score when nothing can be trusted", async ({ page 
   for (const slider of await page.getByLabel("Data trust").all()) await slider.fill("0");
   const machine = page.getByTestId("machine-health");
   await expect(machine).toContainText("No trusted data");
-  await expect(machine).toContainText("—");
+  await expect(machine).toContainText("n/a");
 });
 
 test("failure drill strategy is a keyboard-operable radio group", async ({ page, isMobile }) => {

@@ -59,7 +59,7 @@ export const site = {
   education: {
     degree: "B.Tech, Data Science",
     school: "Raghu Engineering College, Visakhapatnam",
-    period: "2021 — 2025",
+    period: "2021 to 2025",
     detail: "CGPA 8.8 / 10",
   },
   description:

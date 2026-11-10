@@ -150,7 +150,7 @@ export function HealthRollup() {
         <div aria-live="polite" className="rounded-[var(--radius)] border border-line bg-surface-1 p-5" data-testid="machine-health">
           <p className="label-mono text-ink-3">Machine · screw compressor</p>
           <div className="mt-3 flex items-end justify-between gap-4">
-            <p className="font-display text-step-4 leading-none tabular">{machineUnavailable ? "—" : fmt(result.machine.score)}</p>
+            <p className="font-display text-step-4 leading-none tabular">{machineUnavailable ? "n/a" : fmt(result.machine.score)}</p>
             {machineUnavailable ? <NoData /> : <Badge severity={result.machine.severity} />}
           </div>
           <p className="mt-3 text-[0.84rem] text-ink-3">Confidence {result.machine.confidence.toFixed(2)}: the mean trust of what it was built from.</p>
@@ -176,14 +176,14 @@ export function HealthRollup() {
               {unavailable(sub.health) ? <NoData /> : <Badge severity={sub.health.severity} />}
             </div>
             <p className="mt-2 font-mono text-[0.78rem] text-ink-2">
-              score <span className="text-ink tabular">{unavailable(sub.health) ? "—" : fmt(sub.health.score)}</span> · confidence{" "}
+              score <span className="text-ink tabular">{unavailable(sub.health) ? "n/a" : fmt(sub.health.score)}</span> · confidence{" "}
               {sub.health.confidence.toFixed(2)}
             </p>
           </div>
         ))}
 
         <p className="font-mono text-[0.74rem] leading-relaxed text-ink-3">
-          score = Σ(scoreᵢ × trustᵢ) / Σ trustᵢ · severity = worst child · bands: ≥ 80 OK, 50–79 Warning, &lt; 50 Critical
+          score = Σ(scoreᵢ × trustᵢ) / Σ trustᵢ · severity = worst child · bands: ≥ 80 OK, 50 to 79 Warning, &lt; 50 Critical
         </p>
       </div>
 

@@ -134,7 +134,7 @@ export function SiteHeader({ brief }: { brief: BriefData }) {
         }}
       >
         <div className="container-page flex h-[var(--header-h)] items-center justify-between gap-6">
-          <Link href="/" className="group flex items-center gap-3" aria-label="Sree Charan Chintalapudi — home">
+          <Link href="/" className="group flex items-center gap-3" aria-label="Sree Charan Chintalapudi, home">
             <LogoMark />
             <span className="hidden whitespace-nowrap text-[0.95rem] font-medium tracking-[-0.01em] sm:block">
               Sree Charan

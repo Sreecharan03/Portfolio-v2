@@ -105,7 +105,7 @@ export const diagrams: Record<DiagramId, DiagramSpec> = {
       {
         id: "understand",
         title: "Understand",
-        body: "Results land in MongoDB. BERTopic — MiniLM embeddings, UMAP, HDBSCAN — groups comments into topics, and Claude Haiku writes the summaries.",
+        body: "Results land in MongoDB. BERTopic (MiniLM embeddings, UMAP, HDBSCAN) groups comments into topics, and Claude Haiku writes the summaries.",
         nodes: ["store", "topics", "summaries"],
         edges: ["classify>store", "store>topics", "store>summaries"],
       },
@@ -219,7 +219,7 @@ export const diagrams: Record<DiagramId, DiagramSpec> = {
       {
         id: "intent",
         title: "Detect intent",
-        body: "Gemini classifies the question — stock analysis, risk, sentiment and similar — or marks it unsupported, which routes straight to the error handler.",
+        body: "Gemini classifies the question (stock analysis, risk, sentiment and similar) or marks it unsupported, which routes straight to the error handler.",
         nodes: ["intent"],
         edges: [],
       },
@@ -354,7 +354,7 @@ export const diagrams: Record<DiagramId, DiagramSpec> = {
       {
         id: "data",
         title: "Prepare",
-        body: "Legal records — judgments, contracts, regulatory filings — are converted to instruction, context and response records.",
+        body: "Legal records such as judgments, contracts and regulatory filings are converted to instruction, context and response records.",
         nodes: ["corpus", "instruct"],
         edges: ["corpus>instruct"],
       },
@@ -406,7 +406,7 @@ export const diagrams: Record<DiagramId, DiagramSpec> = {
       { id: "track", title: "ByteTrack", lines: ["Persistent vehicle IDs"], box: at(col4[2], 24, 268, 88) },
       { id: "zones", title: "Polygon zones", lines: ["North · East · South · West", "Count on entry, on red"], box: at(col4[3], 24, 268, 88) },
       { id: "queue", title: "Queue & wait", lines: ["Demand per approach", "Reset on green"], kind: "store", box: at(col4[3], 172, 268, 88) },
-      { id: "controller", title: "Signal controller", lines: ["Priority 0.6 · 0.3 · 0.1", "Green 15–60 s"], kind: "verify", box: at(col4[2], 172, 268, 88) },
+      { id: "controller", title: "Signal controller", lines: ["Priority 0.6 · 0.3 · 0.1", "Green 15 to 60 s"], kind: "verify", box: at(col4[2], 172, 268, 88) },
       { id: "output", title: "Output", lines: ["Annotated video", "Streamlit dashboard"], kind: "io", box: at(col4[1], 172, 268, 88) },
     ],
     edges: [
@@ -431,7 +431,7 @@ export const diagrams: Record<DiagramId, DiagramSpec> = {
       {
         id: "decide",
         title: "Decide",
-        body: "After a fixed 30-second baseline, the next phase goes to the highest-priority approach, and its green time scales with its queue within 15–60 s.",
+        body: "After a fixed 30-second baseline, the next phase goes to the highest-priority approach, and its green time scales with its queue, between 15 and 60 s.",
         nodes: ["controller"],
         edges: ["queue>controller"],
       },

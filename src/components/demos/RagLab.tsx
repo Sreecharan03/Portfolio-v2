@@ -194,7 +194,7 @@ export function RagLab() {
             </div>
             <div>
               <dt className="text-ink-3">Rewritten query</dt>
-              <dd className="mt-1 break-words rounded-[8px] bg-bg px-3 py-2 font-mono text-[0.82rem] text-signal-soft">{u.rewritten || "—"}</dd>
+              <dd className="mt-1 break-words rounded-[8px] bg-bg px-3 py-2 font-mono text-[0.82rem] text-signal-soft">{u.rewritten || "(none)"}</dd>
             </div>
           </dl>
         </div>
@@ -207,7 +207,7 @@ export function RagLab() {
         </h4>
         <div className="mt-5 space-y-5">
           <Slider id={`${id}-r`} label="Mean retrieval score" value={retrieval} onChange={setRetrieval} hint="Average similarity of the five retrieved chunks." />
-          <Slider id={`${id}-o`} label="Answer–context overlap" value={overlap} onChange={setOverlap} hint="Share of answer words found in the chunks, minus stop words." />
+          <Slider id={`${id}-o`} label="Answer and context overlap" value={overlap} onChange={setOverlap} hint="Share of answer words found in the chunks, minus stop words." />
           <label className="flex cursor-pointer items-center gap-3 text-[0.9rem]">
             <input type="checkbox" checked={refusal} onChange={(e) => setRefusal(e.target.checked)} className="size-4 accent-[var(--color-warn)]" />
             The answer is a refusal (“could not find…”)
